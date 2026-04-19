@@ -3,10 +3,146 @@ Theme Name: BABYGYM
 Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
-Description: Tema WordPress minimale per pagina "Sito in manutenzione".
-Version: 1.0.2
+Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
+Version: 1.0.3
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
 Text Domain: babygym
 */
+
+/* --- Layout pagine normali --- */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    color: #1e293b;
+    background: #fff;
+    line-height: 1.6;
+}
+
+.site {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.site-main {
+    flex: 1;
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    box-sizing: border-box;
+}
+
+.entry-header {
+    margin-bottom: 1rem;
+}
+
+.entry-title {
+    margin: 0;
+    font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+}
+
+.entry-content > *:first-child {
+    margin-top: 0;
+}
+
+.no-results {
+    margin: 0;
+    color: #64748b;
+}
+
+/* --- Footer globale --- */
+.site-footer {
+    width: 100%;
+    margin-top: auto;
+    padding: 2rem 1.25rem 2.5rem;
+    border-top: 1px solid #e2e8f0;
+    background: #eef2f7;
+    color: #334155;
+    font-size: .95rem;
+    line-height: 1.55;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.site-footer__inner {
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+.site-footer__company {
+    margin: 0 0 .5rem;
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 1rem;
+}
+
+.site-footer__social-title {
+    margin: 1rem 0 .35rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.site-footer__social {
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    justify-content: center;
+}
+
+.site-footer__social a {
+    color: #0f766e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.site-footer__social a:hover {
+    text-decoration: underline;
+}
+
+.site-footer__contact {
+    margin: 0 0 .75rem;
+}
+
+.site-footer__contact a {
+    color: #0f172a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.site-footer__contact a:hover {
+    text-decoration: underline;
+}
+
+.site-footer__address {
+    margin: 0 0 1rem;
+}
+
+.site-footer__tag {
+    margin: 0 0 .35rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+.site-footer__tagline {
+    margin: 0 0 .5rem;
+    font-size: .98rem;
+}
+
+.site-footer__sub {
+    margin: 0 0 1rem;
+    font-size: .9rem;
+    color: #475569;
+}
+
+.site-footer__copy {
+    margin: 0;
+    font-size: .82rem;
+    color: #64748b;
+}

@@ -10,16 +10,7 @@ if (! defined('ABSPATH')) {
 }
 
 /**
- * Slug della cartella del tema “reale” (quello che gli amministratori vedono in front-end).
- * Imposta in wp-config.php: define('BABYGYM_LIVE_THEME', 'nome-cartella-tema');
- * oppure modifica il valore di default qui sotto (deve essere un tema installato).
- */
-if (! defined('BABYGYM_LIVE_THEME')) {
-    define('BABYGYM_LIVE_THEME', 'twentytwentyfive');
-}
-
-/**
- * Chi deve vedere il sito normale (non la pagina di manutenzione).
+ * Chi non è in manutenzione (amministratori loggati, cron, bacheca, ecc.).
  */
 function babygym_bypass_maintenance(): bool
 {
@@ -35,69 +26,48 @@ function babygym_bypass_maintenance(): bool
 }
 
 /**
- * @return array{template: string, stylesheet: string}|false
+ * Richiesta front-end che deve mostrare solo la schermata di manutenzione (HTML).
  */
-function babygym_resolve_live_theme()
+function babygym_is_public_maintenance(): bool
 {
-    static $resolved = null;
-
-    if (null !== $resolved) {
-        return $resolved;
+    if (wp_doing_cron()) {
+        return false;
     }
 
-    $slug = apply_filters('babygym_live_theme_slug', BABYGYM_LIVE_THEME);
-
-    if (! is_string($slug) || '' === $slug) {
-        $resolved = false;
-
-        return $resolved;
+    if (is_admin() && ! wp_doing_ajax()) {
+        return false;
     }
 
-    $theme = wp_get_theme($slug);
-
-    if (! $theme->exists()) {
-        $resolved = false;
-
-        return $resolved;
+    if (is_feed() || is_embed() || is_trackback()) {
+        return false;
     }
 
-    $resolved = [
-        'template'   => $theme->get_template(),
-        'stylesheet' => $theme->get_stylesheet(),
-    ];
+    if (defined('REST_REQUEST') && REST_REQUEST) {
+        return false;
+    }
 
-    return $resolved;
+    if (function_exists('wp_is_json_request') && wp_is_json_request()) {
+        return false;
+    }
+
+    return ! babygym_bypass_maintenance();
 }
 
-add_filter('template', function ($default) {
-    if (is_admin() && ! wp_doing_ajax()) {
-        return $default;
+add_filter('template_include', function ($template) {
+    if (! babygym_is_public_maintenance()) {
+        return $template;
     }
 
-    if (! babygym_bypass_maintenance()) {
-        return $default;
-    }
+    $maintenance = get_theme_file_path('templates/maintenance.php');
 
-    $live = babygym_resolve_live_theme();
-
-    return $live ? $live['template'] : $default;
-}, 10, 1);
-
-add_filter('stylesheet', function ($default) {
-    if (is_admin() && ! wp_doing_ajax()) {
-        return $default;
-    }
-
-    if (! babygym_bypass_maintenance()) {
-        return $default;
-    }
-
-    $live = babygym_resolve_live_theme();
-
-    return $live ? $live['stylesheet'] : $default;
-}, 10, 1);
+    return is_readable($maintenance) ? $maintenance : $template;
+}, 99);
 
 add_action('wp_enqueue_scripts', function () {
+    if (babygym_is_public_maintenance()) {
+        return;
+    }
+
     wp_enqueue_style(
         'babygym-style',
         get_stylesheet_uri(),
