@@ -50,6 +50,11 @@ function babygym_is_public_maintenance(): bool
         return false;
     }
 
+    // Sitemap XML nativa (wp-sitemap.xml e sotto-sitemap), altrimenti i crawler vedrebbero l’HTML di manutenzione.
+    if (get_query_var('sitemap') || get_query_var('sitemap-stylesheet')) {
+        return false;
+    }
+
     return ! babygym_bypass_maintenance();
 }
 
