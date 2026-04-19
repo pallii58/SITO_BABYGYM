@@ -10,6 +10,9 @@ if (! defined('ABSPATH')) {
 }
 
 $babygym_logo = 'https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c267414b69a24cf2da48825ce76ed7a515.gif';
+
+$babygym_url_regolamento = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowRegolamento';
+$babygym_url_privacy    = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowPrivacy';
 ?>
     <footer class="site-footer">
         <div class="site-footer__grid">
@@ -29,9 +32,6 @@ $babygym_logo = 'https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c26
                     <a href="mailto:babygym.to@gmail.com">babygym.to@gmail.com</a>
                 </p>
                 <p class="site-footer__address"><?php echo esc_html__('Via Vespucci 36 - 10129 Torino', 'babygym'); ?></p>
-                <p class="site-footer__portal">
-                    <a href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/webregistration'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Domanda di iscrizione online', 'babygym'); ?></a>
-                </p>
             </div>
 
             <div class="site-footer__col site-footer__col--center">
@@ -54,14 +54,16 @@ $babygym_logo = 'https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c26
             <div class="site-footer__col site-footer__col--right">
                 <p class="site-footer__heading"><?php echo esc_html__('Informazioni legali', 'babygym'); ?></p>
                 <p class="site-footer__legal-name"><?php echo esc_html__('Baby Gym s.r.l. S.S.D.', 'babygym'); ?></p>
-                <ul class="site-footer__legal-links">
-                    <li>
-                        <a href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/TermsCond/ShowRegolamento'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Regolamento Baby Gym', 'babygym'); ?></a>
-                    </li>
-                    <li>
-                        <a href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/TermsCond/ShowPrivacy'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Informativa sulla Privacy', 'babygym'); ?></a>
-                    </li>
-                </ul>
+                <nav class="site-footer__legal-nav" aria-label="<?php echo esc_attr__('Documenti legali', 'babygym'); ?>">
+                    <ul class="site-footer__legal-links">
+                        <li>
+                            <a href="<?php echo esc_url($babygym_url_regolamento); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Regolamento Baby Gym', 'babygym'); ?></a>
+                        </li>
+                        <li>
+                            <a href="<?php echo esc_url($babygym_url_privacy); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Informativa sulla Privacy', 'babygym'); ?></a>
+                        </li>
+                    </ul>
+                </nav>
                 <p class="site-footer__copy"><?php echo esc_html__('Tutti i diritti riservati a Baby Gym s.r.l. S.S.D.', 'babygym'); ?></p>
             </div>
         </div>
