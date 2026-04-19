@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor / IDE
+*.swp
+*.swo
+*~
+.idea/
+
+# Env e segreti locali (mai in repo)
+.env
+.env.*
+!.env.example
+
+# Log e backup
+*.log
+*.bak
+*.tmp
+
+# Dipendenze (se aggiungi build tool in futuro)
+node_modules/
+vendor/
