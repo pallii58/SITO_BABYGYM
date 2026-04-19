@@ -21,4 +21,13 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ftp
           server-dir: ${{ secrets.FTP_REMOTE_PATH }}BABYGYM/
+          # Stato sync fuori dalla cartella tema (non resta in BABYGYM/ sul server)
+          state-name: ../.ftp-deploy-babygym-sync-state.json
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .ftp-deploy-sync-state.json
+            **/.ftp-deploy-sync-state.json
+            **/.github/**
           log-level: minimal

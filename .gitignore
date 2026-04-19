@@ -24,6 +24,11 @@ Desktop.ini
 *.bak
 *.tmp
 
+# Stato deploy FTP (solo runner / path custom su server; non nel tema)
+.ftp-deploy-sync-state.json
+**/.ftp-deploy-sync-state.json
+.ftp-deploy-babygym-sync-state.json
+
 # Dipendenze (se aggiungi build tool in futuro)
 node_modules/
 vendor/
