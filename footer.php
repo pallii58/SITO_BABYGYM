@@ -61,9 +61,6 @@ $babygym_logo = 'https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c26
                     <li>
                         <a href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/TermsCond/ShowPrivacy'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Informativa sulla Privacy', 'babygym'); ?></a>
                     </li>
-                    <li>
-                        <a href="<?php echo esc_url(home_url('/wp-sitemap.xml')); ?>"><?php echo esc_html__('Sitemap del sito', 'babygym'); ?></a>
-                    </li>
                 </ul>
                 <p class="site-footer__copy"><?php echo esc_html__('Tutti i diritti riservati a Baby Gym s.r.l. S.S.D.', 'babygym'); ?></p>
             </div>
