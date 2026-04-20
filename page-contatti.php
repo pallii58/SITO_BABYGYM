@@ -16,7 +16,6 @@ get_header();
         <section class="contatti-hero card card--centered">
             <p class="feste-eyebrow"><?php echo esc_html__('Baby Gym Torino', 'babygym'); ?></p>
             <h1 class="feste-hero__title"><?php echo esc_html__('Contatti', 'babygym'); ?></h1>
-            <p class="contatti-lead"><?php echo esc_html__('Tutte le info, social, mappa e Scrivici', 'babygym'); ?></p>
         </section>
 
         <section class="contatti-section contatti-grid">
