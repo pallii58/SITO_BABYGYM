@@ -18,9 +18,9 @@ $babygym_url_privacy    = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowPriva
                 <p class="site-footer__heading"><?php echo esc_html__('Contatti e social', 'babygym'); ?></p>
                 <p class="site-footer__social-title"><?php echo esc_html__('Seguici sui social network', 'babygym'); ?></p>
                 <ul class="site-footer__social">
-                    <li><a href="<?php echo esc_url('https://www.linkedin.com/in/pierluigi-begni-76258779/'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('LinkedIn', 'babygym'); ?></a></li>
-                    <li><a href="<?php echo esc_url('https://www.instagram.com/babygym_torino/'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Instagram', 'babygym'); ?></a></li>
-                    <li><a href="<?php echo esc_url('https://www.facebook.com/babygymtorino'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Facebook', 'babygym'); ?></a></li>
+                    <li><a href="<?php echo esc_url('https://www.linkedin.com/in/pierluigi-begni-76258779/'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/linkedin.svg" alt="" aria-hidden="true"><?php echo esc_html__('LinkedIn', 'babygym'); ?></a></li>
+                    <li><a href="<?php echo esc_url('https://www.instagram.com/babygym_torino/'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/instagram.svg" alt="" aria-hidden="true"><?php echo esc_html__('Instagram', 'babygym'); ?></a></li>
+                    <li><a href="<?php echo esc_url('https://www.facebook.com/babygymtorino'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/facebook.svg" alt="" aria-hidden="true"><?php echo esc_html__('Facebook', 'babygym'); ?></a></li>
                 </ul>
                 <p class="site-footer__contact">
                     <a href="tel:+39011503484">011 / 503484</a><br>

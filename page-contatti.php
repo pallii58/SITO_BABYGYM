@@ -32,9 +32,9 @@ $contact_status = isset($_GET['contact_status']) ? sanitize_key(wp_unslash($_GET
             <div class="card card--soft">
                 <h2><?php echo esc_html__('Social', 'babygym'); ?></h2>
                 <ul class="contatti-social">
-                    <li><a href="<?php echo esc_url('https://www.linkedin.com/in/pierluigi-begni-76258779/'); ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                    <li><a href="<?php echo esc_url('https://www.instagram.com/babygym_torino/'); ?>" target="_blank" rel="noopener noreferrer">Instagram</a></li>
-                    <li><a href="<?php echo esc_url('https://www.facebook.com/babygymtorino'); ?>" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                    <li><a href="<?php echo esc_url('https://www.linkedin.com/in/pierluigi-begni-76258779/'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/linkedin.svg" alt="" aria-hidden="true">LinkedIn</a></li>
+                    <li><a href="<?php echo esc_url('https://www.instagram.com/babygym_torino/'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/instagram.svg" alt="" aria-hidden="true">Instagram</a></li>
+                    <li><a href="<?php echo esc_url('https://www.facebook.com/babygymtorino'); ?>" target="_blank" rel="noopener noreferrer"><img src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/icons/facebook.svg" alt="" aria-hidden="true">Facebook</a></li>
                 </ul>
             </div>
         </section>

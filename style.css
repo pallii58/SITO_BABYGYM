@@ -389,6 +389,9 @@ h3,
 .contatti-social a {
     color: #0284c7;
     font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
 }
 
 .contatti-links a {
@@ -836,10 +839,21 @@ h3,
     color: #0284c7;
     font-weight: 600;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .42rem;
 }
 
 .site-footer__social a:hover {
     text-decoration: underline;
+}
+
+.site-footer__social img,
+.contatti-social img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(35%) sepia(69%) saturate(2289%) hue-rotate(178deg) brightness(92%) contrast(98%);
 }
 
 .site-footer__contact {
