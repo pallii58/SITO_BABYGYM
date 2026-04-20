@@ -34,13 +34,28 @@ get_header();
                 </div>
                 <div class="card card--highlight">
                     <h2><?php echo esc_html__('Perche piace ai bambini', 'babygym'); ?></h2>
-                    <ul class="check-list">
-                        <li><?php echo esc_html__('Percorsi ginnici colorati e attivita guidate', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Musica, inglese e giochi a tema', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Carrucola per "volare" in palestra', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Due animatori qualificati inclusi', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Possibilita pigiama party serale', 'babygym'); ?></li>
-                    </ul>
+                    <div class="feste-bento">
+                        <div class="feste-bento__item">
+                            <span class="feste-bento__icon" aria-hidden="true">GYM</span>
+                            <p><?php echo esc_html__('Percorsi ginnici colorati e attivita guidate', 'babygym'); ?></p>
+                        </div>
+                        <div class="feste-bento__item">
+                            <span class="feste-bento__icon" aria-hidden="true">MUS</span>
+                            <p><?php echo esc_html__('Musica, inglese e giochi a tema', 'babygym'); ?></p>
+                        </div>
+                        <div class="feste-bento__item">
+                            <span class="feste-bento__icon" aria-hidden="true">AIR</span>
+                            <p><?php echo esc_html__('Carrucola per "volare" in palestra', 'babygym'); ?></p>
+                        </div>
+                        <div class="feste-bento__item">
+                            <span class="feste-bento__icon" aria-hidden="true">PRO</span>
+                            <p><?php echo esc_html__('Due animatori qualificati inclusi', 'babygym'); ?></p>
+                        </div>
+                        <div class="feste-bento__item feste-bento__item--full">
+                            <span class="feste-bento__icon" aria-hidden="true">NITE</span>
+                            <p><?php echo esc_html__('Possibilita pigiama party serale', 'babygym'); ?></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
