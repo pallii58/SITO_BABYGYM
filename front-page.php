@@ -25,7 +25,7 @@ get_header();
                 <span class="feste-key"><?php echo esc_html__('inglese', 'babygym'); ?></span>.
             </p>
             <div class="home-hero__actions">
-                <a class="btn-primary" href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Prenota una prova', 'babygym'); ?></a>
+                <a class="btn-primary" href="https://wa.me/393473038255" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Prenota una prova', 'babygym'); ?></a>
                 <a class="btn-secondary" href="<?php echo esc_url(home_url('/corsi')); ?>"><?php echo esc_html__('Scopri i corsi', 'babygym'); ?></a>
             </div>
         </section>
