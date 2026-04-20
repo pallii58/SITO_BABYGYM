@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.11
+Version: 1.0.12
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -189,6 +189,61 @@ body {
 
 .feste-grid--3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.feste-carousel {
+    position: relative;
+    padding: 0 2.25rem;
+}
+
+.feste-carousel__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 33%);
+    gap: .75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding-bottom: .35rem;
+}
+
+.feste-carousel__slide {
+    margin: 0;
+    scroll-snap-align: start;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #bfdbfe;
+    background: #fff;
+}
+
+.feste-carousel__slide img {
+    display: block;
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+}
+
+.feste-carousel__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    background: #ffffff;
+    color: #0369a1;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.feste-carousel__nav--prev {
+    left: 0;
+}
+
+.feste-carousel__nav--next {
+    right: 0;
 }
 
 .feste-bento {
@@ -420,6 +475,18 @@ body {
     .feste-grid--2,
     .feste-grid--3 {
         grid-template-columns: 1fr;
+    }
+
+    .feste-carousel {
+        padding: 0 1.8rem;
+    }
+
+    .feste-carousel__track {
+        grid-auto-columns: 85%;
+    }
+
+    .feste-carousel__slide img {
+        height: 220px;
     }
 
     .feste-bento {

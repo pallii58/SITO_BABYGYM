@@ -9,6 +9,10 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+$feste_options  = babygym_get_feste_options();
+$carousel_lines = preg_split('/\r\n|\r|\n/', (string) $feste_options['carousel_images']) ?: [];
+$carousel_urls  = array_values(array_filter(array_map('trim', $carousel_lines)));
+
 get_header();
 ?>
 <main id="primary" class="site-main site-main--wide">
@@ -74,28 +78,54 @@ get_header();
             </div>
         </section>
 
+        <?php if ([] !== $carousel_urls) : ?>
+        <section class="feste-section">
+            <h2 class="section-title text-center"><?php echo esc_html__('Galleria feste', 'babygym'); ?></h2>
+            <div class="feste-carousel" data-feste-carousel>
+                <button type="button" class="feste-carousel__nav feste-carousel__nav--prev" aria-label="<?php echo esc_attr__('Foto precedente', 'babygym'); ?>">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </button>
+                <div class="feste-carousel__track" data-feste-carousel-track>
+                    <?php foreach ($carousel_urls as $index => $image_url) : ?>
+                        <figure class="feste-carousel__slide">
+                            <img
+                                src="<?php echo esc_url($image_url); ?>"
+                                alt="<?php echo esc_attr(sprintf(__('Foto festa %d', 'babygym'), $index + 1)); ?>"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </figure>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button" class="feste-carousel__nav feste-carousel__nav--next" aria-label="<?php echo esc_attr__('Foto successiva', 'babygym'); ?>">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </button>
+            </div>
+        </section>
+        <?php endif; ?>
+
         <section class="feste-section">
             <h2 class="section-title text-center"><?php echo esc_html__('Orari disponibili', 'babygym'); ?></h2>
             <div class="feste-grid feste-grid--3">
                 <div class="card">
                     <h3><?php echo esc_html__('Venerdi', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Sera: 19.00 - 21.30', 'babygym'); ?></p>
+                    <p><?php echo esc_html($feste_options['friday_evening']); ?></p>
                 </div>
                 <div class="card">
                     <h3><?php echo esc_html__('Sabato', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Pomeriggio: 15.30 - 18.00', 'babygym'); ?></p>
+                    <p><?php echo esc_html($feste_options['saturday_afternoon']); ?></p>
                     <p>
-                        <?php echo esc_html__('Sera: 19.00 - 21.30', 'babygym'); ?><br>
-                        <span class="feste-note-accent"><?php echo esc_html__('(anche pigiama party)', 'babygym'); ?></span>
+                        <?php echo esc_html($feste_options['saturday_evening']); ?><br>
+                        <span class="feste-note-accent"><?php echo esc_html($feste_options['saturday_evening_note']); ?></span>
                     </p>
                 </div>
                 <div class="card">
                     <h3><?php echo esc_html__('Domenica', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Mattina: 10.00 - 12.30', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Pomeriggio: 17.00 - 19.30', 'babygym'); ?></p>
+                    <p><?php echo esc_html($feste_options['sunday_morning']); ?></p>
+                    <p><?php echo esc_html($feste_options['sunday_afternoon']); ?></p>
                 </div>
             </div>
-            <p class="feste-note text-center"><?php echo esc_html__('In settimana sono disponibili slot 13.00 - 15.30 per bambini che non hanno il pomeriggio scolastico (lunedi, martedi, mercoledi e venerdi).', 'babygym'); ?></p>
+            <p class="feste-note text-center"><?php echo esc_html($feste_options['weekday_note']); ?></p>
         </section>
 
         <section class="feste-section">
@@ -103,15 +133,15 @@ get_header();
             <div class="feste-grid feste-grid--2">
                 <div class="card">
                     <h3><?php echo esc_html__('Non iscritti ai corsi', 'babygym'); ?></h3>
-                    <p><strong><span class="feste-key"><?php echo esc_html__('Fino a 15 bimbi: EUR 310', 'babygym'); ?></span></strong></p>
-                    <p><?php echo esc_html__('(EUR 290 + EUR 20 quota di iscrizione, stornata solo in caso di successiva iscrizione ai corsi)', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 5 per partecipante', 'babygym'); ?></span></p>
+                    <p><strong><span class="feste-key"><?php echo esc_html($feste_options['non_members_price']); ?></span></strong></p>
+                    <p><?php echo esc_html($feste_options['non_members_note']); ?></p>
+                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html($feste_options['extra_child_price']); ?></span></p>
                 </div>
                 <div class="card">
                     <h3><?php echo esc_html__('Iscritti Baby Gym', 'babygym'); ?></h3>
-                    <p><strong><span class="feste-key"><?php echo esc_html__('Fino a 15 bimbi: EUR 290', 'babygym'); ?></span></strong></p>
-                    <p><?php echo esc_html__('(quota associativa in corso di validita)', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 5 per partecipante', 'babygym'); ?></span></p>
+                    <p><strong><span class="feste-key"><?php echo esc_html($feste_options['members_price']); ?></span></strong></p>
+                    <p><?php echo esc_html($feste_options['members_note']); ?></p>
+                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html($feste_options['extra_child_price']); ?></span></p>
                 </div>
             </div>
             <div class="card card--centered">
@@ -125,8 +155,8 @@ get_header();
             <div class="card card--soft card--centered">
                 <h2><?php echo esc_html__('Feste fuori sede', 'babygym'); ?></h2>
                 <p><?php echo esc_html__('Se avete una location esterna possiamo portare attrezzatura e organizzare una vera palestra mobile.', 'babygym'); ?></p>
-                <p><?php echo esc_html__('I costi sono gli stessi della festa in sede. Se fuori Torino:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 10 trasporto', 'babygym'); ?></span>.</p>
-                <p><?php echo esc_html__('Formula senza attrezzature ginniche:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('costo fisso EUR 250', 'babygym'); ?></span>.</p>
+                <p><?php echo esc_html__('I costi sono gli stessi della festa in sede. Se fuori Torino:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html($feste_options['offsite_transport']); ?></span>.</p>
+                <p><?php echo esc_html__('Formula senza attrezzature ginniche:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html($feste_options['no_equipment_price']); ?></span>.</p>
                 <p><?php echo esc_html__('Consiglio Baby Gym: condividere la festa con amici che compiono gli anni nello stesso periodo per dividere i costi.', 'babygym'); ?></p>
             </div>
         </section>
@@ -140,6 +170,24 @@ get_header();
             </div>
         </section>
     </article>
+        <script>
+    (function () {
+        const carousel = document.querySelector('[data-feste-carousel]');
+        if (!carousel) return;
+        const track = carousel.querySelector('[data-feste-carousel-track]');
+        const prev = carousel.querySelector('.feste-carousel__nav--prev');
+        const next = carousel.querySelector('.feste-carousel__nav--next');
+        if (!track || !prev || !next) return;
+
+        const step = () => Math.max(320, track.clientWidth * 0.85);
+        prev.addEventListener('click', () => {
+            track.scrollBy({ left: -step(), behavior: 'smooth' });
+        });
+        next.addEventListener('click', () => {
+            track.scrollBy({ left: step(), behavior: 'smooth' });
+        });
+    })();
+</script>
 </main>
 <?php
 get_footer();
