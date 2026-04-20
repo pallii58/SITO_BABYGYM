@@ -98,6 +98,7 @@ h3,
     pointer-events: none;
     transform: translateY(6px);
     z-index: 30;
+    overflow: hidden;
     transition:
         opacity .25s ease 1s,
         transform .25s ease 1s,
@@ -158,6 +159,20 @@ h3,
     color: #0284c7;
     transform: scale(1.05);
     transition: all .2s;
+}
+
+/* Override dedicato al dropdown: niente scale/pill che strabordano */
+.site-header__menu .site-header__submenu a,
+.site-header__menu .site-header__submenu a:hover,
+.site-header__menu .site-header__submenu a:focus-visible {
+    transform: none;
+}
+
+.site-header__menu .site-header__submenu a:hover,
+.site-header__menu .site-header__submenu a:focus-visible {
+    border-color: transparent;
+    background: #e0f2fe;
+    color: #0284c7;
 }
 
 .site-header__auth {
