@@ -110,7 +110,22 @@ h3,
 
 .site-header__submenu a {
     width: 100%;
-    justify-content: flex-start;
+    display: block;
+    min-height: auto;
+    padding: .55rem .75rem;
+    border: 0;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: #0f172a;
+    transform: none;
+    transition: background .15s ease, color .15s ease;
+}
+
+.site-header__submenu a:hover,
+.site-header__submenu a:focus-visible {
+    background: #e0f2fe;
+    color: #0284c7;
+    transform: none;
 }
 
 .site-header__menu-item--has-submenu:hover .site-header__submenu,
