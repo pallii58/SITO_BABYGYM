@@ -161,6 +161,15 @@ get_header();
             </div>
         </section>
 
+        <section class="feste-section">
+            <div class="card card--centered">
+                <h2><?php echo esc_html__('Le feste Baby Gym On Wheels', 'babygym'); ?></h2>
+                <p><?php echo esc_html__('Con il progetto On Wheels riusciamo a fare le divertenti feste Baby Gym in locali diversi dalla nostra sede: case private, parchi e giardini riuscendo ad organizzare divertenti cacce al tesoro.', 'babygym'); ?></p>
+                <p><?php echo esc_html__('Grazie al furgone Baby Gym portiamo il set di attrezzature che ci permetterà di montare un percorso ginnico sia indoor che outdoor!!', 'babygym'); ?></p>
+                <p><?php echo esc_html__('Per informazioni vieni a trovarci, scrivi o chiamaci!', 'babygym'); ?></p>
+            </div>
+        </section>
+
         <section class="feste-cta">
             <h2><?php echo esc_html__('Info e prenotazioni', 'babygym'); ?></h2>
             <p><?php echo esc_html__('Per dettagli e disponibilita e consigliato il contatto telefonico (9.00 - 12.30).', 'babygym'); ?></p>
