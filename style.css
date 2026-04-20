@@ -99,6 +99,15 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
 }
 
+.card h2,
+.card h3 {
+    margin-top: 0;
+}
+
+.card p:last-child {
+    margin-bottom: 0;
+}
+
 .card--highlight {
     background: #f0f9ff;
 }
