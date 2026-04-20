@@ -225,10 +225,11 @@ body {
     justify-content: center;
 }
 
-.feste-bento__icon svg {
+.feste-bento__icon img {
     width: 20px;
     height: 20px;
-    fill: currentColor;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(24%) sepia(84%) saturate(2547%) hue-rotate(205deg) brightness(95%) contrast(101%);
 }
 
 .feste-bento__item p {
