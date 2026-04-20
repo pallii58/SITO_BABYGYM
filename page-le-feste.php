@@ -28,7 +28,7 @@ get_header();
             </div>
         </section>
 
-        <section class="feste-section">
+        <section class="feste-section feste-section--intro">
             <div class="feste-grid feste-grid--2">
                 <div class="card">
                     <h2><?php echo esc_html__('Come funziona la festa', 'babygym'); ?></h2>
