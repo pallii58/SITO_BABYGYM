@@ -124,7 +124,7 @@ get_header();
                     <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 5 per partecipante', 'babygym'); ?></span></p>
                 </div>
             </div>
-            <div class="card">
+            <div class="card card--centered">
                 <h3><?php echo esc_html__('Cosa include', 'babygym'); ?></h3>
                 <p><?php echo esc_html__('Uso esclusivo sala, attrezzature ginniche, carrucola, giochi, personaggi, musica, luci, due animatori qualificati e pulizia prima/dopo.', 'babygym'); ?></p>
                 <p><?php echo esc_html__('Buffet a carico della famiglia.', 'babygym'); ?></p>
@@ -132,7 +132,7 @@ get_header();
         </section>
 
         <section class="feste-section">
-            <div class="card card--soft">
+            <div class="card card--soft card--centered">
                 <h2><?php echo esc_html__('Feste fuori sede', 'babygym'); ?></h2>
                 <p><?php echo esc_html__('Se avete una location esterna possiamo portare attrezzatura e organizzare una vera palestra mobile.', 'babygym'); ?></p>
                 <p><?php echo esc_html__('I costi sono gli stessi della festa in sede. Se fuori Torino:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 10 trasporto', 'babygym'); ?></span>.</p>
