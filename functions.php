@@ -9,6 +9,12 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+add_action('after_setup_theme', function (): void {
+    register_nav_menus([
+        'primary' => __('Menu principale', 'babygym'),
+    ]);
+});
+
 /**
  * Chi non è in manutenzione (amministratori loggati, cron, bacheca, ecc.).
  */

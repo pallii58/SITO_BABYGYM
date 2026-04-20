@@ -18,3 +18,31 @@ if (! defined('ABSPATH')) {
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div id="page" class="site">
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="site-header__brand" href="<?php echo esc_url(home_url('/')); ?>">
+                <?php echo esc_html__('Baby Gym', 'babygym'); ?>
+            </a>
+            <nav class="site-header__nav" aria-label="<?php echo esc_attr__('Navigazione principale', 'babygym'); ?>">
+                <?php
+                wp_nav_menu([
+                    'theme_location' => 'primary',
+                    'container'      => false,
+                    'menu_class'     => 'site-header__menu',
+                    'fallback_cb'    => static function (): void {
+                        ?>
+                        <ul class="site-header__menu">
+                            <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php echo esc_html__('Home', 'babygym'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/corsi')); ?>"><?php echo esc_html__('Corsi', 'babygym'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/le-feste')); ?>"><?php echo esc_html__('Le Feste', 'babygym'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/filosofia')); ?>"><?php echo esc_html__('Filosofia', 'babygym'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
+                        </ul>
+                        <?php
+                    },
+                    'depth'          => 1,
+                ]);
+                ?>
+            </nav>
+        </div>
+    </header>
