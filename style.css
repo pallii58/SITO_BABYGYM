@@ -108,6 +108,10 @@ body {
     margin-bottom: 0;
 }
 
+.card--centered {
+    text-align: center;
+}
+
 .card--highlight {
     background: #f0f9ff;
 }

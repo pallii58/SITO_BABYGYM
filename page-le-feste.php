@@ -30,7 +30,7 @@ get_header();
 
         <section class="feste-section feste-section--intro">
             <div class="feste-grid feste-grid--2">
-                <div class="card">
+                <div class="card card--centered">
                     <h2><?php echo esc_html__('Come funziona la festa', 'babygym'); ?></h2>
                     <p><?php echo esc_html__('Le feste si svolgono nella palestra attrezzata di Via Vespucci 36 oppure fuori sede (scuole, oratori, saloni, giardini e altre location).', 'babygym'); ?></p>
                     <p><?php echo esc_html__('Tra materassoni, percorsi ginnici e giochi di movimento, i bambini vivono una festa dinamica e divertente guidata da', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('istruttori qualificati', 'babygym'); ?></span>.</p>
