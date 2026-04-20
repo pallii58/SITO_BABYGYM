@@ -38,7 +38,6 @@ if (! defined('ABSPATH')) {
                     <li class="site-header__menu-item--has-submenu">
                         <a href="#" aria-haspopup="true"><?php echo esc_html__('Chi siamo', 'babygym'); ?></a>
                         <ul class="site-header__submenu">
-                            <li><a href="<?php echo esc_url(home_url('/lo-staff')); ?>"><?php echo esc_html__('Lo staff', 'babygym'); ?></a></li>
                             <li><a href="<?php echo esc_url(home_url('/filosofia')); ?>"><?php echo esc_html__('Filosofia', 'babygym'); ?></a></li>
                             <li><a href="<?php echo esc_url(home_url('/galleria')); ?>"><?php echo esc_html__('Galleria', 'babygym'); ?></a></li>
                         </ul>
