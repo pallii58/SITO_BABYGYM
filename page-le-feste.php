@@ -18,7 +18,11 @@ get_header();
                 <p class="feste-eyebrow"><?php echo esc_html__('Baby Gym Torino', 'babygym'); ?></p>
                 <h1 class="feste-hero__title"><?php echo esc_html__('Le feste al Baby Gym', 'babygym'); ?></h1>
                 <p class="feste-hero__lead">
-                    <?php echo esc_html__('Siete stanchi di gonfiabili e noiosi animatori? Le feste Baby Gym sono attive, coinvolgenti e piene di giochi ginnici, musica, inglese e movimento.', 'babygym'); ?>
+                    <?php echo esc_html__('Siete stanchi di gonfiabili e noiosi animatori? Le feste Baby Gym sono attive, coinvolgenti e piene di', 'babygym'); ?>
+                    <span class="feste-key"><?php echo esc_html__('giochi ginnici', 'babygym'); ?></span>,
+                    <span class="feste-key"><?php echo esc_html__('musica', 'babygym'); ?></span>,
+                    <span class="feste-key"><?php echo esc_html__('inglese', 'babygym'); ?></span>
+                    <?php echo esc_html__('e movimento.', 'babygym'); ?>
                 </p>
                 <a class="btn-primary" href="tel:+39011503484"><?php echo esc_html__('Prenota ora: 011 / 503484', 'babygym'); ?></a>
             </div>
@@ -29,7 +33,7 @@ get_header();
                 <div class="card">
                     <h2><?php echo esc_html__('Come funziona la festa', 'babygym'); ?></h2>
                     <p><?php echo esc_html__('Le feste si svolgono nella palestra attrezzata di Via Vespucci 36 oppure fuori sede (scuole, oratori, saloni, giardini e altre location).', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Tra materassoni, percorsi ginnici e giochi di movimento, i bambini vivono una festa dinamica e divertente guidata da istruttori qualificati.', 'babygym'); ?></p>
+                    <p><?php echo esc_html__('Tra materassoni, percorsi ginnici e giochi di movimento, i bambini vivono una festa dinamica e divertente guidata da', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('istruttori qualificati', 'babygym'); ?></span>.</p>
                     <p><?php echo esc_html__('I festeggiati sono i veri protagonisti: possono personalizzare giochi e sfide con temi sempre diversi.', 'babygym'); ?></p>
                 </div>
                 <div class="card card--highlight">
@@ -89,15 +93,15 @@ get_header();
             <div class="feste-grid feste-grid--2">
                 <div class="card">
                     <h3><?php echo esc_html__('Non iscritti ai corsi', 'babygym'); ?></h3>
-                    <p><strong><?php echo esc_html__('Fino a 15 bimbi: EUR 310', 'babygym'); ?></strong></p>
+                    <p><strong><span class="feste-key"><?php echo esc_html__('Fino a 15 bimbi: EUR 310', 'babygym'); ?></span></strong></p>
                     <p><?php echo esc_html__('(EUR 290 + EUR 20 quota di iscrizione, stornata solo in caso di successiva iscrizione ai corsi)', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Dal 16° bimbo in poi: + EUR 5 per partecipante', 'babygym'); ?></p>
+                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 5 per partecipante', 'babygym'); ?></span></p>
                 </div>
                 <div class="card">
                     <h3><?php echo esc_html__('Iscritti Baby Gym', 'babygym'); ?></h3>
-                    <p><strong><?php echo esc_html__('Fino a 15 bimbi: EUR 290', 'babygym'); ?></strong></p>
+                    <p><strong><span class="feste-key"><?php echo esc_html__('Fino a 15 bimbi: EUR 290', 'babygym'); ?></span></strong></p>
                     <p><?php echo esc_html__('(quota associativa in corso di validita)', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Dal 16° bimbo in poi: + EUR 5 per partecipante', 'babygym'); ?></p>
+                    <p><?php echo esc_html__('Dal 16° bimbo in poi:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 5 per partecipante', 'babygym'); ?></span></p>
                 </div>
             </div>
             <div class="card">
@@ -111,8 +115,8 @@ get_header();
             <div class="card card--soft">
                 <h2><?php echo esc_html__('Feste fuori sede', 'babygym'); ?></h2>
                 <p><?php echo esc_html__('Se avete una location esterna possiamo portare attrezzatura e organizzare una vera palestra mobile.', 'babygym'); ?></p>
-                <p><?php echo esc_html__('I costi sono gli stessi della festa in sede. Se fuori Torino: + EUR 10 trasporto.', 'babygym'); ?></p>
-                <p><?php echo esc_html__('Formula senza attrezzature ginniche: costo fisso EUR 250.', 'babygym'); ?></p>
+                <p><?php echo esc_html__('I costi sono gli stessi della festa in sede. Se fuori Torino:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('+ EUR 10 trasporto', 'babygym'); ?></span>.</p>
+                <p><?php echo esc_html__('Formula senza attrezzature ginniche:', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('costo fisso EUR 250', 'babygym'); ?></span>.</p>
                 <p><?php echo esc_html__('Consiglio Baby Gym: condividere la festa con amici che compiono gli anni nello stesso periodo per dividere i costi.', 'babygym'); ?></p>
             </div>
         </section>

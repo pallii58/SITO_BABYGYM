@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.10
+Version: 1.0.11
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -232,6 +232,11 @@ body {
     color: #0284c7;
     font-weight: 700;
     font-size: .9rem;
+}
+
+.feste-key {
+    color: #0369a1;
+    font-weight: 700;
 }
 
 .feste-cta {
