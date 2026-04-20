@@ -170,6 +170,10 @@ body {
     color: #0f172a;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .feste-grid {
     display: grid;
     gap: 1rem;

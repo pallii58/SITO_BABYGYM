@@ -85,7 +85,7 @@ get_header();
         </section>
 
         <section class="feste-section">
-            <h2 class="section-title"><?php echo esc_html__('Orari disponibili', 'babygym'); ?></h2>
+            <h2 class="section-title text-center"><?php echo esc_html__('Orari disponibili', 'babygym'); ?></h2>
             <div class="feste-grid feste-grid--3">
                 <div class="card">
                     <h3><?php echo esc_html__('Venerdi', 'babygym'); ?></h3>
@@ -105,11 +105,11 @@ get_header();
                     <p><?php echo esc_html__('Pomeriggio: 17.00 - 19.30', 'babygym'); ?></p>
                 </div>
             </div>
-            <p class="feste-note"><?php echo esc_html__('In settimana sono disponibili slot 13.00 - 15.30 per bambini che non hanno il pomeriggio scolastico (lunedi, martedi, mercoledi e venerdi).', 'babygym'); ?></p>
+            <p class="feste-note text-center"><?php echo esc_html__('In settimana sono disponibili slot 13.00 - 15.30 per bambini che non hanno il pomeriggio scolastico (lunedi, martedi, mercoledi e venerdi).', 'babygym'); ?></p>
         </section>
 
         <section class="feste-section">
-            <h2 class="section-title"><?php echo esc_html__('Costi e formula', 'babygym'); ?></h2>
+            <h2 class="section-title text-center"><?php echo esc_html__('Costi e formula', 'babygym'); ?></h2>
             <div class="feste-grid feste-grid--2">
                 <div class="card">
                     <h3><?php echo esc_html__('Non iscritti ai corsi', 'babygym'); ?></h3>
