@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.8
+Version: 1.0.9
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -16,7 +16,7 @@ body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
     color: #334155;
-    background: #fffaf6;
+    background: #f7fcff;
     line-height: 1.6;
 }
 
@@ -71,40 +71,40 @@ body {
 }
 
 .btn-primary {
-    background: #ff7da8;
+    background: #38bdf8;
     color: #fff;
-    box-shadow: 0 4px 10px rgba(255, 125, 168, .28);
+    box-shadow: 0 4px 10px rgba(56, 189, 248, .28);
 }
 
 .btn-primary:hover {
     transform: none;
-    box-shadow: 0 6px 14px rgba(255, 125, 168, .32);
+    box-shadow: 0 6px 14px rgba(56, 189, 248, .32);
 }
 
 .btn-secondary {
     background: #fff;
-    color: #ec4899;
-    border: 1px solid #fbcfe8;
+    color: #0284c7;
+    border: 1px solid #bae6fd;
 }
 
 .btn-secondary:hover {
-    background: #fff1f6;
+    background: #f0f9ff;
 }
 
 .card {
     background: #fff;
-    border: 1px solid #fde68a;
+    border: 1px solid #dbeafe;
     border-radius: 20px;
     padding: 1.35rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
 }
 
 .card--highlight {
-    background: #fff7ed;
+    background: #f0f9ff;
 }
 
 .card--soft {
-    background: #eff6ff;
+    background: #eef8ff;
 }
 
 .feste-page {
@@ -113,8 +113,8 @@ body {
 }
 
 .feste-hero {
-    background: #fff1f2;
-    border: 1px solid #fecdd3;
+    background: #e0f2fe;
+    border: 1px solid #bae6fd;
     border-radius: 26px;
     padding: 2.25rem 1.5rem;
 }
@@ -129,7 +129,7 @@ body {
     letter-spacing: .08em;
     font-size: .76rem;
     font-weight: 700;
-    color: #db2777;
+    color: #0369a1;
 }
 
 .feste-hero__title {
@@ -152,7 +152,7 @@ body {
 .section-title {
     margin: 0;
     font-size: clamp(1.4rem, 3vw, 1.9rem);
-    color: #7c2d12;
+    color: #0f172a;
 }
 
 .feste-grid {
@@ -185,9 +185,9 @@ body {
 
 .feste-cta {
     text-align: center;
-    border: 1px solid #fde68a;
+    border: 1px solid #bae6fd;
     border-radius: 18px;
-    background: #fef9c3;
+    background: #eff6ff;
     padding: 1.6rem 1.25rem 1.75rem;
 }
 
@@ -213,8 +213,8 @@ body {
     width: 100%;
     margin-top: auto;
     padding: 2rem 1.25rem 2.5rem;
-    border-top: 1px solid #fed7aa;
-    background: #fff7ed;
+    border-top: 1px solid #dbeafe;
+    background: #eff6ff;
     color: #334155;
     font-size: .95rem;
     line-height: 1.55;
@@ -269,7 +269,7 @@ body {
 }
 
 .site-footer__social a {
-    color: #db2777;
+    color: #0284c7;
     font-weight: 600;
     text-decoration: none;
 }
@@ -283,7 +283,7 @@ body {
 }
 
 .site-footer__contact a {
-    color: #7c2d12;
+    color: #0f172a;
     font-weight: 600;
     text-decoration: none;
 }
@@ -318,7 +318,7 @@ body {
 }
 
 .site-footer__legal-links a {
-    color: #db2777;
+    color: #0284c7;
     font-weight: 600;
     text-decoration: none;
 }
