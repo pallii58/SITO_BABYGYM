@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.20
+Version: 1.0.21
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -251,6 +251,54 @@ h3,
 
 .site-main--wide {
     max-width: 1160px;
+}
+
+.home-page {
+    display: grid;
+    gap: 1rem;
+    max-width: 1040px;
+    margin: 0 auto;
+}
+
+.home-hero {
+    background: #bae6fd;
+    border: 4px solid #38bdf8;
+    border-radius: 40px;
+    box-shadow: 0 8px 0 rgba(2, 132, 199, .2);
+}
+
+.home-hero__lead {
+    max-width: 68ch;
+    margin: .8rem auto 1rem;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.home-hero__actions {
+    display: flex;
+    justify-content: center;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.home-section {
+    display: grid;
+    gap: .8rem;
+}
+
+.home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.home-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.home-card-link p {
+    color: #334155;
 }
 
 .btn-primary,
@@ -1057,6 +1105,10 @@ body.corsi-modal-open {
 
     .feste-grid--2,
     .feste-grid--3 {
+        grid-template-columns: 1fr;
+    }
+
+    .home-grid {
         grid-template-columns: 1fr;
     }
 
