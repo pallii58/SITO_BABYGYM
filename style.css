@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.16
+Version: 1.0.17
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -75,6 +75,40 @@ h3,
     display: flex;
     flex-wrap: wrap;
     gap: .35rem;
+}
+
+.site-header__menu-item--has-submenu {
+    position: relative;
+}
+
+.site-header__submenu {
+    list-style: none;
+    margin: 0;
+    padding: .35rem;
+    min-width: 165px;
+    position: absolute;
+    top: calc(100% + .3rem);
+    left: 0;
+    background: #ffffff;
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(2, 132, 199, .16);
+    display: none;
+    z-index: 30;
+}
+
+.site-header__submenu li + li {
+    margin-top: .25rem;
+}
+
+.site-header__submenu a {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.site-header__menu-item--has-submenu:hover .site-header__submenu,
+.site-header__menu-item--has-submenu:focus-within .site-header__submenu {
+    display: block;
 }
 
 .site-header__menu a {
@@ -677,6 +711,13 @@ h3,
     .site-header__menu a {
         min-height: 32px;
         padding: .2rem .62rem;
+    }
+
+    .site-header__submenu {
+        position: static;
+        display: block;
+        margin-top: .35rem;
+        width: 100%;
     }
 
     .site-main {

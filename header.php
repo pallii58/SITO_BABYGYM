@@ -31,25 +31,20 @@ if (! defined('ABSPATH')) {
                 >
             </a>
             <nav class="site-header__nav" aria-label="<?php echo esc_attr__('Navigazione principale', 'babygym'); ?>">
-                <?php
-                wp_nav_menu([
-                    'theme_location' => 'primary',
-                    'container'      => false,
-                    'menu_class'     => 'site-header__menu',
-                    'fallback_cb'    => static function (): void {
-                        ?>
-                        <ul class="site-header__menu">
-                            <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php echo esc_html__('Home', 'babygym'); ?></a></li>
-                            <li><a href="<?php echo esc_url(home_url('/corsi')); ?>"><?php echo esc_html__('Corsi', 'babygym'); ?></a></li>
-                            <li><a href="<?php echo esc_url(home_url('/le-feste')); ?>"><?php echo esc_html__('Le Feste', 'babygym'); ?></a></li>
+                <ul class="site-header__menu">
+                    <li><a href="<?php echo esc_url(home_url('/')); ?>"><?php echo esc_html__('Home', 'babygym'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/corsi')); ?>"><?php echo esc_html__('Corsi', 'babygym'); ?></a></li>
+                    <li><a href="<?php echo esc_url(home_url('/le-feste')); ?>"><?php echo esc_html__('Le Feste', 'babygym'); ?></a></li>
+                    <li class="site-header__menu-item--has-submenu">
+                        <a href="#" aria-haspopup="true"><?php echo esc_html__('Chi siamo', 'babygym'); ?></a>
+                        <ul class="site-header__submenu">
+                            <li><a href="<?php echo esc_url(home_url('/lo-staff')); ?>"><?php echo esc_html__('Lo staff', 'babygym'); ?></a></li>
                             <li><a href="<?php echo esc_url(home_url('/filosofia')); ?>"><?php echo esc_html__('Filosofia', 'babygym'); ?></a></li>
-                            <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
+                            <li><a href="<?php echo esc_url(home_url('/galleria')); ?>"><?php echo esc_html__('Galleria', 'babygym'); ?></a></li>
                         </ul>
-                        <?php
-                    },
-                    'depth'          => 1,
-                ]);
-                ?>
+                    </li>
+                    <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
+                </ul>
             </nav>
         </div>
     </header>
