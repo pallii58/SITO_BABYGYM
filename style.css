@@ -379,7 +379,8 @@ h3,
 
 .contatti-social {
     margin: 0;
-    padding-left: 1.1rem;
+    padding: 0;
+    list-style: none;
 }
 
 .contatti-social li + li {
@@ -865,8 +866,8 @@ h3,
 
 .site-footer__social img,
 .contatti-social img {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
     display: block;
     filter: brightness(0) saturate(100%) invert(35%) sepia(69%) saturate(2289%) hue-rotate(178deg) brightness(92%) contrast(98%);
 }
