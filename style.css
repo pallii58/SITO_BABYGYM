@@ -463,6 +463,21 @@ h3,
     box-shadow: 0 0 0 3px rgba(56, 189, 248, .18);
 }
 
+.contatti-job {
+    margin-top: 1rem;
+    border-top: 1px dashed #7dd3fc;
+    padding-top: .9rem;
+    text-align: center;
+}
+
+.contatti-job h3 {
+    margin: 0 0 .35rem;
+}
+
+.contatti-job p {
+    margin: 0;
+}
+
 .filosofia-page {
     display: grid;
     gap: 1rem;

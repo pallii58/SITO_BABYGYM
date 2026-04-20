@@ -76,6 +76,10 @@ $contact_status = isset($_GET['contact_status']) ? sanitize_key(wp_unslash($_GET
 
                     <button type="submit" class="btn-primary"><?php echo esc_html__('Invia', 'babygym'); ?></button>
                 </form>
+                <div class="contatti-job">
+                    <h3><?php echo esc_html__('Diventa istruttore Baby Gym', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Invia il tuo cv a', 'babygym'); ?> <a class="feste-key" href="mailto:babygym_to@fastwebnet.it">babygym_to@fastwebnet.it</a></p>
+                </div>
             </div>
         </section>
     </article>
