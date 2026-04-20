@@ -46,5 +46,9 @@ if (! defined('ABSPATH')) {
                     <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
                 </ul>
             </nav>
+            <div class="site-header__auth">
+                <a class="site-header__auth-btn site-header__auth-btn--register" href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/webregistration'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Registrati', 'babygym'); ?></a>
+                <a class="site-header__auth-btn site-header__auth-btn--login" href="<?php echo esc_url('https://bgmsweb.azurewebsites.net/login'); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Accedi', 'babygym'); ?></a>
+            </div>
         </div>
     </header>
