@@ -206,10 +206,11 @@ function babygym_render_feste_admin_page(): void
             <?php settings_fields('babygym_feste_settings'); ?>
 
             <h2>Carosello foto</h2>
-            <p>Inserisci una URL immagine per riga oppure usa il pulsante media library.</p>
-            <textarea name="babygym_feste_options[carousel_images]" id="babygym-carousel-images" rows="8" class="large-text code"><?php echo esc_textarea($options['carousel_images']); ?></textarea>
+            <p>Carica immagini solo da Media Library. Il campo sottostante e in sola lettura.</p>
+            <textarea name="babygym_feste_options[carousel_images]" id="babygym-carousel-images" rows="8" class="large-text code" readonly><?php echo esc_textarea($options['carousel_images']); ?></textarea>
             <p>
                 <button type="button" class="button" id="babygym-add-carousel-image">Aggiungi da Media Library</button>
+                <button type="button" class="button" id="babygym-clear-carousel-image">Svuota elenco</button>
             </p>
 
             <h2>Orari</h2>
@@ -240,13 +241,14 @@ function babygym_render_feste_admin_page(): void
     <script>
         (function () {
             const btn = document.getElementById('babygym-add-carousel-image');
+            const clearBtn = document.getElementById('babygym-clear-carousel-image');
             const textarea = document.getElementById('babygym-carousel-images');
             if (!btn || !textarea || !window.wp || !window.wp.media) {
                 return;
             }
 
             btn.addEventListener('click', function () {
-                const frame = wp.media({
+                const frame = window.wp.media({
                     title: 'Seleziona foto per carosello',
                     button: { text: 'Usa questa foto' },
                     multiple: true
@@ -268,6 +270,12 @@ function babygym_render_feste_admin_page(): void
 
                 frame.open();
             });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function () {
+                    textarea.value = '';
+                });
+            }
         })();
     </script>
     <?php
