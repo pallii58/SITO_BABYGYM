@@ -9,8 +9,6 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-$babygym_logo = 'https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c267414b69a24cf2da48825ce76ed7a515.gif';
-
 $babygym_url_regolamento = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowRegolamento';
 $babygym_url_privacy    = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowPrivacy';
 ?>
@@ -32,23 +30,6 @@ $babygym_url_privacy    = 'https://bgmsweb.azurewebsites.net/TermsCond/ShowPriva
                     <a href="mailto:babygym.to@gmail.com">babygym.to@gmail.com</a>
                 </p>
                 <p class="site-footer__address"><?php echo esc_html__('Via Vespucci 36 - 10129 Torino', 'babygym'); ?></p>
-            </div>
-
-            <div class="site-footer__col site-footer__col--center">
-                <a class="site-footer__logo-link" href="<?php echo esc_url(home_url('/')); ?>">
-                    <img
-                        class="site-footer__logo"
-                        src="<?php echo esc_url($babygym_logo); ?>"
-                        alt="<?php echo esc_attr__('Baby Gym', 'babygym'); ?>"
-                        width="200"
-                        height="200"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </a>
-                <p class="site-footer__tag"><?php echo esc_html__('Fitness English & Fun', 'babygym'); ?></p>
-                <p class="site-footer__tagline"><?php echo esc_html__('Baby Gym - Fitness, English & Fun!', 'babygym'); ?></p>
-                <p class="site-footer__sub"><?php echo esc_html__('La prima palestra per bambini da 4 mesi a 10 anni', 'babygym'); ?></p>
             </div>
 
             <div class="site-footer__col site-footer__col--right">

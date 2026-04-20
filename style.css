@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.5
+Version: 1.0.6
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -53,7 +53,7 @@ body {
     color: #64748b;
 }
 
-/* --- Footer globale (3 colonne) --- */
+/* --- Footer globale (2 colonne) --- */
 .site-footer {
     width: 100%;
     margin-top: auto;
@@ -68,7 +68,7 @@ body {
 
 .site-footer__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 2rem 2.5rem;
     max-width: 1120px;
     margin: 0 auto;
@@ -81,10 +81,6 @@ body {
 
 .site-footer__col--left {
     text-align: left;
-}
-
-.site-footer__col--center {
-    text-align: center;
 }
 
 .site-footer__col--right {
@@ -145,36 +141,6 @@ body {
     margin: 0;
 }
 
-.site-footer__logo-link {
-    display: inline-block;
-    margin: 0 0 .75rem;
-    line-height: 0;
-}
-
-.site-footer__logo {
-    display: block;
-    width: auto;
-    max-width: min(200px, 100%);
-    height: auto;
-}
-
-.site-footer__tag {
-    margin: 0 0 .35rem;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-.site-footer__tagline {
-    margin: 0 0 .5rem;
-    font-size: .98rem;
-}
-
-.site-footer__sub {
-    margin: 0;
-    font-size: .9rem;
-    color: #475569;
-}
-
 .site-footer__legal-name {
     margin: 0 0 .75rem;
     font-weight: 700;
@@ -220,7 +186,6 @@ body {
     }
 
     .site-footer__col--left,
-    .site-footer__col--center,
     .site-footer__col--right {
         text-align: center;
     }
