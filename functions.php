@@ -75,6 +75,8 @@ function babygym_bypass_maintenance(): bool
  */
 function babygym_is_public_maintenance(): bool
 {
+    return false;
+
     if (wp_doing_cron()) {
         return false;
     }
