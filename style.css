@@ -590,10 +590,12 @@ h3,
 }
 
 .corsi-modal__dialog {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: min(1120px, calc(100vw - 2rem));
     max-height: calc(100vh - 2rem);
-    margin: 1rem auto;
     background: #ffffff;
     border: 3px solid #38bdf8;
     border-radius: 18px;
