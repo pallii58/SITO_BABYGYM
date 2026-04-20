@@ -21,7 +21,14 @@ if (! defined('ABSPATH')) {
     <header class="site-header">
         <div class="site-header__inner">
             <a class="site-header__brand" href="<?php echo esc_url(home_url('/')); ?>">
-                <?php echo esc_html__('Baby Gym', 'babygym'); ?>
+                <img
+                    src="<?php echo esc_url('https://www.babygym-to.com/wp-content/uploads/2026/04/5ef292c267414b69a24cf2da48825ce76ed7a515.gif'); ?>"
+                    alt="<?php echo esc_attr__('Baby Gym', 'babygym'); ?>"
+                    width="150"
+                    height="56"
+                    loading="eager"
+                    decoding="async"
+                >
             </a>
             <nav class="site-header__nav" aria-label="<?php echo esc_attr__('Navigazione principale', 'babygym'); ?>">
                 <?php
