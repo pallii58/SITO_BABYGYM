@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.13
+Version: 1.0.14
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -156,6 +156,57 @@ body {
 
 .filosofia-list li + li {
     margin-top: .45rem;
+}
+
+.corsi-page {
+    display: grid;
+    gap: 1rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.corsi-hero {
+    background: #e0f2fe;
+    border-color: #bae6fd;
+}
+
+.corsi-lead {
+    margin: .75rem auto 0;
+    max-width: 70ch;
+    color: #0f172a;
+    font-size: 1.04rem;
+}
+
+.corsi-section {
+    display: grid;
+    gap: .9rem;
+}
+
+.corsi-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.corsi-schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.corsi-list {
+    margin: 0;
+    padding-left: 1.15rem;
+}
+
+.corsi-list li + li {
+    margin-top: .45rem;
+}
+
+.corsi-list--centered {
+    display: inline-block;
+    text-align: left;
+    margin: 0 auto;
 }
 
 .feste-hero {
@@ -507,6 +558,11 @@ body {
 
     .feste-grid--2,
     .feste-grid--3 {
+        grid-template-columns: 1fr;
+    }
+
+    .corsi-grid-2,
+    .corsi-schedule-grid {
         grid-template-columns: 1fr;
     }
 
