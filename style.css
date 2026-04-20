@@ -194,6 +194,11 @@ body {
     color: #64748b;
 }
 
+.feste-note-accent {
+    color: #0284c7;
+    font-weight: 700;
+}
+
 .feste-cta {
     text-align: center;
     border: 1px solid #bae6fd;

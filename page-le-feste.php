@@ -55,7 +55,10 @@ get_header();
                 <div class="card">
                     <h3><?php echo esc_html__('Sabato', 'babygym'); ?></h3>
                     <p><?php echo esc_html__('Pomeriggio: 15.30 - 18.00', 'babygym'); ?></p>
-                    <p><?php echo esc_html__('Sera: 19.00 - 21.30 (anche pigiama party)', 'babygym'); ?></p>
+                    <p>
+                        <?php echo esc_html__('Sera: 19.00 - 21.30', 'babygym'); ?><br>
+                        <span class="feste-note-accent"><?php echo esc_html__('(anche pigiama party)', 'babygym'); ?></span>
+                    </p>
                 </div>
                 <div class="card">
                     <h3><?php echo esc_html__('Domenica', 'babygym'); ?></h3>
