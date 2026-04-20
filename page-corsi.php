@@ -62,12 +62,17 @@ get_header();
 
         <section class="corsi-section">
             <h2 class="section-title text-center"><?php echo esc_html__('Orario Baby Gym di Via Vespucci 36, Torino', 'babygym'); ?></h2>
+            <div class="text-center">
+                <button type="button" class="btn-secondary corsi-table-trigger" data-corsi-open-table>
+                    <?php echo esc_html__('Vista a tabella', 'babygym'); ?>
+                </button>
+            </div>
             <div class="corsi-schedule-grid">
                 <div class="card">
                     <h3><?php echo esc_html__('BUGS (4-10 mesi)', 'babygym'); ?></h3>
                     <ul class="corsi-list">
-                        <li><?php echo esc_html__('Giovedì: 9.00 - 10.00', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Mercoledì: 15.20 - 16.20', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Giovedì: 9.00 - 10.00', 'babygym'); ?></li>
                     </ul>
                 </div>
 
@@ -123,6 +128,89 @@ get_header();
             </div>
         </section>
 
+        <div class="corsi-modal" data-corsi-modal hidden>
+            <div class="corsi-modal__backdrop" data-corsi-close-table></div>
+            <div class="corsi-modal__dialog" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr__('Orari corsi in tabella', 'babygym'); ?>">
+                <div class="corsi-modal__head">
+                    <h3><?php echo esc_html__('Orari corsi - Vista a tabella', 'babygym'); ?></h3>
+                    <button type="button" class="corsi-modal__close" aria-label="<?php echo esc_attr__('Chiudi', 'babygym'); ?>" data-corsi-close-table>&times;</button>
+                </div>
+                <div class="corsi-modal__body">
+                    <div class="corsi-table-wrap">
+                        <table class="corsi-table">
+                            <thead>
+                                <tr>
+                                    <th><?php echo esc_html__('Corso', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Lunedì', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Martedì', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Mercoledì', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Giovedì', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Venerdì', 'babygym'); ?></th>
+                                    <th><?php echo esc_html__('Sabato', 'babygym'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>BUGS (4-10 mesi)</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>15.20 - 16.20</td>
+                                    <td>9.00 - 10.00</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <th>BIRDS (10-19 mesi)</th>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>10.00 - 11.00 (da attivare)</td>
+                                    <td>10.00 - 11.00<br>15.30 - 16.30</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                                <tr>
+                                    <th>BEASTS (19 mesi - 3 anni)</th>
+                                    <td>16.30 - 17.30</td>
+                                    <td>10.00 - 11.00<br>11.00 - 12.00<br>16.20 - 17.20<br>18.20 - 19.20</td>
+                                    <td>11.00 - 12.00 (da attivare)<br>18.20 - 19.20</td>
+                                    <td>11.00 - 12.00<br>15.30 - 16.30</td>
+                                    <td>-</td>
+                                    <td>10.00 - 11.00</td>
+                                </tr>
+                                <tr>
+                                    <th>FUNNY BUGS (3-4 anni)</th>
+                                    <td>17.30 - 18.30</td>
+                                    <td>-</td>
+                                    <td>17.20 - 18.20</td>
+                                    <td>18.30 - 19.30</td>
+                                    <td>16.30 - 17.30</td>
+                                    <td>9.00 - 10.00</td>
+                                </tr>
+                                <tr>
+                                    <th>GOOD FRIENDS (4-6 anni)</th>
+                                    <td>-</td>
+                                    <td>17.20 - 18.20</td>
+                                    <td>16.20 - 17.20</td>
+                                    <td>16.30 - 17.30<br>18.30 - 19.30</td>
+                                    <td>17.30 - 18.30</td>
+                                    <td>9.00 - 10.00<br>11.00 - 12.00</td>
+                                </tr>
+                                <tr>
+                                    <th>FLIPS (6-9 anni)</th>
+                                    <td>18.30 - 19.30</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>17.30 - 18.30</td>
+                                    <td>-</td>
+                                    <td>12.00 - 13.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <section class="corsi-section card card--centered">
             <h2><?php echo esc_html__('Corsi Baby Gym nelle scuole', 'babygym'); ?></h2>
             <p><?php echo esc_html__('Con il progetto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('On Wheels', 'babygym'); ?></span> <?php echo esc_html__('riusciamo ad utilizzare i nostri programmi Baby Gym negli asili nido, scuole materne e scuole elementari.', 'babygym'); ?></p>
@@ -141,5 +229,29 @@ get_header();
         </section>
     </article>
 </main>
+<script>
+    (function () {
+        const openBtn = document.querySelector('[data-corsi-open-table]');
+        const modal = document.querySelector('[data-corsi-modal]');
+        if (!openBtn || !modal) return;
+        const closeTargets = modal.querySelectorAll('[data-corsi-close-table]');
+
+        const openModal = () => {
+            modal.hidden = false;
+            document.body.classList.add('corsi-modal-open');
+        };
+
+        const closeModal = () => {
+            modal.hidden = true;
+            document.body.classList.remove('corsi-modal-open');
+        };
+
+        openBtn.addEventListener('click', openModal);
+        closeTargets.forEach((el) => el.addEventListener('click', closeModal));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && !modal.hidden) closeModal();
+        });
+    })();
+</script>
 <?php
 get_footer();
