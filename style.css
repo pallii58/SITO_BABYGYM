@@ -391,6 +391,11 @@ h3,
     font-weight: 700;
 }
 
+.contatti-links a {
+    color: #0284c7;
+    font-weight: 700;
+}
+
 .contatti-map {
     border: 1px solid #bfdbfe;
     border-radius: 14px;

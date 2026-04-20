@@ -21,9 +21,9 @@ get_header();
         <section class="contatti-section contatti-grid">
             <div class="card">
                 <h2><?php echo esc_html__('Contatti Baby Gym', 'babygym'); ?></h2>
-                <p><span class="feste-key"><?php echo esc_html__('Telefono fisso:', 'babygym'); ?></span> <a href="tel:+39011503484">011 / 503484</a></p>
-                <p><span class="feste-key"><?php echo esc_html__('Cellulare:', 'babygym'); ?></span> <a href="tel:+393473038255">347 / 3038255</a></p>
-                <p><span class="feste-key"><?php echo esc_html__('Email:', 'babygym'); ?></span> <a href="mailto:babygym.to@gmail.com">babygym.to@gmail.com</a></p>
+                <p class="contatti-links"><span class="feste-key"><?php echo esc_html__('Telefono fisso:', 'babygym'); ?></span> <a href="tel:+39011503484">011 / 503484</a></p>
+                <p class="contatti-links"><span class="feste-key"><?php echo esc_html__('Cellulare:', 'babygym'); ?></span> <a href="tel:+393473038255">347 / 3038255</a></p>
+                <p class="contatti-links"><span class="feste-key"><?php echo esc_html__('Email:', 'babygym'); ?></span> <a href="mailto:babygym.to@gmail.com">babygym.to@gmail.com</a></p>
                 <p><span class="feste-key"><?php echo esc_html__('Indirizzo:', 'babygym'); ?></span> Via Vespucci 36 - 10129 Torino</p>
             </div>
 
