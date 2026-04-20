@@ -4,7 +4,7 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.17
+Version: 1.0.18
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
@@ -345,6 +345,94 @@ h3,
 .feste-page {
     display: grid;
     gap: 1.75rem;
+}
+
+.contatti-page {
+    display: grid;
+    gap: 1rem;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.contatti-hero {
+    background: #bae6fd;
+    border: 4px solid #38bdf8;
+    border-radius: 40px;
+    box-shadow: 0 8px 0 rgba(2, 132, 199, .2);
+}
+
+.contatti-lead {
+    margin: .75rem auto 0;
+    max-width: 64ch;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.contatti-section {
+    display: grid;
+    gap: .9rem;
+}
+
+.contatti-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.contatti-social {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.contatti-social li + li {
+    margin-top: .4rem;
+}
+
+.contatti-social a {
+    color: #0284c7;
+    font-weight: 700;
+}
+
+.contatti-map {
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.contatti-map iframe {
+    width: 100%;
+    height: 320px;
+    border: 0;
+    display: block;
+}
+
+.contatti-form {
+    max-width: 680px;
+    margin: 0 auto;
+    display: grid;
+    gap: .65rem;
+}
+
+.contatti-form label {
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.contatti-form input,
+.contatti-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #bae6fd;
+    border-radius: 12px;
+    padding: .65rem .75rem;
+    font: inherit;
+    color: #0f172a;
+    background: #fff;
+}
+
+.contatti-form input:focus,
+.contatti-form textarea:focus {
+    outline: none;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, .18);
 }
 
 .filosofia-page {
@@ -823,7 +911,8 @@ h3,
     }
 
     .corsi-grid-2,
-    .corsi-schedule-grid {
+    .corsi-schedule-grid,
+    .contatti-grid {
         grid-template-columns: 1fr;
     }
 
