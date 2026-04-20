@@ -4,20 +4,30 @@ Theme URI: https://www.babygym-to.com/
 Author: BABYGYM
 Author URI: https://www.babygym-to.com/
 Description: Tema Baby Gym: manutenzione per i visitatori, sito per gli amministratori.
-Version: 1.0.15
+Version: 1.0.16
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.4
 Text Domain: babygym
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap');
+
 /* --- Layout pagine normali --- */
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Nunito', sans-serif;
     color: #334155;
-    background: #f7fcff;
+    background: #f0f9ff;
     line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+.feste-hero__title {
+    font-family: 'Fredoka', sans-serif;
+    color: #0284c7;
 }
 
 .site {
@@ -68,6 +78,8 @@ body {
 }
 
 .site-header__menu a {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
     display: inline-flex;
     align-items: center;
     min-height: 34px;
@@ -81,9 +93,11 @@ body {
 
 .site-header__menu a:hover,
 .site-header__menu a:focus-visible {
-    border-color: #bae6fd;
-    background: #f0f9ff;
-    color: #0369a1;
+    border-color: #7dd3fc;
+    background: #e0f2fe;
+    color: #0284c7;
+    transform: scale(1.05);
+    transition: all .2s;
 }
 
 .site-main {
@@ -127,36 +141,60 @@ body {
     border-radius: 999px;
     font-weight: 700;
     text-decoration: none;
-    transition: all .2s ease;
+    transition: all .1s ease-in-out;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-primary {
     background: #38bdf8;
     color: #fff;
-    box-shadow: 0 4px 10px rgba(56, 189, 248, .28);
+    border: 3px solid #0284c7;
+    box-shadow: 0 5px 0 #0284c7;
 }
 
 .btn-primary:hover {
-    transform: none;
-    box-shadow: 0 6px 14px rgba(56, 189, 248, .32);
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #0284c7;
+}
+
+.btn-primary:active {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 #0284c7;
 }
 
 .btn-secondary {
     background: #fff;
     color: #0284c7;
-    border: 1px solid #bae6fd;
+    border: 3px solid #bae6fd;
+    box-shadow: 0 5px 0 #bae6fd;
 }
 
 .btn-secondary:hover {
+    transform: translateY(2px);
+    box-shadow: 0 3px 0 #bae6fd;
     background: #f0f9ff;
+}
+
+.btn-secondary:active {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 #bae6fd;
 }
 
 .card {
     background: #fff;
-    border: 1px solid #dbeafe;
-    border-radius: 20px;
-    padding: 1.35rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+    border: 3px solid #38bdf8;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 6px 6px 0 rgba(2, 132, 199, .15);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: 8px 10px 0 rgba(2, 132, 199, .2);
 }
 
 .card h2,
@@ -173,11 +211,13 @@ body {
 }
 
 .card--highlight {
-    background: #f0f9ff;
+    background: #e0f2fe;
+    border-color: #0ea5e9;
 }
 
 .card--soft {
-    background: #eef8ff;
+    background: #f8fafc;
+    border-color: #7dd3fc;
 }
 
 .feste-page {
@@ -193,8 +233,10 @@ body {
 }
 
 .filosofia-hero {
-    background: #e0f2fe;
-    border-color: #bae6fd;
+    background: #bae6fd;
+    border: 4px solid #38bdf8;
+    border-radius: 40px;
+    box-shadow: 0 8px 0 rgba(2, 132, 199, .2);
 }
 
 .filosofia-lead {
@@ -202,6 +244,7 @@ body {
     max-width: 68ch;
     color: #0f172a;
     font-size: 1.05rem;
+    font-weight: 600;
 }
 
 .filosofia-section {
@@ -226,8 +269,10 @@ body {
 }
 
 .corsi-hero {
-    background: #e0f2fe;
-    border-color: #bae6fd;
+    background: #bae6fd;
+    border: 4px solid #38bdf8;
+    border-radius: 40px;
+    box-shadow: 0 8px 0 rgba(2, 132, 199, .2);
 }
 
 .corsi-lead {
@@ -235,6 +280,7 @@ body {
     max-width: 70ch;
     color: #0f172a;
     font-size: 1.04rem;
+    font-weight: 600;
 }
 
 .corsi-section {
@@ -270,9 +316,10 @@ body {
 }
 
 .feste-hero {
-    background: #e0f2fe;
-    border: 1px solid #bae6fd;
-    border-radius: 26px;
+    background: #bae6fd;
+    border: 4px solid #38bdf8;
+    border-radius: 40px;
+    box-shadow: 0 8px 0 rgba(2, 132, 199, .2);
     padding: 2.25rem 1.5rem;
 }
 
@@ -287,8 +334,12 @@ body {
     text-transform: uppercase;
     letter-spacing: .08em;
     font-size: .76rem;
-    font-weight: 700;
-    color: #0369a1;
+    color: #ffffff;
+    background: #0284c7;
+    display: inline-block;
+    padding: .35rem .85rem;
+    border-radius: 999px;
+    font-weight: 800;
 }
 
 .feste-hero__title {
@@ -300,7 +351,8 @@ body {
 .feste-hero__lead {
     margin: 1rem 0 1.35rem;
     max-width: 70ch;
-    color: #475569;
+    color: #0f172a;
+    font-weight: 600;
 }
 
 .feste-section {
