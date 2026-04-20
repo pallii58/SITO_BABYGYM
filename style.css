@@ -93,8 +93,15 @@ h3,
     border: 1px solid #bae6fd;
     border-radius: 12px;
     box-shadow: 0 10px 24px rgba(2, 132, 199, .16);
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(6px);
     z-index: 30;
+    transition:
+        opacity .25s ease 1s,
+        transform .25s ease 1s,
+        visibility 0s linear 1.25s;
 }
 
 .site-header__submenu li + li {
@@ -108,7 +115,11 @@ h3,
 
 .site-header__menu-item--has-submenu:hover .site-header__submenu,
 .site-header__menu-item--has-submenu:focus-within .site-header__submenu {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition-delay: 0s, 0s, 0s;
 }
 
 .site-header__menu a {
