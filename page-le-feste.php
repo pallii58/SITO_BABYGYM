@@ -41,7 +41,7 @@ get_header();
                     <p><?php echo esc_html__('I festeggiati sono i veri protagonisti: possono personalizzare giochi e sfide con temi sempre diversi.', 'babygym'); ?></p>
                 </div>
                 <div class="card card--highlight">
-                    <h2><?php echo esc_html__('Perche piace ai bambini', 'babygym'); ?></h2>
+                    <h2 class="text-center"><?php echo esc_html__('Perche piace ai bambini', 'babygym'); ?></h2>
                     <div class="feste-bento">
                         <div class="feste-bento__item">
                             <span class="feste-bento__icon" aria-hidden="true">
