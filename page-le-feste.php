@@ -40,23 +40,43 @@ get_header();
                     <h2><?php echo esc_html__('Perche piace ai bambini', 'babygym'); ?></h2>
                     <div class="feste-bento">
                         <div class="feste-bento__item">
-                            <span class="feste-bento__icon" aria-hidden="true">GYM</span>
+                            <span class="feste-bento__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M7 9h10a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2Zm-3 1h2v4H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Zm16 0h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2v-4Z"/>
+                                </svg>
+                            </span>
                             <p><?php echo esc_html__('Percorsi ginnici colorati e attivita guidate', 'babygym'); ?></p>
                         </div>
                         <div class="feste-bento__item">
-                            <span class="feste-bento__icon" aria-hidden="true">MUS</span>
+                            <span class="feste-bento__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M15 4v10.2a3.2 3.2 0 1 1-1.4-2.65V6.3l7-1.6v8.5a3.2 3.2 0 1 1-1.4-2.65V6.55L15 7.5V4Z"/>
+                                </svg>
+                            </span>
                             <p><?php echo esc_html__('Musica, inglese e giochi a tema', 'babygym'); ?></p>
                         </div>
                         <div class="feste-bento__item">
-                            <span class="feste-bento__icon" aria-hidden="true">AIR</span>
+                            <span class="feste-bento__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M12 3a1 1 0 0 1 1 1v8.6l2.4-2.4a1 1 0 1 1 1.4 1.4l-4.1 4.1a1 1 0 0 1-1.4 0l-4.1-4.1a1 1 0 0 1 1.4-1.4L11 12.6V4a1 1 0 0 1 1-1Zm-6 14h12a1 1 0 1 1 0 2H6a1 1 0 1 1 0-2Z"/>
+                                </svg>
+                            </span>
                             <p><?php echo esc_html__('Carrucola per "volare" in palestra', 'babygym'); ?></p>
                         </div>
                         <div class="feste-bento__item">
-                            <span class="feste-bento__icon" aria-hidden="true">PRO</span>
+                            <span class="feste-bento__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6ZM4.5 19a3.5 3.5 0 0 1 7 0v1h-7v-1Zm8.5 1v-1a4.5 4.5 0 0 1 9 0v1h-9Z"/>
+                                </svg>
+                            </span>
                             <p><?php echo esc_html__('Due animatori qualificati inclusi', 'babygym'); ?></p>
                         </div>
                         <div class="feste-bento__item feste-bento__item--full">
-                            <span class="feste-bento__icon" aria-hidden="true">NITE</span>
+                            <span class="feste-bento__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M14.7 3.4a8.3 8.3 0 1 0 5.9 14.2A7.3 7.3 0 1 1 14.7 3.4ZM9 8l1 2.1L12.3 11 10 12l-1 2.1L8 12l-2.3-0.9L8 10.1 9 8Z"/>
+                                </svg>
+                            </span>
                             <p><?php echo esc_html__('Possibilita pigiama party serale', 'babygym'); ?></p>
                         </div>
                     </div>
