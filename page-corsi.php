@@ -17,17 +17,19 @@ get_header();
             <p class="feste-eyebrow"><?php echo esc_html__('Baby Gym Torino', 'babygym'); ?></p>
             <h1 class="feste-hero__title"><?php echo esc_html__('I corsi al Baby Gym', 'babygym'); ?></h1>
             <p class="corsi-lead">
-                <?php echo esc_html__('I corsi Baby Gym si propongono di avvicinare anche i più piccoli alla pratica dello sport, e, attraverso questo, alle prime parole d’inglese!', 'babygym'); ?>
+                <?php echo esc_html__('I corsi Baby Gym si propongono di avvicinare anche i più piccoli alla', 'babygym'); ?>
+                <span class="feste-key"><?php echo esc_html__('pratica dello sport', 'babygym'); ?></span>,
+                <?php echo esc_html__('e, attraverso questo, alle prime parole d’', 'babygym'); ?><span class="feste-key"><?php echo esc_html__('inglese', 'babygym'); ?></span>!
             </p>
         </section>
 
         <section class="corsi-section card">
-            <p><?php echo esc_html__('Programmi NON COMPETITIVI, specifici per le diverse fasce d’età dei bambini, studiati da pediatri e psicologi, valorizzano la socializzazione e la cooperazione all’interno del gruppo e fanno sì che i bambini imparino che non è indispensabile essere sempre i migliori: l’importante è fare del proprio meglio!', 'babygym'); ?></p>
-            <p><?php echo esc_html__('I bambini, con il supporto di istruttori qualificati, vengono incoraggiati ad affrontare piccoli rischi e provare esercizi sempre nuovi, vincendo così le proprie paure ed acquisendo maggior sicurezza in se stessi.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Inoltre, come precedentemente accennato, le direttive dell’istruttore e le canzoni utilizzate in diversi momenti della lezione sono in inglese affinché i bambini imparino anche questa lingua straniera.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('I programmi sono strutturati in lezioni settimanali svolte seguendo uno specifico “piano di lezione” e ambientate, ogni settimana, in un diverso "tema di lezione".', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Il Piano di Lezione è uno schema che descrive le abilità che vengono sviluppate durante la lezione.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Il Tema di Lezione è l\'ambientazione delle attività: lo spazio, le olimpiadi, salviamo gli oceani, la sicurezza, il paese al contrario. Giocare ogni volta in un ambiente diverso stimola la fantasia e consente di insegnare ai bimbi cose nuove e sensibilizzarli su temi importanti.', 'babygym'); ?></p>
+            <p><span class="feste-key"><?php echo esc_html__('Programmi NON COMPETITIVI', 'babygym'); ?></span><?php echo esc_html__(', specifici per le diverse fasce d’età dei bambini, studiati da pediatri e psicologi, valorizzano la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('socializzazione', 'babygym'); ?></span> <?php echo esc_html__('e la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('cooperazione', 'babygym'); ?></span> <?php echo esc_html__('all’interno del gruppo e fanno sì che i bambini imparino che non è indispensabile essere sempre i migliori: l’importante è fare del proprio meglio!', 'babygym'); ?></p>
+            <p><?php echo esc_html__('I bambini, con il supporto di', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('istruttori qualificati', 'babygym'); ?></span><?php echo esc_html__(', vengono incoraggiati ad affrontare piccoli rischi e provare esercizi sempre nuovi, vincendo così le proprie paure ed acquisendo maggior sicurezza in se stessi.', 'babygym'); ?></p>
+            <p><?php echo esc_html__('Inoltre, come precedentemente accennato, le direttive dell’istruttore e le canzoni utilizzate in diversi momenti della lezione sono in', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('inglese', 'babygym'); ?></span> <?php echo esc_html__('affinché i bambini imparino anche questa lingua straniera.', 'babygym'); ?></p>
+            <p><?php echo esc_html__('I programmi sono strutturati in', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('lezioni settimanali', 'babygym'); ?></span> <?php echo esc_html__('svolte seguendo uno specifico “piano di lezione” e ambientate, ogni settimana, in un diverso "tema di lezione".', 'babygym'); ?></p>
+            <p><span class="feste-key"><?php echo esc_html__('Il Piano di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è uno schema che descrive le abilità che vengono sviluppate durante la lezione.', 'babygym'); ?></p>
+            <p><span class="feste-key"><?php echo esc_html__('Il Tema di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è l\'ambientazione delle attività: lo spazio, le olimpiadi, salviamo gli oceani, la sicurezza, il paese al contrario. Giocare ogni volta in un ambiente diverso stimola la fantasia e consente di insegnare ai bimbi cose nuove e sensibilizzarli su temi importanti.', 'babygym'); ?></p>
         </section>
 
         <section class="corsi-section corsi-grid-2">
@@ -123,8 +125,8 @@ get_header();
 
         <section class="corsi-section card card--centered">
             <h2><?php echo esc_html__('Corsi Baby Gym nelle scuole', 'babygym'); ?></h2>
-            <p><?php echo esc_html__('Con il progetto On Wheels riusciamo ad utilizzare i nostri programmi Baby Gym negli asili nido, scuole materne e scuole elementari.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Grazie al furgone Baby Gym portiamo il set di attrezzature che ci permette di montare un percorso ginnico direttamente nei locali dedicati della scuola.', 'babygym'); ?></p>
+            <p><?php echo esc_html__('Con il progetto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('On Wheels', 'babygym'); ?></span> <?php echo esc_html__('riusciamo ad utilizzare i nostri programmi Baby Gym negli asili nido, scuole materne e scuole elementari.', 'babygym'); ?></p>
+            <p><?php echo esc_html__('Grazie al', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('furgone Baby Gym', 'babygym'); ?></span> <?php echo esc_html__('portiamo il set di attrezzature che ci permette di montare un percorso ginnico direttamente nei locali dedicati della scuola.', 'babygym'); ?></p>
             <p><?php echo esc_html__('In questo modo la lezione sarà dedicata all\'intero gruppo classe oppure a diversi gruppi di pari età provenienti da classi diverse.', 'babygym'); ?></p>
             <p><?php echo esc_html__('Per maggiori informazioni contattaci!', 'babygym'); ?></p>
             <h3><?php echo esc_html__('Asili nido e scuole materne', 'babygym'); ?></h3>

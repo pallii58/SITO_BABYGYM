@@ -16,13 +16,13 @@ get_header();
         <section class="filosofia-hero card card--centered">
             <p class="feste-eyebrow"><?php echo esc_html__('Baby Gym Torino', 'babygym'); ?></p>
             <h1 class="feste-hero__title"><?php echo esc_html__('La nostra filosofia', 'babygym'); ?></h1>
-            <p class="filosofia-lead"><?php echo esc_html__('L’obiettivo del Baby Gym è di promuovere l’allegria, la salute ed il benessere fisico dei bambini nel mondo!!', 'babygym'); ?></p>
+            <p class="filosofia-lead"><?php echo esc_html__('L’obiettivo del Baby Gym è di promuovere', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('allegria', 'babygym'); ?></span>, <span class="feste-key"><?php echo esc_html__('salute', 'babygym'); ?></span> <?php echo esc_html__('e', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('benessere fisico', 'babygym'); ?></span> <?php echo esc_html__('dei bambini nel mondo!!', 'babygym'); ?></p>
         </section>
 
         <section class="filosofia-section card">
             <p><?php echo esc_html__('Al Baby Gym i bambini imparano, divertendosi, che non è indispensabile essere sempre i migliori: l’importante è fare sempre del proprio meglio!', 'babygym'); ?></p>
-            <p><?php echo esc_html__('In un ambiente non competitivo in cui viene valorizzata la socializzazione e la cooperazione all’interno del gruppo, i bambini, con il supporto di istruttori qualificati, vengono incoraggiati ad affrontare piccoli rischi e a provare esercizi sempre nuovi, vincendo le proprie paure ed acquisendo così maggior sicurezza in se stessi.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Al Baby Gym i bambini imparano ad amare l’esercizio fisico, la musica ed il gioco e capiscono che salute e benessere fisico vanno di pari passo con il divertimento!!!', 'babygym'); ?></p>
+            <p><?php echo esc_html__('In un ambiente', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('non competitivo', 'babygym'); ?></span> <?php echo esc_html__('in cui viene valorizzata la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('socializzazione', 'babygym'); ?></span> <?php echo esc_html__('e la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('cooperazione', 'babygym'); ?></span> <?php echo esc_html__('all’interno del gruppo, i bambini, con il supporto di', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('istruttori qualificati', 'babygym'); ?></span><?php echo esc_html__(', vengono incoraggiati ad affrontare piccoli rischi e a provare esercizi sempre nuovi, vincendo le proprie paure ed acquisendo così maggior sicurezza in se stessi.', 'babygym'); ?></p>
+            <p><?php echo esc_html__('Al Baby Gym i bambini imparano ad amare', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('l’esercizio fisico', 'babygym'); ?></span><?php echo esc_html__(', la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('musica', 'babygym'); ?></span> <?php echo esc_html__('ed il gioco e capiscono che', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('salute e benessere fisico', 'babygym'); ?></span> <?php echo esc_html__('vanno di pari passo con il divertimento!!!', 'babygym'); ?></p>
         </section>
 
         <section class="filosofia-section card card--soft">

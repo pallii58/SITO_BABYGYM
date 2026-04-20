@@ -164,8 +164,8 @@ get_header();
         <section class="feste-section">
             <div class="card card--centered">
                 <h2><?php echo esc_html__('Le feste Baby Gym On Wheels', 'babygym'); ?></h2>
-                <p><?php echo esc_html__('Con il progetto On Wheels riusciamo a fare le divertenti feste Baby Gym in locali diversi dalla nostra sede: case private, parchi e giardini riuscendo ad organizzare divertenti cacce al tesoro.', 'babygym'); ?></p>
-                <p><?php echo esc_html__('Grazie al furgone Baby Gym portiamo il set di attrezzature che ci permetterà di montare un percorso ginnico sia indoor che outdoor!!', 'babygym'); ?></p>
+                <p><?php echo esc_html__('Con il progetto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('On Wheels', 'babygym'); ?></span> <?php echo esc_html__('riusciamo a fare le divertenti feste Baby Gym in locali diversi dalla nostra sede: case private, parchi e giardini riuscendo ad organizzare divertenti', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('cacce al tesoro', 'babygym'); ?></span>.</p>
+                <p><?php echo esc_html__('Grazie al', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('furgone Baby Gym', 'babygym'); ?></span> <?php echo esc_html__('portiamo il set di attrezzature che ci permetterà di montare un percorso ginnico sia', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('indoor', 'babygym'); ?></span> <?php echo esc_html__('che', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('outdoor', 'babygym'); ?></span>!!</p>
                 <p><?php echo esc_html__('Per informazioni vieni a trovarci, scrivi o chiamaci!', 'babygym'); ?></p>
             </div>
         </section>
