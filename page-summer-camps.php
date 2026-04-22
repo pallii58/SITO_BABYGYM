@@ -26,29 +26,6 @@ $summer_camp_query = new WP_Query([
             <p class="filosofia-lead"><?php echo esc_html__('Attività estive per bambini da 3 a 9 anni', 'babygym'); ?></p>
         </section>
 
-        <section class="filosofia-section card summer-camp-intro">
-            <p class="summer-camp-intro__lead"><?php echo esc_html__('Le attività estive Baby Gym aiutano i bambini a crescere in modo armonioso, sviluppando capacità motorie, cognitive e relazionali in un ambiente sereno e stimolante.', 'babygym'); ?></p>
-            <div class="summer-camp-intro__grid">
-                <article class="summer-camp-intro__item">
-                    <h3><?php echo esc_html__('Imparare divertendosi', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Con ginnastica, giochi e musica, ogni mattinata diventa un\'occasione per imparare con entusiasmo, includendo anche le prime parole in Inglese.', 'babygym'); ?></p>
-                </article>
-                <article class="summer-camp-intro__item">
-                    <h3><?php echo esc_html__('Attività sempre varie', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Tanto movimento, esercizi, percorsi avventurosi, giochi di gruppo e attività creative come colorare, ritagliare e incollare.', 'babygym'); ?></p>
-                </article>
-                <article class="summer-camp-intro__item">
-                    <h3><?php echo esc_html__('Crescita e fiducia', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('I bambini migliorano coordinazione e sicurezza, superano piccole paure e rafforzano la fiducia in se stessi in un contesto non competitivo.', 'babygym'); ?></p>
-                </article>
-                <article class="summer-camp-intro__item">
-                    <h3><?php echo esc_html__('Tema di Lezione settimanale', 'babygym'); ?></h3>
-                    <p><?php echo esc_html__('Ogni settimana seguiamo un tema diverso (pirati, olimpiadi e tanti altri) per rendere ogni giornata ancora più curiosa, coinvolgente ed emozionante.', 'babygym'); ?></p>
-                </article>
-            </div>
-            <p class="summer-camp-intro__closing"><?php echo esc_html__('Vedrai che divertimento: quante scoperte e quante nuove conquiste faremo insieme!', 'babygym'); ?></p>
-        </section>
-
         <section class="feste-section card">
             <h2 class="section-title text-center"><?php echo esc_html__('I nostri Summer Camp', 'babygym'); ?></h2>
             <?php if ($summer_camp_query->have_posts()) : ?>
@@ -97,6 +74,29 @@ $summer_camp_query = new WP_Query([
             <?php else : ?>
                 <p class="text-center"><?php echo esc_html__('Nessun Summer Camp disponibile al momento.', 'babygym'); ?></p>
             <?php endif; ?>
+        </section>
+
+        <section class="filosofia-section card summer-camp-intro">
+            <p class="summer-camp-intro__lead"><?php echo esc_html__('Le attività estive Baby Gym aiutano i bambini a crescere in modo armonioso, sviluppando capacità motorie, cognitive e relazionali in un ambiente sereno e stimolante.', 'babygym'); ?></p>
+            <div class="summer-camp-intro__grid">
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Imparare divertendosi', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Con ginnastica, giochi e musica, ogni mattinata diventa un\'occasione per imparare con entusiasmo, includendo anche le prime parole in Inglese.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Attività sempre varie', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Tanto movimento, esercizi, percorsi avventurosi, giochi di gruppo e attività creative come colorare, ritagliare e incollare.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Crescita e fiducia', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('I bambini migliorano coordinazione e sicurezza, superano piccole paure e rafforzano la fiducia in se stessi in un contesto non competitivo.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Tema di Lezione settimanale', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Ogni settimana seguiamo un tema diverso (pirati, olimpiadi e tanti altri) per rendere ogni giornata ancora più curiosa, coinvolgente ed emozionante.', 'babygym'); ?></p>
+                </article>
+            </div>
+            <p class="summer-camp-intro__closing"><?php echo esc_html__('Vedrai che divertimento: quante scoperte e quante nuove conquiste faremo insieme!', 'babygym'); ?></p>
         </section>
     </article>
 </main>
