@@ -32,63 +32,63 @@ get_header();
                 <h1 class="feste-hero__title"><?php the_title(); ?></h1>
             </section>
 
-            <section class="card">
-                <?php if (has_post_thumbnail()) : ?>
-                    <div class="summer-camp-single__cover">
-                        <?php the_post_thumbnail('large'); ?>
-                    </div>
-                <?php endif; ?>
-                <div class="summer-camp-single__content">
-                    <?php if ('' !== trim($descrizione)) : ?>
-                        <p><?php echo esc_html($descrizione); ?></p>
+            <section class="card summer-camp-product">
+                <div class="summer-camp-product__media">
+                    <?php if (has_post_thumbnail()) : ?>
+                        <div class="summer-camp-single__cover">
+                            <?php the_post_thumbnail('large'); ?>
+                        </div>
                     <?php endif; ?>
-                    <?php the_content(); ?>
+
+                    <?php if ([] !== $gallery_urls) : ?>
+                        <div class="summer-camp-single__gallery">
+                            <?php foreach ($gallery_urls as $gallery_url) : ?>
+                                <img src="<?php echo esc_url($gallery_url); ?>" alt="">
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ('' !== $locandina_url) : ?>
+                        <div class="summer-camp-single__locandina">
+                            <a href="<?php echo esc_url($locandina_url); ?>" class="btn-secondary" target="_blank" rel="noopener noreferrer">
+                                <?php echo esc_html__('Apri locandina', 'babygym'); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            </section>
 
-            <?php if ('' !== $locandina_url) : ?>
-                <section class="card summer-camp-single__locandina">
-                    <h2><?php echo esc_html__('Locandina', 'babygym'); ?></h2>
-                    <a href="<?php echo esc_url($locandina_url); ?>" class="btn-secondary" target="_blank" rel="noopener noreferrer">
-                        <?php echo esc_html__('Apri locandina', 'babygym'); ?>
-                    </a>
-                </section>
-            <?php endif; ?>
+                <div class="summer-camp-product__info">
+                    <?php if ('' !== trim($descrizione)) : ?>
+                        <p class="summer-camp-product__lead"><?php echo esc_html($descrizione); ?></p>
+                    <?php endif; ?>
 
-            <?php if ([] !== $gallery_urls) : ?>
-                <section class="card">
-                    <h2><?php echo esc_html__('Galleria', 'babygym'); ?></h2>
-                    <div class="summer-camp-single__gallery">
-                        <?php foreach ($gallery_urls as $gallery_url) : ?>
-                            <img src="<?php echo esc_url($gallery_url); ?>" alt="">
-                        <?php endforeach; ?>
+                    <div class="summer-camp-single__content">
+                        <?php the_content(); ?>
                     </div>
-                </section>
-            <?php endif; ?>
 
-            <section class="card summer-camp-single__details">
-                <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
-                    <div>
-                        <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
-                        <ul class="corsi-list">
-                            <?php if ('' !== trim($eta)) : ?>
-                                <li><strong><?php echo esc_html__('ETA\'', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></li>
-                            <?php endif; ?>
-                            <?php if ('' !== trim($settimane)) : ?>
-                                <li><strong><?php echo esc_html__('SETTIMANE', 'babygym'); ?>:</strong> <?php echo esc_html($settimane); ?></li>
-                            <?php endif; ?>
-                            <?php if ('' !== trim($orario)) : ?>
-                                <li><strong><?php echo esc_html__('ORARIO', 'babygym'); ?>:</strong> <?php echo esc_html($orario); ?></li>
-                            <?php endif; ?>
-                            <?php if ('' !== trim($post_orario)) : ?>
-                                <li><strong><?php echo esc_html__('POST', 'babygym'); ?>:</strong> <?php echo esc_html($post_orario); ?></li>
-                            <?php endif; ?>
-                            <?php if ('' !== trim($iscrizioni_entro)) : ?>
-                                <li><strong><?php echo esc_html__('ISCRIZIONI ENTRO', 'babygym'); ?>:</strong> <?php echo esc_html($iscrizioni_entro); ?></li>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
+                    <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
+                        <div class="summer-camp-single__details">
+                            <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
+                            <ul class="corsi-list">
+                                <?php if ('' !== trim($eta)) : ?>
+                                    <li><strong><?php echo esc_html__('ETA\'', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($settimane)) : ?>
+                                    <li><strong><?php echo esc_html__('SETTIMANE', 'babygym'); ?>:</strong> <?php echo esc_html($settimane); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($orario)) : ?>
+                                    <li><strong><?php echo esc_html__('ORARIO', 'babygym'); ?>:</strong> <?php echo esc_html($orario); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($post_orario)) : ?>
+                                    <li><strong><?php echo esc_html__('POST', 'babygym'); ?>:</strong> <?php echo esc_html($post_orario); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($iscrizioni_entro)) : ?>
+                                    <li><strong><?php echo esc_html__('ISCRIZIONI ENTRO', 'babygym'); ?>:</strong> <?php echo esc_html($iscrizioni_entro); ?></li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </section>
         <?php endwhile; ?>
     </article>
