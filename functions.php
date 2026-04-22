@@ -235,7 +235,7 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                     <button type="button" class="button button-primary" id="babygym-summer-camp-pick-locandina"><?php esc_html_e('Seleziona locandina', 'babygym'); ?></button>
                     <button type="button" class="button" id="babygym-summer-camp-clear-locandina"><?php esc_html_e('Rimuovi locandina', 'babygym'); ?></button>
                 </p>
-                <div id="babygym-summer-camp-locandina-preview" style="max-width:420px;">
+                <div id="babygym-summer-camp-locandina-preview" style="max-width:420px;margin-top:10px;">
                     <?php if ('' !== $locandina_url) : ?>
                         <?php if (preg_match('/\.pdf($|\?)/i', $locandina_url)) : ?>
                             <a href="<?php echo esc_url($locandina_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Anteprima PDF locandina', 'babygym'); ?></a>
@@ -254,7 +254,7 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                     <button type="button" class="button button-primary" id="babygym-summer-camp-pick-gallery"><?php esc_html_e('Seleziona immagini', 'babygym'); ?></button>
                     <button type="button" class="button" id="babygym-summer-camp-clear-gallery"><?php esc_html_e('Svuota galleria', 'babygym'); ?></button>
                 </p>
-                <div id="babygym-summer-camp-gallery-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;max-width:760px;">
+                <div id="babygym-summer-camp-gallery-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;max-width:760px;margin-top:10px;">
                     <?php foreach ($gallery_urls as $gallery_url) : ?>
                         <img src="<?php echo esc_url($gallery_url); ?>" alt="" style="width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">
                     <?php endforeach; ?>
