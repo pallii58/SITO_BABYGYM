@@ -41,10 +41,20 @@ get_header();
                     <?php endif; ?>
 
                     <?php if ([] !== $gallery_urls) : ?>
-                        <div class="summer-camp-single__gallery">
-                            <?php foreach ($gallery_urls as $gallery_url) : ?>
-                                <img src="<?php echo esc_url($gallery_url); ?>" alt="">
-                            <?php endforeach; ?>
+                        <div class="summer-camp-single__gallery-carousel" data-summer-camp-single-carousel>
+                            <button type="button" class="feste-carousel__nav feste-carousel__nav--prev" data-single-carousel-prev aria-label="<?php echo esc_attr__('Foto precedente', 'babygym'); ?>">
+                                <span aria-hidden="true">&lsaquo;</span>
+                            </button>
+                            <div class="summer-camp-single__gallery-track" data-single-carousel-track>
+                                <?php foreach ($gallery_urls as $gallery_url) : ?>
+                                    <figure class="summer-camp-single__gallery-slide">
+                                        <img src="<?php echo esc_url($gallery_url); ?>" alt="">
+                                    </figure>
+                                <?php endforeach; ?>
+                            </div>
+                            <button type="button" class="feste-carousel__nav feste-carousel__nav--next" data-single-carousel-next aria-label="<?php echo esc_attr__('Foto successiva', 'babygym'); ?>">
+                                <span aria-hidden="true">&rsaquo;</span>
+                            </button>
                         </div>
                     <?php endif; ?>
 
@@ -86,5 +96,23 @@ get_header();
         <?php endwhile; ?>
     </article>
 </main>
+<script>
+    window.addEventListener('load', function () {
+        document.querySelectorAll('[data-summer-camp-single-carousel]').forEach(function (carousel) {
+            const track = carousel.querySelector('[data-single-carousel-track]');
+            const prev = carousel.querySelector('[data-single-carousel-prev]');
+            const next = carousel.querySelector('[data-single-carousel-next]');
+            if (!track || !prev || !next) return;
+
+            const step = () => Math.max(320, track.clientWidth);
+            prev.addEventListener('click', () => {
+                track.scrollBy({ left: -step(), behavior: 'smooth' });
+            });
+            next.addEventListener('click', () => {
+                track.scrollBy({ left: step(), behavior: 'smooth' });
+            });
+        });
+    });
+</script>
 <?php
 get_footer();
