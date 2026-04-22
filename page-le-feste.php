@@ -10,6 +10,7 @@ if (! defined('ABSPATH')) {
 }
 
 $feste_options  = babygym_get_feste_options();
+$schedule_groups = babygym_get_feste_schedule_groups($feste_options);
 $carousel_lines = preg_split('/\r\n|\r|\n/', (string) $feste_options['carousel_images']) ?: [];
 $carousel_urls  = array_values(array_filter(array_map('trim', $carousel_lines)));
 
@@ -107,23 +108,19 @@ get_header();
         <section class="feste-section">
             <h2 class="section-title text-center"><?php echo esc_html__('Orari disponibili', 'babygym'); ?></h2>
             <div class="feste-grid feste-grid--3">
-                <div class="card">
-                    <h3><?php echo esc_html__('Venerdi', 'babygym'); ?></h3>
-                    <p><?php echo esc_html($feste_options['friday_evening']); ?></p>
-                </div>
-                <div class="card">
-                    <h3><?php echo esc_html__('Sabato', 'babygym'); ?></h3>
-                    <p><?php echo esc_html($feste_options['saturday_afternoon']); ?></p>
-                    <p>
-                        <?php echo esc_html($feste_options['saturday_evening']); ?><br>
-                        <span class="feste-note-accent"><?php echo esc_html($feste_options['saturday_evening_note']); ?></span>
-                    </p>
-                </div>
-                <div class="card">
-                    <h3><?php echo esc_html__('Domenica', 'babygym'); ?></h3>
-                    <p><?php echo esc_html($feste_options['sunday_morning']); ?></p>
-                    <p><?php echo esc_html($feste_options['sunday_afternoon']); ?></p>
-                </div>
+                <?php foreach ($schedule_groups as $day_label => $slots) : ?>
+                    <div class="card">
+                        <h3><?php echo esc_html($day_label); ?></h3>
+                        <?php foreach ($slots as $slot) : ?>
+                            <p>
+                                <?php echo esc_html($slot['label'] . ': ' . $slot['time']); ?>
+                                <?php if ('' !== $slot['note']) : ?>
+                                    <br><span class="feste-note-accent"><?php echo esc_html($slot['note']); ?></span>
+                                <?php endif; ?>
+                            </p>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
             </div>
             <p class="feste-note text-center"><?php echo esc_html($feste_options['weekday_note']); ?></p>
         </section>

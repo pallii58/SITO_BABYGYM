@@ -91,6 +91,7 @@ get_header();
                         <li><?php echo esc_html__('Martedì: 10.00 - 11.00, 11.00 - 12.00, 16.20 - 17.20, 18.20 - 19.20', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Mercoledì: 11.00 - 12.00 (da attivare), 18.20 - 19.20', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Giovedì: 11.00 - 12.00, 15.30 - 16.30', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Venerdì: 16.30 - 17.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Sabato: 10.00 - 11.00', 'babygym'); ?></li>
                     </ul>
                 </div>
@@ -100,8 +101,7 @@ get_header();
                     <ul class="corsi-list">
                         <li><?php echo esc_html__('Lunedì: 17.30 - 18.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Mercoledì: 17.20 - 18.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 18.30 - 19.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Venerdì: 16.30 - 17.30', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Giovedì: 16.30 - 17.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Sabato: 9.00 - 10.00', 'babygym'); ?></li>
                     </ul>
                 </div>
@@ -109,9 +109,10 @@ get_header();
                 <div class="card">
                     <h3><?php echo esc_html__('GOOD FRIENDS (4-6 anni)', 'babygym'); ?></h3>
                     <ul class="corsi-list">
+                        <li><?php echo esc_html__('Lunedì: 18.30 - 19.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Martedì: 17.20 - 18.20', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Mercoledì: 16.20 - 17.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 16.30 - 17.30, 18.30 - 19.30', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Giovedì: 18.30 - 19.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Venerdì: 17.30 - 18.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Sabato: 9.00 - 10.00, 11.00 - 12.00', 'babygym'); ?></li>
                     </ul>
@@ -120,7 +121,6 @@ get_header();
                 <div class="card">
                     <h3><?php echo esc_html__('FLIPS (6-9 anni)', 'babygym'); ?></h3>
                     <ul class="corsi-list">
-                        <li><?php echo esc_html__('Lunedì: 18.30 - 19.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Giovedì: 17.30 - 18.30', 'babygym'); ?></li>
                         <li><?php echo esc_html__('Sabato: 12.00 - 13.00', 'babygym'); ?></li>
                     </ul>
@@ -174,7 +174,7 @@ get_header();
                                     <td>10.00 - 11.00<br>11.00 - 12.00<br>16.20 - 17.20<br>18.20 - 19.20</td>
                                     <td>11.00 - 12.00 (da attivare)<br>18.20 - 19.20</td>
                                     <td>11.00 - 12.00<br>15.30 - 16.30</td>
-                                    <td>-</td>
+                                    <td>16.30 - 17.30</td>
                                     <td>10.00 - 11.00</td>
                                 </tr>
                                 <tr>
@@ -182,22 +182,22 @@ get_header();
                                     <td>17.30 - 18.30</td>
                                     <td>-</td>
                                     <td>17.20 - 18.20</td>
-                                    <td>18.30 - 19.30</td>
                                     <td>16.30 - 17.30</td>
+                                    <td>-</td>
                                     <td>9.00 - 10.00</td>
                                 </tr>
                                 <tr>
                                     <th>GOOD FRIENDS (4-6 anni)</th>
-                                    <td>-</td>
+                                    <td>18.30 - 19.30</td>
                                     <td>17.20 - 18.20</td>
                                     <td>16.20 - 17.20</td>
-                                    <td>16.30 - 17.30<br>18.30 - 19.30</td>
+                                    <td>18.30 - 19.30</td>
                                     <td>17.30 - 18.30</td>
                                     <td>9.00 - 10.00<br>11.00 - 12.00</td>
                                 </tr>
                                 <tr>
                                     <th>FLIPS (6-9 anni)</th>
-                                    <td>18.30 - 19.30</td>
+                                    <td>-</td>
                                     <td>-</td>
                                     <td>-</td>
                                     <td>17.30 - 18.30</td>
