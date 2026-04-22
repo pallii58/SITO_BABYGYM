@@ -26,13 +26,27 @@ $summer_camp_query = new WP_Query([
             <p class="filosofia-lead"><?php echo esc_html__('Attività estive per bambini da 3 a 9 anni', 'babygym'); ?></p>
         </section>
 
-        <section class="filosofia-section card">
-            <p><?php echo esc_html__('Le attività estive Baby Gym sono pensate per accompagnare ogni bambino nello sviluppo delle capacità fisico-motorie, cognitive e relazionali, in un ambiente sereno e stimolante.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Con ginnastica, giochi e musica, imparare diventa naturale e divertente: tra un\'attività e l\'altra scopriremo anche le prime parole in', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('Inglese', 'babygym'); ?></span>.</p>
-            <p><?php echo esc_html__('Le mattinate insieme saranno piene di energia: tanto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('movimento', 'babygym'); ?></span>, <span class="feste-key"><?php echo esc_html__('esercizi', 'babygym'); ?></span>, <?php echo esc_html__('percorsi avventurosi,', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('giochi di gruppo', 'babygym'); ?></span> <?php echo esc_html__('e attività creative come colorare, ritagliare e incollare.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Ogni proposta aiuta i bambini a migliorare coordinazione e sicurezza, superare piccole paure e rafforzare la fiducia in se stessi. Il tutto in un contesto non competitivo, che valorizza collaborazione, rispetto e voglia di mettersi in gioco.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Ogni settimana vivremo un nuovo', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('Tema di Lezione', 'babygym'); ?></span> <?php echo esc_html__('(pirati, olimpiadi e tanti altri) per rendere ogni giornata ancora più coinvolgente, curiosa ed emozionante.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Ti aspettiamo per un\'estate piena di sorrisi, scoperte e nuove conquiste insieme!', 'babygym'); ?></p>
+        <section class="filosofia-section card summer-camp-intro">
+            <p class="summer-camp-intro__lead"><?php echo esc_html__('Le attività estive Baby Gym aiutano i bambini a crescere in modo armonioso, sviluppando capacità motorie, cognitive e relazionali in un ambiente sereno e stimolante.', 'babygym'); ?></p>
+            <div class="summer-camp-intro__grid">
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Imparare divertendosi', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Con ginnastica, giochi e musica, ogni mattinata diventa un\'occasione per imparare con entusiasmo, includendo anche le prime parole in Inglese.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Attività sempre varie', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Tanto movimento, esercizi, percorsi avventurosi, giochi di gruppo e attività creative come colorare, ritagliare e incollare.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Crescita e fiducia', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('I bambini migliorano coordinazione e sicurezza, superano piccole paure e rafforzano la fiducia in se stessi in un contesto non competitivo.', 'babygym'); ?></p>
+                </article>
+                <article class="summer-camp-intro__item">
+                    <h3><?php echo esc_html__('Tema di Lezione settimanale', 'babygym'); ?></h3>
+                    <p><?php echo esc_html__('Ogni settimana seguiamo un tema diverso (pirati, olimpiadi e tanti altri) per rendere ogni giornata ancora più curiosa, coinvolgente ed emozionante.', 'babygym'); ?></p>
+                </article>
+            </div>
+            <p class="summer-camp-intro__closing"><?php echo esc_html__('Vedrai che divertimento: quante scoperte e quante nuove conquiste faremo insieme!', 'babygym'); ?></p>
         </section>
 
         <section class="feste-section card">

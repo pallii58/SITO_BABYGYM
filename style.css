@@ -884,6 +884,45 @@ h3,
     margin-top: 0;
 }
 
+.summer-camp-intro {
+    gap: 1rem;
+}
+
+.summer-camp-intro__lead,
+.summer-camp-intro__closing {
+    margin: 0;
+    text-align: center;
+    font-size: 1.04rem;
+}
+
+.summer-camp-intro__lead {
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.summer-camp-intro__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .85rem;
+}
+
+.summer-camp-intro__item {
+    border: 1px solid #bfdbfe;
+    border-radius: 14px;
+    background: #f8fbff;
+    padding: .9rem;
+}
+
+.summer-camp-intro__item h3 {
+    margin: 0 0 .35rem;
+    font-size: 1.08rem;
+    color: #0369a1;
+}
+
+.summer-camp-intro__item p {
+    margin: 0;
+}
+
 .corsi-table-wrap {
     overflow: auto;
 }
@@ -1350,6 +1389,10 @@ body.corsi-modal-open {
 
     .summer-camp-single__gallery,
     .summer-camp-single__details {
+        grid-template-columns: 1fr;
+    }
+
+    .summer-camp-intro__grid {
         grid-template-columns: 1fr;
     }
 

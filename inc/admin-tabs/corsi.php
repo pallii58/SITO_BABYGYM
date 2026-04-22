@@ -28,7 +28,6 @@
         </div>
 
         <h2>Orari per sede e corso</h2>
-        <p>Gestione guidata: scegli (o crea) prima la sede, poi il corso, poi modifica gli orari del corso selezionato.</p>
         <input type="hidden" name="babygym_corsi_options[schedule_rows]" id="babygym-corsi-schedule-rows" value="<?php echo esc_attr($options['schedule_rows']); ?>">
 
         <div style="display:grid;gap:14px;max-width:1100px;margin:0 0 1rem;">
@@ -57,7 +56,6 @@
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <button type="button" class="button" id="babygym-corsi-add-course">Nuovo corso</button>
                         <button type="button" class="button" id="babygym-corsi-rename-course">Rinomina corso</button>
-                        <button type="button" class="button" id="babygym-corsi-toggle-course-status">Disattiva corso</button>
                         <button type="button" class="button button-link-delete" id="babygym-corsi-delete-course">Elimina corso</button>
                     </div>
                     <p style="display:flex;gap:8px;margin:.9rem 0 0;">
@@ -118,7 +116,6 @@
         const deleteLocationBtn = document.getElementById('babygym-corsi-delete-location');
         const addCourseBtn = document.getElementById('babygym-corsi-add-course');
         const renameCourseBtn = document.getElementById('babygym-corsi-rename-course');
-        const toggleCourseStatusBtn = document.getElementById('babygym-corsi-toggle-course-status');
         const deleteCourseBtn = document.getElementById('babygym-corsi-delete-course');
         const stepIndicator = document.getElementById('corsi-step-indicator');
         const step1 = document.getElementById('corsi-step-1');
@@ -397,12 +394,6 @@
             fillSelect(courseSelect, courses, 'Nessun corso');
             if (courseSelect) courseSelect.value = selectedCourse;
 
-            const courseRows = scheduleRows.filter((row) => row.location === selectedLocation && row.course === selectedCourse);
-            const isInactiveCourse = courseRows.length > 0 && courseRows.every((row) => row.status === 'inactive');
-            if (toggleCourseStatusBtn) {
-                toggleCourseStatusBtn.textContent = isInactiveCourse ? 'Riattiva corso' : 'Disattiva corso';
-                toggleCourseStatusBtn.disabled = !selectedLocation || !selectedCourse;
-            }
             if (deleteCourseBtn) {
                 deleteCourseBtn.disabled = !selectedLocation || !selectedCourse;
             }
@@ -570,19 +561,6 @@
                     manualCoursesByLocation[selectedLocation].add(newName);
                 }
                 selectedCourse = newName;
-                updateWizard();
-            });
-        }
-
-        if (toggleCourseStatusBtn) {
-            toggleCourseStatusBtn.addEventListener('click', () => {
-                if (!selectedLocation || !selectedCourse) return;
-                scheduleRows = scheduleRows.map((row) => {
-                    if (row.location === selectedLocation && row.course === selectedCourse) {
-                        return { ...row, status: row.status === 'inactive' ? 'active' : 'inactive' };
-                    }
-                    return row;
-                });
                 updateWizard();
             });
         }
