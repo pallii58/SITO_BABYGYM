@@ -68,23 +68,23 @@
         </td>
     </tr>
     <tr>
-        <th scope="row"><?php esc_html_e('Orari', 'babygym'); ?></th>
+        <th scope="row"></th>
         <td>
-            <p><?php esc_html_e('Aggiungi liberamente nuove righe orarie: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
+            <h2 style="margin:0 0 .8rem;"><?php esc_html_e('Orari', 'babygym'); ?></h2>
             <input type="hidden" id="babygym-summer-camp-schedule-rows" name="babygym_summer_camp_schedule_rows" value="<?php echo esc_attr($schedule_rows_raw); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
                     <tr>
-                        <th><?php esc_html_e('Giorno/Voce', 'babygym'); ?></th>
+                        <th><?php esc_html_e('Giorno', 'babygym'); ?></th>
                         <th><?php esc_html_e('Da', 'babygym'); ?></th>
                         <th><?php esc_html_e('A', 'babygym'); ?></th>
                         <th><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody id="babygym-summer-camp-schedule-body"></tbody>
+                <tbody id="babygym-schedule-body"></tbody>
             </table>
-            <p><button type="button" class="button button-secondary" id="babygym-summer-camp-add-schedule-row"><?php esc_html_e('Aggiungi fascia oraria', 'babygym'); ?></button></p>
+            <p><button type="button" class="button button-secondary" id="babygym-add-schedule-row"><?php esc_html_e('Aggiungi orario', 'babygym'); ?></button></p>
         </td>
     </tr>
     <tr>
@@ -112,8 +112,8 @@
         const pickGalleryBtn = document.getElementById('babygym-summer-camp-pick-gallery');
         const clearGalleryBtn = document.getElementById('babygym-summer-camp-clear-gallery');
         const scheduleHidden = document.getElementById('babygym-summer-camp-schedule-rows');
-        const scheduleBody = document.getElementById('babygym-summer-camp-schedule-body');
-        const addScheduleRowBtn = document.getElementById('babygym-summer-camp-add-schedule-row');
+        const scheduleBody = document.getElementById('babygym-schedule-body');
+        const addScheduleRowBtn = document.getElementById('babygym-add-schedule-row');
 
         const renderLocandinaPreview = () => {
             if (!locandinaPreview || !locandinaInput) return;
@@ -155,21 +155,21 @@
                 .map((line) => {
                     const parts = line.split('|');
                     return {
-                        label: (parts[0] || '').trim(),
+                        day: (parts[0] || '').trim(),
                         start: (parts[1] || '').trim(),
                         end: (parts[2] || '').trim(),
                         note: (parts[3] || '').trim(),
                     };
                 })
-                .filter((row) => row.label && row.start && row.end);
+                .filter((row) => row.day && row.start && row.end);
         };
         let scheduleRows = parseScheduleRows();
 
         const serializeScheduleRows = () => {
             if (!scheduleHidden) return;
             scheduleHidden.value = scheduleRows
-                .filter((row) => row.label && row.start && row.end)
-                .map((row) => [row.label, row.start, row.end, row.note || ''].join('|'))
+                    .filter((row) => row.day && row.start && row.end)
+                    .map((row) => [row.day, row.start, row.end, row.note || ''].join('|'))
                 .join('\n');
         };
 
@@ -179,14 +179,14 @@
             scheduleRows.forEach((rowData) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td><input type="text" class="regular-text" data-field="label" value="${rowData.label.replace(/"/g, '&quot;')}" placeholder="Es. ORARIO"></td>
+                    <td><input type="text" class="regular-text" data-field="day" value="${rowData.day.replace(/"/g, '&quot;')}" placeholder="Es. Sabato"></td>
                     <td><input type="time" data-field="start" value="${rowData.start.replace(/"/g, '&quot;')}"></td>
                     <td><input type="time" data-field="end" value="${rowData.end.replace(/"/g, '&quot;')}"></td>
                     <td><input type="text" class="regular-text" data-field="note" value="${rowData.note.replace(/"/g, '&quot;')}" placeholder="Opzionale"></td>
                     <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
                 `;
-                row.querySelector('[data-field="label"]').addEventListener('input', (event) => {
-                    rowData.label = event.target.value.trim();
+                row.querySelector('[data-field="day"]').addEventListener('input', (event) => {
+                    rowData.day = event.target.value.trim();
                     serializeScheduleRows();
                 });
                 row.querySelector('[data-field="start"]').addEventListener('input', (event) => {
@@ -268,7 +268,7 @@
 
         if (addScheduleRowBtn) {
             addScheduleRowBtn.addEventListener('click', () => {
-                scheduleRows.push({ label: '', start: '', end: '', note: '' });
+                scheduleRows.push({ day: '', start: '', end: '', note: '' });
                 serializeScheduleRows();
                 renderScheduleTable();
             });
