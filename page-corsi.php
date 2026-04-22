@@ -9,6 +9,13 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+$corsi_options      = babygym_get_corsi_options();
+$carousel_lines     = preg_split('/\r\n|\r|\n/', (string) $corsi_options['carousel_images']) ?: [];
+$carousel_urls      = array_values(array_filter(array_map('trim', $carousel_lines)));
+$skills_items       = babygym_parse_multiline_text((string) $corsi_options['skills_items']);
+$equipment_items    = babygym_parse_multiline_text((string) $corsi_options['equipment_items']);
+$schedule_sections  = babygym_get_corsi_schedule_sections((string) $corsi_options['schedule_rows']);
+
 get_header();
 ?>
 <main id="primary" class="site-main site-main--wide">
@@ -44,184 +51,116 @@ get_header();
             </div>
         </section>
 
+        <?php if ([] !== $carousel_urls) : ?>
+        <section class="corsi-section">
+            <h2 class="section-title text-center"><?php echo esc_html__('Galleria corsi', 'babygym'); ?></h2>
+            <div class="feste-carousel" data-corsi-carousel>
+                <button type="button" class="feste-carousel__nav feste-carousel__nav--prev" aria-label="<?php echo esc_attr__('Foto precedente', 'babygym'); ?>">
+                    <span aria-hidden="true">&lsaquo;</span>
+                </button>
+                <div class="feste-carousel__track" data-corsi-carousel-track>
+                    <?php foreach ($carousel_urls as $index => $image_url) : ?>
+                        <figure class="feste-carousel__slide">
+                            <img
+                                src="<?php echo esc_url($image_url); ?>"
+                                alt="<?php echo esc_attr(sprintf(__('Foto corso %d', 'babygym'), $index + 1)); ?>"
+                                loading="lazy"
+                                decoding="async"
+                            >
+                        </figure>
+                    <?php endforeach; ?>
+                </div>
+                <button type="button" class="feste-carousel__nav feste-carousel__nav--next" aria-label="<?php echo esc_attr__('Foto successiva', 'babygym'); ?>">
+                    <span aria-hidden="true">&rsaquo;</span>
+                </button>
+            </div>
+        </section>
+        <?php endif; ?>
+
         <section class="corsi-section corsi-grid-2">
             <div class="card">
                 <h2><?php echo esc_html__('Abilità sviluppate', 'babygym'); ?></h2>
                 <ul class="corsi-list">
-                    <li><?php echo esc_html__('ruota / rondata', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('verticale e varianti (con capovolta, alle parallele, al muro con camminata laterale)', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('capovolte avanti, indietro, indietro alla verticale, tuffate', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('giri addominali alla sbarra (in avanti e indietro)', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('flick-flack indietro e ribaltata avanti', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('tecniche di atterraggio', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('abilità sulla trave di equilibrio', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('utilizzo della pedana elastica per salti e volteggi', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('giochi e sport di squadra', 'babygym'); ?></li>
+                    <?php foreach ($skills_items as $item) : ?>
+                        <li><?php echo esc_html($item); ?></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
             <div class="card card--soft">
                 <h2><?php echo esc_html__('Attrezzature utilizzate', 'babygym'); ?></h2>
                 <ul class="corsi-list">
-                    <li><?php echo esc_html__('travi di equilibrio', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('parallele', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('sbarre', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('pedana elastica', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('grandi materassoni colorati in materiale espanso', 'babygym'); ?></li>
-                    <li><?php echo esc_html__('corda elastica, paracadute, hula hoop, corde, palloni, foulard, sacchetti motori, strumenti musicali e altro', 'babygym'); ?></li>
+                    <?php foreach ($equipment_items as $item) : ?>
+                        <li><?php echo esc_html($item); ?></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </section>
 
-        <section class="corsi-section">
-            <h2 class="section-title text-center"><?php echo esc_html__('Orario Baby Gym di Via Vespucci 36, Torino', 'babygym'); ?></h2>
-            <div class="text-center">
-                <button type="button" class="btn-secondary corsi-table-trigger" data-corsi-open-table>
-                    <?php echo esc_html__('Vista a tabella', 'babygym'); ?>
-                </button>
-            </div>
-            <div class="corsi-schedule-grid">
-                <div class="card">
-                    <h3><?php echo esc_html__('BUGS (4-10 mesi)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Mercoledì: 15.20 - 16.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 9.00 - 10.00', 'babygym'); ?></li>
-                    </ul>
+        <?php foreach ($schedule_sections as $index => $section) : ?>
+            <section class="corsi-section">
+                <h2 class="section-title text-center"><?php echo esc_html__('Orario Baby Gym di', 'babygym'); ?> <?php echo esc_html($section['location']); ?></h2>
+                <div class="text-center">
+                    <button type="button" class="btn-secondary corsi-table-trigger" data-corsi-open-table="<?php echo esc_attr((string) $index); ?>">
+                        <?php echo esc_html__('Vista a tabella', 'babygym'); ?>
+                    </button>
                 </div>
+                <div class="corsi-schedule-grid">
+                    <?php foreach ($section['courses'] as $course_name => $items) : ?>
+                        <div class="card">
+                            <h3><?php echo esc_html($course_name); ?></h3>
+                            <ul class="corsi-list">
+                                <?php foreach ($items as $line) : ?>
+                                    <li><?php echo esc_html($line); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </section>
 
-                <div class="card">
-                    <h3><?php echo esc_html__('BIRDS (10-19 mesi)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Mercoledì: 10.00 - 11.00 (da attivare)', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 10.00 - 11.00, 15.30 - 16.30', 'babygym'); ?></li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3><?php echo esc_html__('BEASTS (19 mesi - 3 anni)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Lunedì: 16.30 - 17.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Martedì: 10.00 - 11.00, 11.00 - 12.00, 16.20 - 17.20, 18.20 - 19.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Mercoledì: 11.00 - 12.00 (da attivare), 18.20 - 19.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 11.00 - 12.00, 15.30 - 16.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Venerdì: 16.30 - 17.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Sabato: 10.00 - 11.00', 'babygym'); ?></li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3><?php echo esc_html__('FUNNY BUGS (3-4 anni)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Lunedì: 17.30 - 18.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Mercoledì: 17.20 - 18.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 16.30 - 17.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Sabato: 9.00 - 10.00', 'babygym'); ?></li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3><?php echo esc_html__('GOOD FRIENDS (4-6 anni)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Lunedì: 18.30 - 19.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Martedì: 17.20 - 18.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Mercoledì: 16.20 - 17.20', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Giovedì: 18.30 - 19.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Venerdì: 17.30 - 18.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Sabato: 9.00 - 10.00, 11.00 - 12.00', 'babygym'); ?></li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h3><?php echo esc_html__('FLIPS (6-9 anni)', 'babygym'); ?></h3>
-                    <ul class="corsi-list">
-                        <li><?php echo esc_html__('Giovedì: 17.30 - 18.30', 'babygym'); ?></li>
-                        <li><?php echo esc_html__('Sabato: 12.00 - 13.00', 'babygym'); ?></li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <div class="corsi-modal" data-corsi-modal hidden>
-            <div class="corsi-modal__backdrop" data-corsi-close-table></div>
-            <div class="corsi-modal__dialog" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr__('Orari corsi in tabella', 'babygym'); ?>">
-                <div class="corsi-modal__head">
-                    <h3><?php echo esc_html__('Orari corsi - Vista a tabella', 'babygym'); ?></h3>
-                    <button type="button" class="corsi-modal__close" aria-label="<?php echo esc_attr__('Chiudi', 'babygym'); ?>" data-corsi-close-table>&times;</button>
-                </div>
-                <div class="corsi-modal__body">
-                    <div class="corsi-table-wrap">
-                        <table class="corsi-table">
-                            <thead>
-                                <tr>
-                                    <th><?php echo esc_html__('Corso', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Lunedì', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Martedì', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Mercoledì', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Giovedì', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Venerdì', 'babygym'); ?></th>
-                                    <th><?php echo esc_html__('Sabato', 'babygym'); ?></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th>BUGS (4-10 mesi)</th>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>15.20 - 16.20</td>
-                                    <td>9.00 - 10.00</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <th>BIRDS (10-19 mesi)</th>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>10.00 - 11.00 (da attivare)</td>
-                                    <td>10.00 - 11.00<br>15.30 - 16.30</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                </tr>
-                                <tr>
-                                    <th>BEASTS (19 mesi - 3 anni)</th>
-                                    <td>16.30 - 17.30</td>
-                                    <td>10.00 - 11.00<br>11.00 - 12.00<br>16.20 - 17.20<br>18.20 - 19.20</td>
-                                    <td>11.00 - 12.00 (da attivare)<br>18.20 - 19.20</td>
-                                    <td>11.00 - 12.00<br>15.30 - 16.30</td>
-                                    <td>16.30 - 17.30</td>
-                                    <td>10.00 - 11.00</td>
-                                </tr>
-                                <tr>
-                                    <th>FUNNY BUGS (3-4 anni)</th>
-                                    <td>17.30 - 18.30</td>
-                                    <td>-</td>
-                                    <td>17.20 - 18.20</td>
-                                    <td>16.30 - 17.30</td>
-                                    <td>-</td>
-                                    <td>9.00 - 10.00</td>
-                                </tr>
-                                <tr>
-                                    <th>GOOD FRIENDS (4-6 anni)</th>
-                                    <td>18.30 - 19.30</td>
-                                    <td>17.20 - 18.20</td>
-                                    <td>16.20 - 17.20</td>
-                                    <td>18.30 - 19.30</td>
-                                    <td>17.30 - 18.30</td>
-                                    <td>9.00 - 10.00<br>11.00 - 12.00</td>
-                                </tr>
-                                <tr>
-                                    <th>FLIPS (6-9 anni)</th>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>17.30 - 18.30</td>
-                                    <td>-</td>
-                                    <td>12.00 - 13.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <div class="corsi-modal" data-corsi-modal="<?php echo esc_attr((string) $index); ?>" hidden>
+                <div class="corsi-modal__backdrop" data-corsi-close-table="<?php echo esc_attr((string) $index); ?>"></div>
+                <div class="corsi-modal__dialog" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr__('Orari corsi in tabella', 'babygym'); ?>">
+                    <div class="corsi-modal__head">
+                        <h3><?php echo esc_html__('Orari corsi - Vista a tabella', 'babygym'); ?> (<?php echo esc_html($section['location']); ?>)</h3>
+                        <button type="button" class="corsi-modal__close" aria-label="<?php echo esc_attr__('Chiudi', 'babygym'); ?>" data-corsi-close-table="<?php echo esc_attr((string) $index); ?>">&times;</button>
+                    </div>
+                    <div class="corsi-modal__body">
+                        <div class="corsi-table-wrap">
+                            <table class="corsi-table">
+                                <thead>
+                                    <tr>
+                                        <th><?php echo esc_html__('Corso', 'babygym'); ?></th>
+                                        <?php foreach ($section['days'] as $day_label) : ?>
+                                            <th><?php echo esc_html($day_label); ?></th>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($section['table'] as $course_name => $day_map) : ?>
+                                        <tr>
+                                            <th><?php echo esc_html($course_name); ?></th>
+                                            <?php foreach ($section['days'] as $day_label) : ?>
+                                                <td>
+                                                    <?php
+                                                    $slot_values = $day_map[$day_label] ?? [];
+                                                    if ([] === $slot_values) {
+                                                        echo '-';
+                                                    } else {
+                                                        echo wp_kses_post(implode('<br>', array_map('esc_html', $slot_values)));
+                                                    }
+                                                    ?>
+                                                </td>
+                                            <?php endforeach; ?>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
 
         <section class="corsi-section card card--centered">
             <h2><?php echo esc_html__('Corsi Baby Gym nelle scuole', 'babygym'); ?></h2>
@@ -243,25 +182,52 @@ get_header();
 </main>
 <script>
     (function () {
-        const openBtn = document.querySelector('[data-corsi-open-table]');
-        const modal = document.querySelector('[data-corsi-modal]');
-        if (!openBtn || !modal) return;
-        const closeTargets = modal.querySelectorAll('[data-corsi-close-table]');
+        const carousel = document.querySelector('[data-corsi-carousel]');
+        if (carousel) {
+            const track = carousel.querySelector('[data-corsi-carousel-track]');
+            const prev = carousel.querySelector('.feste-carousel__nav--prev');
+            const next = carousel.querySelector('.feste-carousel__nav--next');
+            if (track && prev && next) {
+                const step = () => Math.max(320, track.clientWidth * 0.85);
+                prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+                next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+            }
+        }
 
-        const openModal = () => {
+        const openButtons = document.querySelectorAll('[data-corsi-open-table]');
+        const modals = document.querySelectorAll('[data-corsi-modal]');
+        const closeModal = (modal) => {
+            modal.hidden = true;
+            if ([...modals].every((item) => item.hidden)) {
+                document.body.classList.remove('corsi-modal-open');
+            }
+        };
+        const openModal = (modal) => {
             modal.hidden = false;
             document.body.classList.add('corsi-modal-open');
         };
-
-        const closeModal = () => {
-            modal.hidden = true;
-            document.body.classList.remove('corsi-modal-open');
-        };
-
-        openBtn.addEventListener('click', openModal);
-        closeTargets.forEach((el) => el.addEventListener('click', closeModal));
+        openButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const key = button.getAttribute('data-corsi-open-table');
+                const modal = document.querySelector(`[data-corsi-modal="${key}"]`);
+                if (modal) {
+                    openModal(modal);
+                }
+            });
+        });
+        modals.forEach((modal) => {
+            modal.querySelectorAll('[data-corsi-close-table]').forEach((el) => {
+                el.addEventListener('click', () => closeModal(modal));
+            });
+        });
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && !modal.hidden) closeModal();
+            if (event.key === 'Escape') {
+                modals.forEach((modal) => {
+                    if (!modal.hidden) {
+                        closeModal(modal);
+                    }
+                });
+            }
         });
     })();
 </script>
