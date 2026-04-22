@@ -57,7 +57,7 @@ $summer_camp_query = new WP_Query([
                                     <div class="summer-camp-card__body">
                                         <h3><?php the_title(); ?></h3>
                                         <?php if ('' !== trim($eta)) : ?>
-                                            <p class="summer-camp-card__meta"><strong><?php echo esc_html__('ETÀ', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></p>
+                                            <p class="summer-camp-card__meta summer-camp-card__meta--age"><strong><?php echo esc_html__('ETÀ', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></p>
                                         <?php endif; ?>
                                         <?php if ('' !== trim($indirizzo)) : ?>
                                             <p class="summer-camp-card__meta summer-camp-card__meta--address"><strong><?php echo esc_html__('INDIRIZZO', 'babygym'); ?>:</strong> <?php echo esc_html($indirizzo); ?></p>

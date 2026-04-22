@@ -882,6 +882,11 @@ h3,
     font-weight: 800;
 }
 
+.summer-camp-card__meta--age {
+    border: 0;
+    background: transparent;
+}
+
 .summer-camp-card__meta--address {
     justify-content: flex-start;
     text-align: left;
