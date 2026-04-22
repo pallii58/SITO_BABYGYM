@@ -19,6 +19,7 @@ get_header();
             $post_id       = get_the_ID();
             $locandina_url = (string) get_post_meta($post_id, '_babygym_summer_camp_locandina_url', true);
             $gallery_raw   = (string) get_post_meta($post_id, '_babygym_summer_camp_gallery', true);
+            $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $costi_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_costi', true);
             $orari_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_orari', true);
             $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
@@ -37,6 +38,9 @@ get_header();
                     </div>
                 <?php endif; ?>
                 <div class="summer-camp-single__content">
+                    <?php if ('' !== trim($descrizione)) : ?>
+                        <p><?php echo esc_html($descrizione); ?></p>
+                    <?php endif; ?>
                     <?php the_content(); ?>
                 </div>
             </section>
