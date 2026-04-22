@@ -52,7 +52,7 @@ $summer_camp_query = new WP_Query([
         <section class="feste-section card">
             <h2 class="section-title text-center"><?php echo esc_html__('I nostri Summer Camp', 'babygym'); ?></h2>
             <?php if ($summer_camp_query->have_posts()) : ?>
-                <div class="summer-camp-carousel" data-summer-camp-carousel>
+                <div class="summer-camp-carousel" data-summer-camp-carousel data-carousel-min-items="3">
                     <button type="button" class="feste-carousel__nav feste-carousel__nav--prev" data-carousel-prev aria-label="<?php echo esc_attr__('Slide precedente', 'babygym'); ?>">‹</button>
                     <div class="summer-camp-carousel__track" data-carousel-track>
                         <?php
@@ -92,6 +92,12 @@ $summer_camp_query = new WP_Query([
             const prev = carousel.querySelector('[data-carousel-prev]');
             const next = carousel.querySelector('[data-carousel-next]');
             if (!track || !prev || !next) return;
+            const minItems = Number(carousel.getAttribute('data-carousel-min-items') || '3');
+            const totalItems = track.children.length;
+            const showNav = totalItems > minItems;
+            prev.style.display = showNav ? '' : 'none';
+            next.style.display = showNav ? '' : 'none';
+            if (!showNav) return;
 
             const scrollByCard = () => Math.max(260, Math.round(track.clientWidth * 0.8));
             prev.addEventListener('click', () => {

@@ -71,7 +71,7 @@ get_header();
         <?php if ([] !== $carousel_urls) : ?>
         <section class="corsi-section">
             <h2 class="section-title text-center"><?php echo esc_html__('Galleria corsi', 'babygym'); ?></h2>
-            <div class="feste-carousel" data-corsi-carousel>
+            <div class="feste-carousel" data-corsi-carousel data-carousel-min-items="3">
                 <button type="button" class="feste-carousel__nav feste-carousel__nav--prev" aria-label="<?php echo esc_attr__('Foto precedente', 'babygym'); ?>">
                     <span aria-hidden="true">&lsaquo;</span>
                 </button>
@@ -232,6 +232,14 @@ get_header();
             const prev = carousel.querySelector('.feste-carousel__nav--prev');
             const next = carousel.querySelector('.feste-carousel__nav--next');
             if (track && prev && next) {
+                const minItems = Number(carousel.getAttribute('data-carousel-min-items') || '3');
+                const totalItems = track.children.length;
+                const showNav = totalItems > minItems;
+                prev.style.display = showNav ? '' : 'none';
+                next.style.display = showNav ? '' : 'none';
+                if (!showNav) {
+                    return;
+                }
                 const step = () => Math.max(320, track.clientWidth * 0.85);
                 prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
                 next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
