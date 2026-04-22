@@ -23,6 +23,7 @@ get_header();
             $settimane     = (string) get_post_meta($post_id, '_babygym_summer_camp_settimane', true);
             $orario        = (string) get_post_meta($post_id, '_babygym_summer_camp_orario', true);
             $post_orario   = (string) get_post_meta($post_id, '_babygym_summer_camp_post_orario', true);
+            $iscrizioni_entro = (string) get_post_meta($post_id, '_babygym_summer_camp_iscrizioni_entro', true);
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $costi_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_costi', true);
             $orari_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_orari', true);
@@ -70,7 +71,7 @@ get_header();
             <?php endif; ?>
 
             <section class="card summer-camp-single__details">
-                <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario)) : ?>
+                <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
                     <div>
                         <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
                         <ul class="corsi-list">
@@ -85,6 +86,9 @@ get_header();
                             <?php endif; ?>
                             <?php if ('' !== trim($post_orario)) : ?>
                                 <li><strong><?php echo esc_html__('POST', 'babygym'); ?>:</strong> <?php echo esc_html($post_orario); ?></li>
+                            <?php endif; ?>
+                            <?php if ('' !== trim($iscrizioni_entro)) : ?>
+                                <li><strong><?php echo esc_html__('ISCRIZIONI ENTRO', 'babygym'); ?>:</strong> <?php echo esc_html($iscrizioni_entro); ?></li>
                             <?php endif; ?>
                         </ul>
                     </div>
