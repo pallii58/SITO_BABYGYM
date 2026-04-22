@@ -20,6 +20,7 @@ get_header();
             $locandina_url = (string) get_post_meta($post_id, '_babygym_summer_camp_locandina_url', true);
             $gallery_raw   = (string) get_post_meta($post_id, '_babygym_summer_camp_gallery', true);
             $eta           = (string) get_post_meta($post_id, '_babygym_summer_camp_eta', true);
+            $indirizzo     = (string) get_post_meta($post_id, '_babygym_summer_camp_indirizzo', true);
             $settimane     = (string) get_post_meta($post_id, '_babygym_summer_camp_settimane', true);
             $orario        = (string) get_post_meta($post_id, '_babygym_summer_camp_orario', true);
             $post_orario   = (string) get_post_meta($post_id, '_babygym_summer_camp_post_orario', true);
@@ -69,12 +70,15 @@ get_header();
                         <?php the_content(); ?>
                     </div>
 
-                    <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
+                    <?php if ('' !== trim($eta) || '' !== trim($indirizzo) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
                         <div class="summer-camp-single__details">
                             <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
                             <ul class="corsi-list">
                                 <?php if ('' !== trim($eta)) : ?>
                                     <li><strong><?php echo esc_html__('ETA\'', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($indirizzo)) : ?>
+                                    <li><strong><?php echo esc_html__('INDIRIZZO', 'babygym'); ?>:</strong> <?php echo esc_html($indirizzo); ?></li>
                                 <?php endif; ?>
                                 <?php if ('' !== trim($settimane)) : ?>
                                     <li><strong><?php echo esc_html__('SETTIMANE', 'babygym'); ?>:</strong> <?php echo esc_html($settimane); ?></li>
