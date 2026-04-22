@@ -37,7 +37,9 @@
             </div>
             <div id="corsi-step-1" style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
                     <strong>1) Seleziona sede</strong>
-                    <div id="babygym-corsi-location-pills" style="display:flex;flex-wrap:wrap;gap:8px;margin:.5rem 0;"></div>
+                    <p style="margin:.5rem 0;">
+                        <select id="babygym-corsi-location-select" class="regular-text"></select>
+                    </p>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <button type="button" class="button" id="babygym-corsi-add-location">Nuova sede</button>
                         <button type="button" class="button" id="babygym-corsi-rename-location">Rinomina sede</button>
@@ -49,7 +51,9 @@
             </div>
             <div id="corsi-step-2" style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;" hidden>
                     <strong>2) Seleziona corso</strong>
-                    <div id="babygym-corsi-course-pills" style="display:flex;flex-wrap:wrap;gap:8px;margin:.5rem 0;"></div>
+                    <p style="margin:.5rem 0;">
+                        <select id="babygym-corsi-course-select" class="regular-text"></select>
+                    </p>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <button type="button" class="button" id="babygym-corsi-add-course">Nuovo corso</button>
                         <button type="button" class="button" id="babygym-corsi-rename-course">Rinomina corso</button>
@@ -94,8 +98,8 @@
         const scheduleHidden = document.getElementById('babygym-corsi-schedule-rows');
         const scheduleBody = document.getElementById('babygym-corsi-schedule-body');
         const addScheduleBtn = document.getElementById('babygym-corsi-add-schedule-row');
-        const locationPills = document.getElementById('babygym-corsi-location-pills');
-        const coursePills = document.getElementById('babygym-corsi-course-pills');
+        const locationSelect = document.getElementById('babygym-corsi-location-select');
+        const courseSelect = document.getElementById('babygym-corsi-course-select');
         const addLocationBtn = document.getElementById('babygym-corsi-add-location');
         const renameLocationBtn = document.getElementById('babygym-corsi-rename-location');
         const deleteLocationBtn = document.getElementById('babygym-corsi-delete-location');
@@ -221,31 +225,21 @@
             return [...values];
         };
 
-        const renderPills = (container, values, activeValue, onSelect, emptyLabel) => {
-            if (!container) return;
-            container.innerHTML = '';
+        const fillSelect = (select, values, emptyLabel) => {
+            if (!select) return;
+            select.innerHTML = '';
             if (values.length === 0) {
-                const empty = document.createElement('span');
+                const empty = document.createElement('option');
+                empty.value = '';
                 empty.textContent = emptyLabel;
-                empty.style.cssText = 'color:#646970;';
-                container.appendChild(empty);
+                select.appendChild(empty);
                 return;
             }
             values.forEach((value) => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.textContent = value;
-                const isActive = value === activeValue;
-                button.style.cssText = [
-                    'border:1px solid #bfdbfe',
-                    'border-radius:999px',
-                    'padding:.3rem .75rem',
-                    'cursor:pointer',
-                    'font-weight:600',
-                    isActive ? 'background:#dbeafe;color:#1d4ed8;border-color:#60a5fa' : 'background:#fff;color:#0f172a'
-                ].join(';');
-                button.addEventListener('click', () => onSelect(value));
-                container.appendChild(button);
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
             });
         };
 
@@ -295,11 +289,8 @@
             if (!locations.includes(selectedLocation)) {
                 selectedLocation = locations[0] || '';
             }
-            renderPills(locationPills, locations, selectedLocation, (value) => {
-                selectedLocation = value;
-                selectedCourse = '';
-                updateWizard();
-            }, 'Nessuna sede');
+            fillSelect(locationSelect, locations, 'Nessuna sede');
+            if (locationSelect) locationSelect.value = selectedLocation;
             if (deleteLocationBtn) {
                 deleteLocationBtn.disabled = !selectedLocation;
             }
@@ -311,10 +302,8 @@
             if (!courses.includes(selectedCourse)) {
                 selectedCourse = courses[0] || '';
             }
-            renderPills(coursePills, courses, selectedCourse, (value) => {
-                selectedCourse = value;
-                updateWizard();
-            }, 'Nessun corso');
+            fillSelect(courseSelect, courses, 'Nessun corso');
+            if (courseSelect) courseSelect.value = selectedCourse;
 
             const courseRows = scheduleRows.filter((row) => row.location === selectedLocation && row.course === selectedCourse);
             const isInactiveCourse = courseRows.length > 0 && courseRows.every((row) => row.status === 'inactive');
@@ -343,6 +332,21 @@
             if (step2) step2.hidden = step !== 2;
             if (step3) step3.hidden = step !== 3;
         };
+
+        if (locationSelect) {
+            locationSelect.addEventListener('change', () => {
+                selectedLocation = locationSelect.value;
+                selectedCourse = '';
+                updateWizard();
+            });
+        }
+
+        if (courseSelect) {
+            courseSelect.addEventListener('change', () => {
+                selectedCourse = courseSelect.value;
+                updateWizard();
+            });
+        }
 
         if (addLocationBtn) {
             addLocationBtn.addEventListener('click', () => {
