@@ -253,15 +253,30 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="babygym-summer-camp-orario"><?php esc_html_e('ORARIO', 'babygym'); ?></label></th>
+            <th scope="row"><?php esc_html_e('Orari', 'babygym'); ?></th>
             <td>
-                <input type="text" class="regular-text" id="babygym-summer-camp-orario" name="babygym_summer_camp_orario" value="<?php echo esc_attr($orario); ?>" placeholder="8,00 - 17.00 da LUNEDI a VENERDI">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row"><label for="babygym-summer-camp-post-orario"><?php esc_html_e('POST', 'babygym'); ?></label></th>
-            <td>
-                <input type="text" class="regular-text" id="babygym-summer-camp-post-orario" name="babygym_summer_camp_post_orario" value="<?php echo esc_attr($post_orario); ?>" placeholder="17.00 - 18.30 su Richiesta con supplemento">
+                <table class="widefat striped" style="max-width:760px;">
+                    <thead>
+                        <tr>
+                            <th style="width:140px;"><?php esc_html_e('Voce', 'babygym'); ?></th>
+                            <th><?php esc_html_e('Dettaglio', 'babygym'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row"><label for="babygym-summer-camp-orario"><?php esc_html_e('ORARIO', 'babygym'); ?></label></th>
+                            <td>
+                                <input type="text" class="regular-text" id="babygym-summer-camp-orario" name="babygym_summer_camp_orario" value="<?php echo esc_attr($orario); ?>" placeholder="8,00 - 17.00 da LUNEDI a VENERDI" style="width:100%;max-width:none;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="babygym-summer-camp-post-orario"><?php esc_html_e('POST', 'babygym'); ?></label></th>
+                            <td>
+                                <input type="text" class="regular-text" id="babygym-summer-camp-post-orario" name="babygym_summer_camp_post_orario" value="<?php echo esc_attr($post_orario); ?>" placeholder="17.00 - 18.30 su Richiesta con supplemento" style="width:100%;max-width:none;">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </td>
         </tr>
         <tr>
