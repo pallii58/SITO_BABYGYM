@@ -25,11 +25,7 @@ get_header();
             $post_orario   = (string) get_post_meta($post_id, '_babygym_summer_camp_post_orario', true);
             $iscrizioni_entro = (string) get_post_meta($post_id, '_babygym_summer_camp_iscrizioni_entro', true);
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
-            $costi_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_costi', true);
-            $orari_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_orari', true);
             $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
-            $costi_rows    = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $costi_raw) ?: [])));
-            $orari_rows    = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $orari_raw) ?: [])));
             ?>
             <section class="filosofia-hero card card--centered">
                 <p class="feste-eyebrow"><?php echo esc_html__('Summer Camp', 'babygym'); ?></p>
@@ -90,26 +86,6 @@ get_header();
                             <?php if ('' !== trim($iscrizioni_entro)) : ?>
                                 <li><strong><?php echo esc_html__('ISCRIZIONI ENTRO', 'babygym'); ?>:</strong> <?php echo esc_html($iscrizioni_entro); ?></li>
                             <?php endif; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-                <?php if ([] !== $costi_rows) : ?>
-                    <div>
-                        <h2><?php echo esc_html__('Costi', 'babygym'); ?></h2>
-                        <ul class="corsi-list">
-                            <?php foreach ($costi_rows as $cost_row) : ?>
-                                <li><?php echo esc_html($cost_row); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-                <?php if ([] !== $orari_rows) : ?>
-                    <div>
-                        <h2><?php echo esc_html__('Orari', 'babygym'); ?></h2>
-                        <ul class="corsi-list">
-                            <?php foreach ($orari_rows as $orario_row) : ?>
-                                <li><?php echo esc_html($orario_row); ?></li>
-                            <?php endforeach; ?>
                         </ul>
                     </div>
                 <?php endif; ?>
