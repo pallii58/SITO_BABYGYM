@@ -12,8 +12,25 @@ if (! defined('ABSPATH')) {
 $corsi_options      = babygym_get_corsi_options();
 $carousel_lines     = preg_split('/\r\n|\r|\n/', (string) $corsi_options['carousel_images']) ?: [];
 $carousel_urls      = array_values(array_filter(array_map('trim', $carousel_lines)));
-$skills_items       = babygym_parse_multiline_text((string) $corsi_options['skills_items']);
-$equipment_items    = babygym_parse_multiline_text((string) $corsi_options['equipment_items']);
+$skills_items       = [
+    'ruota / rondata',
+    'verticale e varianti (con capovolta, alle parallele, al muro con camminata laterale)',
+    'capovolte avanti, indietro, indietro alla verticale, tuffate',
+    'giri addominali alla sbarra (in avanti e indietro)',
+    'flick-flack indietro e ribaltata avanti',
+    'tecniche di atterraggio',
+    'abilità sulla trave di equilibrio',
+    'utilizzo della pedana elastica per salti e volteggi',
+    'giochi e sport di squadra',
+];
+$equipment_items    = [
+    'travi di equilibrio',
+    'parallele',
+    'sbarre',
+    'pedana elastica',
+    'grandi materassoni colorati in materiale espanso',
+    'corda elastica, paracadute, hula hoop, corde, palloni, foulard, sacchetti motori, strumenti musicali e altro',
+];
 $schedule_sections  = babygym_get_corsi_schedule_sections((string) $corsi_options['schedule_rows']);
 
 get_header();

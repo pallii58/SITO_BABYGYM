@@ -27,12 +27,6 @@
             <?php endforeach; ?>
         </div>
 
-        <h2>Contenuti</h2>
-        <table class="form-table" role="presentation">
-            <?php babygym_render_textarea_row('Abilità sviluppate (una riga = una voce)', 'skills_items', $options, 9); ?>
-            <?php babygym_render_textarea_row('Attrezzature utilizzate (una riga = una voce)', 'equipment_items', $options, 7); ?>
-        </table>
-
         <h2>Orari per sede e corso</h2>
         <p>Puoi aggiungere nuove sedi, nuovi corsi e nuovi orari liberamente.</p>
         <input type="hidden" name="babygym_corsi_options[schedule_rows]" id="babygym-corsi-schedule-rows" value="<?php echo esc_attr($options['schedule_rows']); ?>">
