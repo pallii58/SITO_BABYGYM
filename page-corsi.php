@@ -117,8 +117,21 @@ get_header();
             <section class="corsi-section">
                 <div class="card card--centered">
                     <h2 class="section-title"><?php echo esc_html__('Scegli la sede', 'babygym'); ?></h2>
-                    <p>
-                        <select id="corsi-location-select" class="regular-text">
+                    <div class="corsi-location-pills" role="tablist" aria-label="<?php echo esc_attr__('Selezione sede corsi', 'babygym'); ?>">
+                        <?php foreach ($schedule_sections as $index => $section) : ?>
+                            <button
+                                type="button"
+                                class="corsi-location-pill<?php echo 0 === $index ? ' is-active' : ''; ?>"
+                                data-corsi-location-pill="<?php echo esc_attr((string) $index); ?>"
+                                role="tab"
+                                aria-selected="<?php echo 0 === $index ? 'true' : 'false'; ?>"
+                            >
+                                <?php echo esc_html($section['location']); ?>
+                            </button>
+                        <?php endforeach; ?>
+                    </div>
+                    <p hidden>
+                        <select id="corsi-location-select" class="regular-text" aria-hidden="true" tabindex="-1">
                             <?php foreach ($schedule_sections as $index => $section) : ?>
                                 <option value="<?php echo esc_attr((string) $index); ?>"><?php echo esc_html($section['location']); ?></option>
                             <?php endforeach; ?>
@@ -236,6 +249,7 @@ get_header();
         const modals = document.querySelectorAll('[data-corsi-modal]');
         const locationSelect = document.getElementById('corsi-location-select');
         const locationSections = document.querySelectorAll('[data-corsi-location-section]');
+        const locationPills = document.querySelectorAll('[data-corsi-location-pill]');
         const closeModal = (modal) => {
             modal.hidden = true;
             if ([...modals].every((item) => item.hidden)) {
@@ -266,10 +280,22 @@ get_header();
                 locationSections.forEach((section) => {
                     section.hidden = section.getAttribute('data-corsi-location-section') !== activeKey;
                 });
+                locationPills.forEach((pill) => {
+                    const isActive = pill.getAttribute('data-corsi-location-pill') === activeKey;
+                    pill.classList.toggle('is-active', isActive);
+                    pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
             };
             renderLocationSection(locationSelect.value || '0');
             locationSelect.addEventListener('change', () => {
                 renderLocationSection(locationSelect.value);
+            });
+            locationPills.forEach((pill) => {
+                pill.addEventListener('click', () => {
+                    const key = pill.getAttribute('data-corsi-location-pill') || '0';
+                    locationSelect.value = key;
+                    renderLocationSection(key);
+                });
             });
         }
 
