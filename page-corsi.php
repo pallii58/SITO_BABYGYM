@@ -23,13 +23,25 @@ get_header();
             </p>
         </section>
 
-        <section class="corsi-section card">
-            <p><span class="feste-key"><?php echo esc_html__('Programmi NON COMPETITIVI', 'babygym'); ?></span><?php echo esc_html__(', specifici per le diverse fasce d’età dei bambini, studiati da pediatri e psicologi, valorizzano la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('socializzazione', 'babygym'); ?></span> <?php echo esc_html__('e la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('cooperazione', 'babygym'); ?></span> <?php echo esc_html__('all’interno del gruppo e fanno sì che i bambini imparino che non è indispensabile essere sempre i migliori: l’importante è fare del proprio meglio!', 'babygym'); ?></p>
-            <p><?php echo esc_html__('I bambini, con il supporto di', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('istruttori qualificati', 'babygym'); ?></span><?php echo esc_html__(', vengono incoraggiati ad affrontare piccoli rischi e provare esercizi sempre nuovi, vincendo così le proprie paure ed acquisendo maggior sicurezza in se stessi.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Inoltre, come precedentemente accennato, le direttive dell’istruttore e le canzoni utilizzate in diversi momenti della lezione sono in', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('inglese', 'babygym'); ?></span> <?php echo esc_html__('affinché i bambini imparino anche questa lingua straniera.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('I programmi sono strutturati in', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('lezioni settimanali', 'babygym'); ?></span> <?php echo esc_html__('svolte seguendo uno specifico “piano di lezione” e ambientate, ogni settimana, in un diverso "tema di lezione".', 'babygym'); ?></p>
-            <p><span class="feste-key"><?php echo esc_html__('Il Piano di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è uno schema che descrive le abilità che vengono sviluppate durante la lezione.', 'babygym'); ?></p>
-            <p><span class="feste-key"><?php echo esc_html__('Il Tema di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è l\'ambientazione delle attività: lo spazio, le olimpiadi, salviamo gli oceani, la sicurezza, il paese al contrario. Giocare ogni volta in un ambiente diverso stimola la fantasia e consente di insegnare ai bimbi cose nuove e sensibilizzarli su temi importanti.', 'babygym'); ?></p>
+        <section class="corsi-section">
+            <div class="card corsi-intro-card">
+                <p><span class="feste-key"><?php echo esc_html__('Programmi NON COMPETITIVI', 'babygym'); ?></span><?php echo esc_html__(', specifici per le diverse fasce d’età dei bambini, studiati da pediatri e psicologi, valorizzano la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('socializzazione', 'babygym'); ?></span> <?php echo esc_html__('e la', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('cooperazione', 'babygym'); ?></span> <?php echo esc_html__('all’interno del gruppo e fanno sì che i bambini imparino che non è indispensabile essere sempre i migliori: l’importante è fare del proprio meglio!', 'babygym'); ?></p>
+            </div>
+            <div class="corsi-grid-2">
+                <div class="card">
+                    <h3><?php echo esc_html__('Come si svolge la lezione', 'babygym'); ?></h3>
+                    <ul class="corsi-list">
+                        <li><?php echo esc_html__('I bambini, con il supporto di istruttori qualificati, vengono incoraggiati ad affrontare piccoli rischi e provare esercizi sempre nuovi, vincendo così le proprie paure ed acquisendo maggior sicurezza in se stessi.', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Le direttive dell’istruttore e le canzoni utilizzate in diversi momenti della lezione sono in inglese affinché i bambini imparino anche questa lingua straniera.', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('I programmi sono strutturati in lezioni settimanali svolte seguendo uno specifico “piano di lezione” e ambientate, ogni settimana, in un diverso "tema di lezione".', 'babygym'); ?></li>
+                    </ul>
+                </div>
+                <div class="card card--soft">
+                    <h3><?php echo esc_html__('Piano e tema di lezione', 'babygym'); ?></h3>
+                    <p><span class="feste-key"><?php echo esc_html__('Il Piano di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è uno schema che descrive le abilità che vengono sviluppate durante la lezione.', 'babygym'); ?></p>
+                    <p><span class="feste-key"><?php echo esc_html__('Il Tema di Lezione', 'babygym'); ?></span> <?php echo esc_html__('è l\'ambientazione delle attività: lo spazio, le olimpiadi, salviamo gli oceani, la sicurezza, il paese al contrario. Giocare ogni volta in un ambiente diverso stimola la fantasia e consente di insegnare ai bimbi cose nuove e sensibilizzarli su temi importanti.', 'babygym'); ?></p>
+                </div>
+            </div>
         </section>
 
         <section class="corsi-section corsi-grid-2">
