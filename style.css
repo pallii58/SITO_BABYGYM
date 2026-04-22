@@ -891,10 +891,18 @@ h3,
     align-items: center;
     justify-content: center;
     text-align: center;
+    flex-wrap: wrap;
+    row-gap: .15rem;
     border: 0;
     background: transparent;
     border-radius: 0;
     padding: 0;
+}
+
+.summer-camp-card__meta-address-value {
+    display: block;
+    width: 100%;
+    text-align: left;
 }
 
 .summer-camp-card__body .btn-primary {
