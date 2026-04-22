@@ -162,21 +162,27 @@ get_header();
             </div>
         <?php endforeach; ?>
 
-        <section class="corsi-section card card--centered">
-            <h2><?php echo esc_html__('Corsi Baby Gym nelle scuole', 'babygym'); ?></h2>
-            <p><?php echo esc_html__('Con il progetto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('On Wheels', 'babygym'); ?></span> <?php echo esc_html__('riusciamo ad utilizzare i nostri programmi Baby Gym negli asili nido, scuole materne e scuole elementari.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Grazie al', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('furgone Baby Gym', 'babygym'); ?></span> <?php echo esc_html__('portiamo il set di attrezzature che ci permette di montare un percorso ginnico direttamente nei locali dedicati della scuola.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('In questo modo la lezione sarà dedicata all\'intero gruppo classe oppure a diversi gruppi di pari età provenienti da classi diverse.', 'babygym'); ?></p>
-            <p><?php echo esc_html__('Per maggiori informazioni contattaci!', 'babygym'); ?></p>
-            <h3><?php echo esc_html__('Asili nido e scuole materne', 'babygym'); ?></h3>
-            <ul class="corsi-list corsi-list--centered">
-                <li><?php echo esc_html__('Andersen', 'babygym'); ?></li>
-                <li><?php echo esc_html__('Scuola materna Via d\'Arborea', 'babygym'); ?></li>
-                <li><?php echo esc_html__('Scuola Materna Berta', 'babygym'); ?></li>
-                <li><?php echo esc_html__('Nido di Peo e Pea', 'babygym'); ?></li>
-                <li><?php echo esc_html__('Il pulcino ballerino', 'babygym'); ?></li>
-                <li><?php echo esc_html__('Thaon di Revel - V Lombardore', 'babygym'); ?></li>
-            </ul>
+        <section class="corsi-section card corsi-schools">
+            <h2 class="text-center"><?php echo esc_html__('Corsi Baby Gym nelle scuole', 'babygym'); ?></h2>
+            <div class="corsi-schools__grid">
+                <div class="corsi-schools__content">
+                    <p><?php echo esc_html__('Con il progetto', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('On Wheels', 'babygym'); ?></span> <?php echo esc_html__('riusciamo ad utilizzare i nostri programmi Baby Gym negli asili nido, scuole materne e scuole elementari.', 'babygym'); ?></p>
+                    <p><?php echo esc_html__('Grazie al', 'babygym'); ?> <span class="feste-key"><?php echo esc_html__('furgone Baby Gym', 'babygym'); ?></span> <?php echo esc_html__('portiamo il set di attrezzature che ci permette di montare un percorso ginnico direttamente nei locali dedicati della scuola.', 'babygym'); ?></p>
+                    <p><?php echo esc_html__('In questo modo la lezione sarà dedicata all\'intero gruppo classe oppure a diversi gruppi di pari età provenienti da classi diverse.', 'babygym'); ?></p>
+                    <p class="corsi-schools__cta"><?php echo esc_html__('Per maggiori informazioni contattaci!', 'babygym'); ?></p>
+                </div>
+                <div class="card card--soft corsi-schools__list-wrap">
+                    <h3><?php echo esc_html__('Asili nido e scuole materne', 'babygym'); ?></h3>
+                    <ul class="corsi-schools__list">
+                        <li><?php echo esc_html__('Andersen', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Scuola materna Via d\'Arborea', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Scuola Materna Berta', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Nido di Peo e Pea', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Il pulcino ballerino', 'babygym'); ?></li>
+                        <li><?php echo esc_html__('Thaon di Revel - V Lombardore', 'babygym'); ?></li>
+                    </ul>
+                </div>
+            </div>
         </section>
     </article>
 </main>

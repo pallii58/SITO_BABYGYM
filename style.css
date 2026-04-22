@@ -629,6 +629,57 @@ h3,
     margin: 0 auto;
 }
 
+.corsi-schools {
+    gap: 1.1rem;
+}
+
+.corsi-schools__grid {
+    display: grid;
+    grid-template-columns: 1.25fr .95fr;
+    gap: 1rem;
+    align-items: start;
+}
+
+.corsi-schools__content p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.corsi-schools__content p + p {
+    margin-top: .7rem;
+}
+
+.corsi-schools__cta {
+    font-weight: 700;
+    color: #0369a1;
+}
+
+.corsi-schools__list-wrap {
+    height: 100%;
+}
+
+.corsi-schools__list {
+    list-style: none;
+    margin: .25rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.corsi-schools__list li {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    padding: .35rem .65rem;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #bfdbfe;
+    color: #0f172a;
+    font-weight: 600;
+    font-size: .92rem;
+}
+
 .corsi-table-trigger {
     margin-top: .2rem;
 }
@@ -1127,6 +1178,10 @@ body.corsi-modal-open {
     .corsi-grid-2,
     .corsi-schedule-grid,
     .contatti-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .corsi-schools__grid {
         grid-template-columns: 1fr;
     }
 
