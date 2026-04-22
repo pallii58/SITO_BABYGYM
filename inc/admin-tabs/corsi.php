@@ -312,8 +312,6 @@
         };
 
         let currentStep = 1;
-        let deleteConfirmKey = '';
-        let deleteConfirmTimeout = null;
         const setStep = (step) => {
             currentStep = step;
             if (stepIndicator) {
@@ -381,21 +379,15 @@
         if (deleteCourseBtn) {
             deleteCourseBtn.addEventListener('click', () => {
                 if (!selectedLocation || !selectedCourse) return;
-                const key = `${selectedLocation}::${selectedCourse}`;
-                if (deleteConfirmKey !== key) {
-                    deleteConfirmKey = key;
-                    deleteCourseBtn.textContent = 'Conferma eliminazione';
-                    if (deleteConfirmTimeout) clearTimeout(deleteConfirmTimeout);
-                    deleteConfirmTimeout = setTimeout(() => {
-                        deleteConfirmKey = '';
-                        deleteCourseBtn.textContent = 'Elimina corso';
-                    }, 5000);
+                const firstConfirm = window.confirm(`Vuoi davvero eliminare il corso "${selectedCourse}" dalla sede "${selectedLocation}"?`);
+                if (!firstConfirm) {
+                    return;
+                }
+                const secondConfirm = window.confirm('Conferma definitiva: questa azione è irreversibile. Procedere con l\'eliminazione?');
+                if (!secondConfirm) {
                     return;
                 }
                 scheduleRows = scheduleRows.filter((row) => !(row.location === selectedLocation && row.course === selectedCourse));
-                deleteConfirmKey = '';
-                deleteCourseBtn.textContent = 'Elimina corso';
-                if (deleteConfirmTimeout) clearTimeout(deleteConfirmTimeout);
                 selectedCourse = '';
                 updateWizard();
             });
