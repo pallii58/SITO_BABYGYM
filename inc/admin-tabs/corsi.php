@@ -51,8 +51,7 @@
                     <strong>2) Seleziona corso</strong>
                     <div id="babygym-corsi-course-pills" style="display:flex;flex-wrap:wrap;gap:8px;margin:.5rem 0;"></div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                        <input type="text" id="babygym-corsi-new-course" class="regular-text" placeholder="Nuovo corso">
-                        <button type="button" class="button" id="babygym-corsi-add-course">Aggiungi corso</button>
+                        <button type="button" class="button" id="babygym-corsi-add-course">Nuovo corso</button>
                         <button type="button" class="button" id="babygym-corsi-rename-course">Rinomina corso</button>
                     </div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.7rem;">
@@ -97,7 +96,6 @@
         const addScheduleBtn = document.getElementById('babygym-corsi-add-schedule-row');
         const locationPills = document.getElementById('babygym-corsi-location-pills');
         const coursePills = document.getElementById('babygym-corsi-course-pills');
-        const newCourseInput = document.getElementById('babygym-corsi-new-course');
         const addLocationBtn = document.getElementById('babygym-corsi-add-location');
         const renameLocationBtn = document.getElementById('babygym-corsi-rename-location');
         const deleteLocationBtn = document.getElementById('babygym-corsi-delete-location');
@@ -406,9 +404,11 @@
             });
         }
 
-        if (addCourseBtn && newCourseInput) {
+        if (addCourseBtn) {
             addCourseBtn.addEventListener('click', () => {
-                const value = newCourseInput.value.trim();
+                const valueRaw = window.prompt('Nome nuovo corso:');
+                if (null === valueRaw) return;
+                const value = valueRaw.trim();
                 if (!selectedLocation || !value) return;
                 manualLocations.add(selectedLocation);
                 if (!manualCoursesByLocation[selectedLocation]) {
@@ -416,7 +416,6 @@
                 }
                 manualCoursesByLocation[selectedLocation].add(value);
                 selectedCourse = value;
-                newCourseInput.value = '';
                 updateWizard();
             });
         }
