@@ -130,13 +130,6 @@ get_header();
                             </button>
                         <?php endforeach; ?>
                     </div>
-                    <p hidden>
-                        <select id="corsi-location-select" class="regular-text" aria-hidden="true" tabindex="-1">
-                            <?php foreach ($schedule_sections as $index => $section) : ?>
-                                <option value="<?php echo esc_attr((string) $index); ?>"><?php echo esc_html($section['location']); ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </p>
                 </div>
             </section>
         <?php endif; ?>
@@ -247,7 +240,6 @@ get_header();
 
         const openButtons = document.querySelectorAll('[data-corsi-open-table]');
         const modals = document.querySelectorAll('[data-corsi-modal]');
-        const locationSelect = document.getElementById('corsi-location-select');
         const locationSections = document.querySelectorAll('[data-corsi-location-section]');
         const locationPills = document.querySelectorAll('[data-corsi-location-pill]');
         const closeModal = (modal) => {
@@ -275,7 +267,7 @@ get_header();
             });
         });
 
-        if (locationSelect && locationSections.length > 0) {
+        if (locationSections.length > 0 && locationPills.length > 0) {
             const renderLocationSection = (activeKey) => {
                 locationSections.forEach((section) => {
                     section.hidden = section.getAttribute('data-corsi-location-section') !== activeKey;
@@ -286,14 +278,11 @@ get_header();
                     pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
                 });
             };
-            renderLocationSection(locationSelect.value || '0');
-            locationSelect.addEventListener('change', () => {
-                renderLocationSection(locationSelect.value);
-            });
+            const initialKey = locationPills[0].getAttribute('data-corsi-location-pill') || '0';
+            renderLocationSection(initialKey);
             locationPills.forEach((pill) => {
                 pill.addEventListener('click', () => {
                     const key = pill.getAttribute('data-corsi-location-pill') || '0';
-                    locationSelect.value = key;
                     renderLocationSection(key);
                 });
             });
