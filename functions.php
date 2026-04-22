@@ -191,6 +191,50 @@ add_action('add_meta_boxes', function (): void {
 /**
  * Render metabox dettagli Summer Camp.
  */
+function babygym_parse_summer_camp_schedule_rows(string $raw): array
+{
+    $lines = preg_split('/\r\n|\r|\n/', $raw) ?: [];
+    $rows  = [];
+    foreach ($lines as $line) {
+        $line = trim($line);
+        if ('' === $line) {
+            continue;
+        }
+        $parts = array_map('trim', explode('|', $line));
+        if (count($parts) < 3) {
+            continue;
+        }
+        $label = sanitize_text_field($parts[0] ?? '');
+        $start = babygym_sanitize_time_value((string) ($parts[1] ?? ''), '');
+        $end   = babygym_sanitize_time_value((string) ($parts[2] ?? ''), '');
+        $note  = sanitize_text_field($parts[3] ?? '');
+        if ('' === $label || '' === $start || '' === $end) {
+            continue;
+        }
+        $rows[] = [
+            'label' => $label,
+            'start' => $start,
+            'end' => $end,
+            'note' => $note,
+        ];
+    }
+    return $rows;
+}
+
+function babygym_serialize_summer_camp_schedule_rows(array $rows): string
+{
+    $lines = [];
+    foreach ($rows as $row) {
+        $lines[] = implode('|', [
+            trim((string) ($row['label'] ?? '')),
+            trim((string) ($row['start'] ?? '')),
+            trim((string) ($row['end'] ?? '')),
+            trim((string) ($row['note'] ?? '')),
+        ]);
+    }
+    return implode("\n", $lines);
+}
+
 function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
 {
     wp_nonce_field('babygym_summer_camp_meta_save', 'babygym_summer_camp_meta_nonce');
@@ -202,29 +246,36 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     $settimane     = (string) get_post_meta($post->ID, '_babygym_summer_camp_settimane', true);
     $orario        = (string) get_post_meta($post->ID, '_babygym_summer_camp_orario', true);
     $post_orario   = (string) get_post_meta($post->ID, '_babygym_summer_camp_post_orario', true);
+    $schedule_rows_raw = (string) get_post_meta($post->ID, '_babygym_summer_camp_schedule_rows', true);
     $iscrizioni_entro = (string) get_post_meta($post->ID, '_babygym_summer_camp_iscrizioni_entro', true);
     $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
-    $normalize_time_for_input = static function (string $value): string {
-        $value = trim(str_replace('.', ':', $value));
-        if (preg_match('/^([01]?\d|2[0-3]):([0-5]\d)$/', $value) !== 1) {
-            return '';
+    $schedule_rows = babygym_parse_summer_camp_schedule_rows($schedule_rows_raw);
+    if ([] === $schedule_rows) {
+        $legacy_to_row = static function (string $label, string $value): ?array {
+            if (preg_match('/^\s*([01]?\d[:\.][0-5]\d)\s*-\s*([01]?\d[:\.][0-5]\d)\s*(.*)$/u', trim($value), $matches) !== 1) {
+                return null;
+            }
+            $start = babygym_sanitize_time_value((string) $matches[1], '');
+            $end   = babygym_sanitize_time_value((string) $matches[2], '');
+            if ('' === $start || '' === $end) {
+                return null;
+            }
+            return [
+                'label' => $label,
+                'start' => $start,
+                'end' => $end,
+                'note' => trim((string) ($matches[3] ?? '')),
+            ];
+        };
+        $orario_row = $legacy_to_row('ORARIO', $orario);
+        $post_row   = $legacy_to_row('POST', $post_orario);
+        if (null !== $orario_row) {
+            $schedule_rows[] = $orario_row;
         }
-        [$hours, $minutes] = explode(':', $value);
-        return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . $minutes;
-    };
-    $parse_time_block = static function (string $value) use ($normalize_time_for_input): array {
-        $value = trim($value);
-        if (preg_match('/^\s*([01]?\d[:\.][0-5]\d)\s*-\s*([01]?\d[:\.][0-5]\d)\s*(.*)$/u', $value, $matches) !== 1) {
-            return ['start' => '', 'end' => '', 'note' => $value];
+        if (null !== $post_row) {
+            $schedule_rows[] = $post_row;
         }
-        return [
-            'start' => $normalize_time_for_input($matches[1]),
-            'end' => $normalize_time_for_input($matches[2]),
-            'note' => trim($matches[3]),
-        ];
-    };
-    $orario_parts = $parse_time_block($orario);
-    $post_parts   = $parse_time_block($post_orario);
+    }
     ?>
     <table class="form-table" role="presentation">
         <tr>
@@ -282,42 +333,22 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
         <tr>
             <th scope="row"><?php esc_html_e('Orari', 'babygym'); ?></th>
             <td>
-                <table class="widefat striped" style="max-width:760px;">
+                <p><?php esc_html_e('Aggiungi liberamente nuove righe orarie: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
+                <input type="hidden" id="babygym-summer-camp-schedule-rows" name="babygym_summer_camp_schedule_rows" value="<?php echo esc_attr(babygym_serialize_summer_camp_schedule_rows($schedule_rows)); ?>">
+                <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                     <thead>
                         <tr>
-                            <th style="width:140px;"><?php esc_html_e('Voce', 'babygym'); ?></th>
-                            <th style="width:140px;"><?php esc_html_e('Da', 'babygym'); ?></th>
-                            <th style="width:140px;"><?php esc_html_e('A', 'babygym'); ?></th>
-                            <th><?php esc_html_e('Nota', 'babygym'); ?></th>
+                            <th><?php esc_html_e('Giorno/Voce', 'babygym'); ?></th>
+                            <th><?php esc_html_e('Da', 'babygym'); ?></th>
+                            <th><?php esc_html_e('A', 'babygym'); ?></th>
+                            <th><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
+                            <th></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row"><label for="babygym-summer-camp-orario-start"><?php esc_html_e('ORARIO', 'babygym'); ?></label></th>
-                            <td>
-                                <input type="time" id="babygym-summer-camp-orario-start" name="babygym_summer_camp_orario_start" value="<?php echo esc_attr($orario_parts['start']); ?>">
-                            </td>
-                            <td>
-                                <input type="time" id="babygym-summer-camp-orario-end" name="babygym_summer_camp_orario_end" value="<?php echo esc_attr($orario_parts['end']); ?>">
-                            </td>
-                            <td>
-                                <input type="text" class="regular-text" id="babygym-summer-camp-orario-note" name="babygym_summer_camp_orario_note" value="<?php echo esc_attr($orario_parts['note']); ?>" placeholder="da LUNEDI a VENERDI" style="width:100%;max-width:none;">
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row"><label for="babygym-summer-camp-post-start"><?php esc_html_e('POST', 'babygym'); ?></label></th>
-                            <td>
-                                <input type="time" id="babygym-summer-camp-post-start" name="babygym_summer_camp_post_start" value="<?php echo esc_attr($post_parts['start']); ?>">
-                            </td>
-                            <td>
-                                <input type="time" id="babygym-summer-camp-post-end" name="babygym_summer_camp_post_end" value="<?php echo esc_attr($post_parts['end']); ?>">
-                            </td>
-                            <td>
-                                <input type="text" class="regular-text" id="babygym-summer-camp-post-note" name="babygym_summer_camp_post_note" value="<?php echo esc_attr($post_parts['note']); ?>" placeholder="su Richiesta con supplemento" style="width:100%;max-width:none;">
-                            </td>
-                        </tr>
+                    <tbody id="babygym-summer-camp-schedule-body">
                     </tbody>
                 </table>
+                <p><button type="button" class="button button-secondary" id="babygym-summer-camp-add-schedule-row"><?php esc_html_e('Aggiungi fascia oraria', 'babygym'); ?></button></p>
             </td>
         </tr>
         <tr>
@@ -344,6 +375,9 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
             const pickLocandinaBtn = document.getElementById('babygym-summer-camp-pick-locandina');
             const pickGalleryBtn = document.getElementById('babygym-summer-camp-pick-gallery');
             const clearGalleryBtn = document.getElementById('babygym-summer-camp-clear-gallery');
+            const scheduleHidden = document.getElementById('babygym-summer-camp-schedule-rows');
+            const scheduleBody = document.getElementById('babygym-summer-camp-schedule-body');
+            const addScheduleRowBtn = document.getElementById('babygym-summer-camp-add-schedule-row');
 
             const renderLocandinaPreview = () => {
                 if (!locandinaPreview || !locandinaInput) return;
@@ -373,6 +407,70 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                     img.alt = '';
                     img.style.cssText = 'width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;';
                     galleryPreview.appendChild(img);
+                });
+            };
+
+            const parseScheduleRows = () => {
+                if (!scheduleHidden) return [];
+                return scheduleHidden.value
+                    .split(/\r?\n/)
+                    .map((line) => line.trim())
+                    .filter(Boolean)
+                    .map((line) => {
+                        const parts = line.split('|');
+                        return {
+                            label: (parts[0] || '').trim(),
+                            start: (parts[1] || '').trim(),
+                            end: (parts[2] || '').trim(),
+                            note: (parts[3] || '').trim(),
+                        };
+                    })
+                    .filter((row) => row.label && row.start && row.end);
+            };
+            let scheduleRows = parseScheduleRows();
+
+            const serializeScheduleRows = () => {
+                if (!scheduleHidden) return;
+                scheduleHidden.value = scheduleRows
+                    .filter((row) => row.label && row.start && row.end)
+                    .map((row) => [row.label, row.start, row.end, row.note || ''].join('|'))
+                    .join('\n');
+            };
+
+            const renderScheduleTable = () => {
+                if (!scheduleBody) return;
+                scheduleBody.innerHTML = '';
+                scheduleRows.forEach((rowData) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input type="text" class="regular-text" data-field="label" value="${rowData.label.replace(/"/g, '&quot;')}" placeholder="Es. ORARIO"></td>
+                        <td><input type="time" data-field="start" value="${rowData.start.replace(/"/g, '&quot;')}"></td>
+                        <td><input type="time" data-field="end" value="${rowData.end.replace(/"/g, '&quot;')}"></td>
+                        <td><input type="text" class="regular-text" data-field="note" value="${rowData.note.replace(/"/g, '&quot;')}" placeholder="Opzionale"></td>
+                        <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
+                    `;
+                    row.querySelector('[data-field="label"]').addEventListener('input', (event) => {
+                        rowData.label = event.target.value.trim();
+                        serializeScheduleRows();
+                    });
+                    row.querySelector('[data-field="start"]').addEventListener('input', (event) => {
+                        rowData.start = event.target.value.trim();
+                        serializeScheduleRows();
+                    });
+                    row.querySelector('[data-field="end"]').addEventListener('input', (event) => {
+                        rowData.end = event.target.value.trim();
+                        serializeScheduleRows();
+                    });
+                    row.querySelector('[data-field="note"]').addEventListener('input', (event) => {
+                        rowData.note = event.target.value.trim();
+                        serializeScheduleRows();
+                    });
+                    row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                        scheduleRows = scheduleRows.filter((item) => item !== rowData);
+                        serializeScheduleRows();
+                        renderScheduleTable();
+                    });
+                    scheduleBody.appendChild(row);
                 });
             };
 
@@ -432,9 +530,19 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                 });
             }
 
+            if (addScheduleRowBtn) {
+                addScheduleRowBtn.addEventListener('click', () => {
+                    scheduleRows.push({ label: '', start: '', end: '', note: '' });
+                    serializeScheduleRows();
+                    renderScheduleTable();
+                });
+            }
+
             if (galleryInput) galleryInput.addEventListener('input', renderGalleryPreview);
             renderLocandinaPreview();
             renderGalleryPreview();
+            renderScheduleTable();
+            serializeScheduleRows();
         });
     </script>
     <?php
@@ -463,12 +571,7 @@ add_action('save_post_summer_camp', function (int $post_id): void {
     $eta_raw         = isset($_POST['babygym_summer_camp_eta']) ? wp_unslash($_POST['babygym_summer_camp_eta']) : '';
     $indirizzo_raw   = isset($_POST['babygym_summer_camp_indirizzo']) ? wp_unslash($_POST['babygym_summer_camp_indirizzo']) : '';
     $settimane_raw   = isset($_POST['babygym_summer_camp_settimane']) ? wp_unslash($_POST['babygym_summer_camp_settimane']) : '';
-    $orario_start_raw = isset($_POST['babygym_summer_camp_orario_start']) ? wp_unslash($_POST['babygym_summer_camp_orario_start']) : '';
-    $orario_end_raw   = isset($_POST['babygym_summer_camp_orario_end']) ? wp_unslash($_POST['babygym_summer_camp_orario_end']) : '';
-    $orario_note_raw  = isset($_POST['babygym_summer_camp_orario_note']) ? wp_unslash($_POST['babygym_summer_camp_orario_note']) : '';
-    $post_start_raw   = isset($_POST['babygym_summer_camp_post_start']) ? wp_unslash($_POST['babygym_summer_camp_post_start']) : '';
-    $post_end_raw     = isset($_POST['babygym_summer_camp_post_end']) ? wp_unslash($_POST['babygym_summer_camp_post_end']) : '';
-    $post_note_raw    = isset($_POST['babygym_summer_camp_post_note']) ? wp_unslash($_POST['babygym_summer_camp_post_note']) : '';
+    $schedule_rows_raw = isset($_POST['babygym_summer_camp_schedule_rows']) ? wp_unslash($_POST['babygym_summer_camp_schedule_rows']) : '';
     $iscrizioni_entro_raw = isset($_POST['babygym_summer_camp_iscrizioni_entro']) ? wp_unslash($_POST['babygym_summer_camp_iscrizioni_entro']) : '';
     $descrizione_raw = isset($_POST['babygym_summer_camp_descrizione']) ? wp_unslash($_POST['babygym_summer_camp_descrizione']) : '';
 
@@ -485,34 +588,44 @@ add_action('save_post_summer_camp', function (int $post_id): void {
         }
     }
 
-    $sanitize_time = static function (string $value): string {
-        $value = trim(str_replace('.', ':', $value));
-        if (preg_match('/^([01]?\d|2[0-3]):([0-5]\d)$/', $value) !== 1) {
-            return '';
-        }
-        [$hours, $minutes] = explode(':', $value);
-        return str_pad($hours, 2, '0', STR_PAD_LEFT) . ':' . $minutes;
-    };
-    $build_time_label = static function (string $start, string $end, string $note) use ($sanitize_time): string {
-        $start = $sanitize_time($start);
-        $end = $sanitize_time($end);
-        $note = sanitize_text_field($note);
-        if ('' === $start || '' === $end) {
-            return $note;
-        }
-        $time_label = str_replace(':', '.', $start) . ' - ' . str_replace(':', '.', $end);
+    $schedule_rows = babygym_parse_summer_camp_schedule_rows((string) $schedule_rows_raw);
+    $schedule_rows_serialized = babygym_serialize_summer_camp_schedule_rows($schedule_rows);
+
+    $format_schedule_label = static function (array $row): string {
+        $start = str_replace(':', '.', (string) ($row['start'] ?? ''));
+        $end   = str_replace(':', '.', (string) ($row['end'] ?? ''));
+        $note  = trim((string) ($row['note'] ?? ''));
+        $time_label = trim($start . ' - ' . $end);
         return '' !== $note ? ($time_label . ' ' . $note) : $time_label;
     };
-    $orario_raw = $build_time_label((string) $orario_start_raw, (string) $orario_end_raw, (string) $orario_note_raw);
-    $post_orario_raw = $build_time_label((string) $post_start_raw, (string) $post_end_raw, (string) $post_note_raw);
+    $orario_label = '';
+    $post_label = '';
+    foreach ($schedule_rows as $row) {
+        $label = strtoupper(trim((string) ($row['label'] ?? '')));
+        if ('' === $orario_label && ('ORARIO' === $label || 'ORARI' === $label)) {
+            $orario_label = $format_schedule_label($row);
+            continue;
+        }
+        if ('' === $post_label && 'POST' === $label) {
+            $post_label = $format_schedule_label($row);
+            continue;
+        }
+    }
+    if ('' === $orario_label && isset($schedule_rows[0])) {
+        $orario_label = $format_schedule_label($schedule_rows[0]);
+    }
+    if ('' === $post_label && isset($schedule_rows[1])) {
+        $post_label = $format_schedule_label($schedule_rows[1]);
+    }
 
     update_post_meta($post_id, '_babygym_summer_camp_locandina_url', $locandina_url);
     update_post_meta($post_id, '_babygym_summer_camp_gallery', implode("\n", array_values(array_unique($gallery_urls))));
     update_post_meta($post_id, '_babygym_summer_camp_eta', sanitize_text_field((string) $eta_raw));
     update_post_meta($post_id, '_babygym_summer_camp_indirizzo', sanitize_text_field((string) $indirizzo_raw));
     update_post_meta($post_id, '_babygym_summer_camp_settimane', sanitize_text_field((string) $settimane_raw));
-    update_post_meta($post_id, '_babygym_summer_camp_orario', sanitize_text_field($orario_raw));
-    update_post_meta($post_id, '_babygym_summer_camp_post_orario', sanitize_text_field($post_orario_raw));
+    update_post_meta($post_id, '_babygym_summer_camp_schedule_rows', $schedule_rows_serialized);
+    update_post_meta($post_id, '_babygym_summer_camp_orario', sanitize_text_field($orario_label));
+    update_post_meta($post_id, '_babygym_summer_camp_post_orario', sanitize_text_field($post_label));
     update_post_meta($post_id, '_babygym_summer_camp_iscrizioni_entro', sanitize_text_field((string) $iscrizioni_entro_raw));
     update_post_meta($post_id, '_babygym_summer_camp_descrizione', sanitize_textarea_field((string) $descrizione_raw));
 });
