@@ -289,7 +289,6 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
             <th scope="row"><label for="babygym-summer-camp-descrizione"><?php esc_html_e('Descrizione', 'babygym'); ?></label></th>
             <td>
                 <textarea class="large-text" rows="4" id="babygym-summer-camp-descrizione" name="babygym_summer_camp_descrizione"><?php echo esc_textarea($descrizione); ?></textarea>
-                <p class="description"><?php esc_html_e('Descrizione breve del Summer Camp.', 'babygym'); ?></p>
             </td>
         </tr>
     </table>
