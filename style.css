@@ -799,6 +799,91 @@ h3,
     padding: .8rem 1rem 1rem;
 }
 
+.summer-camp-carousel {
+    position: relative;
+    padding: 0 2.25rem;
+}
+
+.summer-camp-carousel__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 34%);
+    gap: .9rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding-bottom: .35rem;
+}
+
+.summer-camp-card {
+    scroll-snap-align: start;
+    background: #fff;
+    border: 1px solid #bfdbfe;
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+}
+
+.summer-camp-card__image {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+}
+
+.summer-camp-card__body {
+    padding: .9rem;
+    display: grid;
+    gap: .55rem;
+}
+
+.summer-camp-card__body h3 {
+    margin: 0;
+}
+
+.summer-camp-card__body p {
+    margin: 0;
+}
+
+.summer-camp-card__body .btn-primary {
+    width: fit-content;
+}
+
+.summer-camp-single {
+    max-width: 980px;
+}
+
+.summer-camp-single__cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 14px;
+}
+
+.summer-camp-single__gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: .75rem;
+}
+
+.summer-camp-single__gallery img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid #dbeafe;
+}
+
+.summer-camp-single__details {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.summer-camp-single__content > *:first-child {
+    margin-top: 0;
+}
+
 .corsi-table-wrap {
     overflow: auto;
 }
@@ -1243,7 +1328,15 @@ body.corsi-modal-open {
         padding: 0 1.8rem;
     }
 
+    .summer-camp-carousel {
+        padding: 0 1.8rem;
+    }
+
     .feste-carousel__track {
+        grid-auto-columns: 85%;
+    }
+
+    .summer-camp-carousel__track {
         grid-auto-columns: 85%;
     }
 
@@ -1252,6 +1345,11 @@ body.corsi-modal-open {
     }
 
     .feste-bento {
+        grid-template-columns: 1fr;
+    }
+
+    .summer-camp-single__gallery,
+    .summer-camp-single__details {
         grid-template-columns: 1fr;
     }
 

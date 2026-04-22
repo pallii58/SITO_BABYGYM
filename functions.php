@@ -132,6 +132,225 @@ add_action('wp_head', function () {
 });
 
 /**
+ * Registra CPT Summer Camp (gestione tipo prodotti).
+ */
+add_action('init', function (): void {
+    register_post_type('summer_camp', [
+        'labels' => [
+            'name' => __('Summer Camp', 'babygym'),
+            'singular_name' => __('Summer Camp', 'babygym'),
+            'menu_name' => __('Summer Camp', 'babygym'),
+            'name_admin_bar' => __('Summer Camp', 'babygym'),
+            'add_new' => __('Nuovo Summer Camp', 'babygym'),
+            'add_new_item' => __('Aggiungi nuovo Summer Camp', 'babygym'),
+            'edit_item' => __('Modifica Summer Camp', 'babygym'),
+            'new_item' => __('Nuovo Summer Camp', 'babygym'),
+            'view_item' => __('Visualizza Summer Camp', 'babygym'),
+            'all_items' => __('Tutti i Summer Camp', 'babygym'),
+            'search_items' => __('Cerca Summer Camp', 'babygym'),
+            'not_found' => __('Nessun Summer Camp trovato', 'babygym'),
+        ],
+        'public' => true,
+        'show_in_menu' => true,
+        'menu_position' => 32,
+        'menu_icon' => 'dashicons-sun',
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
+        'has_archive' => false,
+        'rewrite' => ['slug' => 'summer-camp'],
+        'show_in_rest' => true,
+    ]);
+});
+
+/**
+ * Meta box dettagli Summer Camp.
+ */
+add_action('add_meta_boxes', function (): void {
+    add_meta_box(
+        'babygym_summer_camp_details',
+        __('Dettagli Summer Camp', 'babygym'),
+        'babygym_render_summer_camp_details_metabox',
+        'summer_camp',
+        'normal',
+        'high'
+    );
+});
+
+/**
+ * Render metabox dettagli Summer Camp.
+ */
+function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
+{
+    wp_nonce_field('babygym_summer_camp_meta_save', 'babygym_summer_camp_meta_nonce');
+    $locandina_url = (string) get_post_meta($post->ID, '_babygym_summer_camp_locandina_url', true);
+    $gallery_raw   = (string) get_post_meta($post->ID, '_babygym_summer_camp_gallery', true);
+    $costi         = (string) get_post_meta($post->ID, '_babygym_summer_camp_costi', true);
+    $orari         = (string) get_post_meta($post->ID, '_babygym_summer_camp_orari', true);
+    $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
+    ?>
+    <table class="form-table" role="presentation">
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-locandina-url"><?php esc_html_e('Locandina (immagine o PDF)', 'babygym'); ?></label></th>
+            <td>
+                <input type="url" class="regular-text" id="babygym-summer-camp-locandina-url" name="babygym_summer_camp_locandina_url" value="<?php echo esc_attr($locandina_url); ?>">
+                <button type="button" class="button" id="babygym-summer-camp-pick-locandina"><?php esc_html_e('Scegli da Media Library', 'babygym'); ?></button>
+                <p class="description"><?php esc_html_e('Puoi usare una immagine oppure un PDF.', 'babygym'); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-gallery"><?php esc_html_e('Galleria', 'babygym'); ?></label></th>
+            <td>
+                <textarea class="large-text" rows="4" id="babygym-summer-camp-gallery" name="babygym_summer_camp_gallery"><?php echo esc_textarea($gallery_raw); ?></textarea>
+                <p>
+                    <button type="button" class="button" id="babygym-summer-camp-pick-gallery"><?php esc_html_e('Aggiungi immagini', 'babygym'); ?></button>
+                    <button type="button" class="button" id="babygym-summer-camp-clear-gallery"><?php esc_html_e('Svuota galleria', 'babygym'); ?></button>
+                </p>
+                <div id="babygym-summer-camp-gallery-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;max-width:760px;">
+                    <?php foreach ($gallery_urls as $gallery_url) : ?>
+                        <img src="<?php echo esc_url($gallery_url); ?>" alt="" style="width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">
+                    <?php endforeach; ?>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-costi"><?php esc_html_e('Costi', 'babygym'); ?></label></th>
+            <td>
+                <textarea class="large-text" rows="4" id="babygym-summer-camp-costi" name="babygym_summer_camp_costi"><?php echo esc_textarea($costi); ?></textarea>
+                <p class="description"><?php esc_html_e('Una riga per voce.', 'babygym'); ?></p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-orari"><?php esc_html_e('Orari', 'babygym'); ?></label></th>
+            <td>
+                <textarea class="large-text" rows="4" id="babygym-summer-camp-orari" name="babygym_summer_camp_orari"><?php echo esc_textarea($orari); ?></textarea>
+                <p class="description"><?php esc_html_e('Una riga per voce (es. Lunedì - Venerdì: 8:30 - 16:30).', 'babygym'); ?></p>
+            </td>
+        </tr>
+    </table>
+    <script>
+        window.addEventListener('load', function () {
+            if (!window.wp || !window.wp.media) return;
+            const locandinaInput = document.getElementById('babygym-summer-camp-locandina-url');
+            const galleryInput = document.getElementById('babygym-summer-camp-gallery');
+            const galleryPreview = document.getElementById('babygym-summer-camp-gallery-preview');
+            const pickLocandinaBtn = document.getElementById('babygym-summer-camp-pick-locandina');
+            const pickGalleryBtn = document.getElementById('babygym-summer-camp-pick-gallery');
+            const clearGalleryBtn = document.getElementById('babygym-summer-camp-clear-gallery');
+
+            const parseGalleryUrls = () => (galleryInput?.value || '')
+                .split(/\r?\n/)
+                .map((line) => line.trim())
+                .filter(Boolean);
+
+            const renderGalleryPreview = () => {
+                if (!galleryPreview) return;
+                galleryPreview.innerHTML = '';
+                parseGalleryUrls().forEach((url) => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = '';
+                    img.style.cssText = 'width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;';
+                    galleryPreview.appendChild(img);
+                });
+            };
+
+            if (pickLocandinaBtn && locandinaInput) {
+                pickLocandinaBtn.addEventListener('click', () => {
+                    const frame = window.wp.media({
+                        title: 'Seleziona locandina',
+                        button: { text: 'Usa file' },
+                        library: { type: ['image', 'application/pdf'] },
+                        multiple: false
+                    });
+                    frame.on('select', () => {
+                        const file = frame.state().get('selection').first().toJSON();
+                        if (file?.url) locandinaInput.value = file.url;
+                    });
+                    frame.open();
+                });
+            }
+
+            if (pickGalleryBtn && galleryInput) {
+                pickGalleryBtn.addEventListener('click', () => {
+                    const frame = window.wp.media({
+                        title: 'Seleziona immagini galleria',
+                        button: { text: 'Aggiungi immagini' },
+                        library: { type: 'image' },
+                        multiple: true
+                    });
+                    frame.on('select', () => {
+                        const selection = frame.state().get('selection').toJSON();
+                        const existing = parseGalleryUrls();
+                        selection.forEach((item) => {
+                            if (item?.url && !existing.includes(item.url)) {
+                                existing.push(item.url);
+                            }
+                        });
+                        galleryInput.value = existing.join('\n');
+                        renderGalleryPreview();
+                    });
+                    frame.open();
+                });
+            }
+
+            if (clearGalleryBtn && galleryInput) {
+                clearGalleryBtn.addEventListener('click', () => {
+                    galleryInput.value = '';
+                    renderGalleryPreview();
+                });
+            }
+
+            if (galleryInput) {
+                galleryInput.addEventListener('input', renderGalleryPreview);
+            }
+            renderGalleryPreview();
+        });
+    </script>
+    <?php
+}
+
+/**
+ * Salva metadati Summer Camp.
+ */
+add_action('save_post_summer_camp', function (int $post_id): void {
+    if (! isset($_POST['babygym_summer_camp_meta_nonce'])) {
+        return;
+    }
+    $nonce = sanitize_text_field(wp_unslash($_POST['babygym_summer_camp_meta_nonce']));
+    if (! wp_verify_nonce($nonce, 'babygym_summer_camp_meta_save')) {
+        return;
+    }
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    if (! current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    $locandina_url = isset($_POST['babygym_summer_camp_locandina_url']) ? esc_url_raw(wp_unslash($_POST['babygym_summer_camp_locandina_url'])) : '';
+    $gallery_raw   = isset($_POST['babygym_summer_camp_gallery']) ? wp_unslash($_POST['babygym_summer_camp_gallery']) : '';
+    $costi_raw     = isset($_POST['babygym_summer_camp_costi']) ? wp_unslash($_POST['babygym_summer_camp_costi']) : '';
+    $orari_raw     = isset($_POST['babygym_summer_camp_orari']) ? wp_unslash($_POST['babygym_summer_camp_orari']) : '';
+
+    $gallery_lines = preg_split('/\r\n|\r|\n/', (string) $gallery_raw) ?: [];
+    $gallery_urls  = [];
+    foreach ($gallery_lines as $line) {
+        $line = trim($line);
+        if ('' === $line) {
+            continue;
+        }
+        $url = esc_url_raw($line);
+        if ('' !== $url) {
+            $gallery_urls[] = $url;
+        }
+    }
+
+    update_post_meta($post_id, '_babygym_summer_camp_locandina_url', $locandina_url);
+    update_post_meta($post_id, '_babygym_summer_camp_gallery', implode("\n", array_values(array_unique($gallery_urls))));
+    update_post_meta($post_id, '_babygym_summer_camp_costi', sanitize_textarea_field((string) $costi_raw));
+    update_post_meta($post_id, '_babygym_summer_camp_orari', sanitize_textarea_field((string) $orari_raw));
+});
+
+/**
  * Default opzioni pagina "Le Feste".
  *
  * @return array<string, string>
@@ -563,10 +782,17 @@ function babygym_render_time_range_row(string $label, string $start_key, string 
 }
 
 add_action('admin_enqueue_scripts', function ($hook): void {
-    if (! in_array($hook, ['toplevel_page_babygym-feste', 'toplevel_page_babygym-corsi'], true)) {
+    if (in_array($hook, ['toplevel_page_babygym-feste', 'toplevel_page_babygym-corsi'], true)) {
+        wp_enqueue_media();
         return;
     }
-    wp_enqueue_media();
+
+    if (in_array($hook, ['post.php', 'post-new.php'], true)) {
+        $screen = get_current_screen();
+        if ($screen && 'summer_camp' === $screen->post_type) {
+            wp_enqueue_media();
+        }
+    }
 });
 
 /**
