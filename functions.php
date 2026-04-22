@@ -534,26 +534,6 @@ function babygym_render_feste_admin_page(): void
                 <?php babygym_render_number_row('Formula senza attrezzature (EUR)', 'no_equipment_fixed_fee', $options, 0); ?>
             </table>
 
-            <h2>Anteprima testo pubblico</h2>
-            <table class="form-table" role="presentation">
-                <tr>
-                    <th scope="row">Prezzo non iscritti</th>
-                    <td><code><?php echo esc_html($options['non_members_price']); ?></code></td>
-                </tr>
-                <tr>
-                    <th scope="row">Nota non iscritti</th>
-                    <td><code><?php echo esc_html($options['non_members_note']); ?></code></td>
-                </tr>
-                <tr>
-                    <th scope="row">Prezzo iscritti</th>
-                    <td><code><?php echo esc_html($options['members_price']); ?></code></td>
-                </tr>
-                <tr>
-                    <th scope="row">Supplemento</th>
-                    <td><code><?php echo esc_html($options['extra_child_price']); ?></code></td>
-                </tr>
-            </table>
-
             <?php submit_button('Salva impostazioni Feste'); ?>
         </form>
     </div>
