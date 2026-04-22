@@ -92,14 +92,15 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <div class="summer-camp-single__details">
-                        <h2><?php echo esc_html__('Per iscrizioni ed informazioni', 'babygym'); ?></h2>
-                        <p><strong><?php echo esc_html__('BABY GYM s.r.l. S.S.D.', 'babygym'); ?></strong></p>
-                        <p><?php echo esc_html__('Tel. 011/503484 - 347 3038255', 'babygym'); ?></p>
-                        <p><?php echo esc_html__('e-mail: babygymonlinetorino@gmail.com', 'babygym'); ?></p>
-                        <p><strong><?php echo esc_html__('ISCRIZIONI APERTE ANCHE AGLI ESTERNI', 'babygym'); ?></strong></p>
-                    </div>
                 </div>
+            </section>
+
+            <section class="card summer-camp-single__details">
+                <h2><?php echo esc_html__('Per iscrizioni ed informazioni', 'babygym'); ?></h2>
+                <p><strong><?php echo esc_html__('BABY GYM s.r.l. S.S.D.', 'babygym'); ?></strong></p>
+                <p><?php echo esc_html__('Tel. 011/503484 - 347 3038255', 'babygym'); ?></p>
+                <p><?php echo esc_html__('e-mail: babygymonlinetorino@gmail.com', 'babygym'); ?></p>
+                <p><strong><?php echo esc_html__('ISCRIZIONI APERTE ANCHE AGLI ESTERNI', 'babygym'); ?></strong></p>
             </section>
         <?php endwhile; ?>
     </article>
