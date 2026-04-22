@@ -947,6 +947,10 @@ h3,
     font-size: 1.2rem;
 }
 
+.summer-camp-single__details--centered {
+    text-align: center;
+}
+
 .summer-camp-single__content > *:first-child {
     margin-top: 0;
 }

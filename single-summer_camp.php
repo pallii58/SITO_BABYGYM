@@ -95,7 +95,7 @@ get_header();
                 </div>
             </section>
 
-            <section class="card summer-camp-single__details">
+            <section class="card summer-camp-single__details summer-camp-single__details--centered">
                 <h2><?php echo esc_html__('Per iscrizioni ed informazioni', 'babygym'); ?></h2>
                 <p><strong><?php echo esc_html__('BABY GYM s.r.l. S.S.D.', 'babygym'); ?></strong></p>
                 <p><?php echo esc_html__('Tel. 011/503484 - 347 3038255', 'babygym'); ?></p>
