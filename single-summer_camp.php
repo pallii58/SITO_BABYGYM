@@ -99,6 +99,21 @@ get_header();
                 </div>
             </section>
 
+            <?php if ('' !== trim($indirizzo)) : ?>
+                <section class="card">
+                    <h2><?php echo esc_html__('Dove si svolge', 'babygym'); ?></h2>
+                    <div class="contatti-map summer-camp-single__map">
+                        <iframe
+                            src="<?php echo esc_url('https://www.google.com/maps?q=' . rawurlencode($indirizzo) . '&output=embed'); ?>"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen
+                            title="<?php echo esc_attr__('Mappa Summer Camp', 'babygym'); ?>"
+                        ></iframe>
+                    </div>
+                </section>
+            <?php endif; ?>
+
             <section class="card summer-camp-single__details summer-camp-single__details--centered">
                 <h2><?php echo esc_html__('Per iscrizioni ed informazioni', 'babygym'); ?></h2>
                 <p><strong><?php echo esc_html__('BABY GYM s.r.l. S.S.D.', 'babygym'); ?></strong></p>

@@ -977,6 +977,10 @@ h3,
     text-align: center;
 }
 
+.summer-camp-single__map iframe {
+    min-height: 320px;
+}
+
 .summer-camp-single__content > *:first-child {
     margin-top: 0;
 }
