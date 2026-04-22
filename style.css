@@ -590,6 +590,10 @@ h3,
     gap: .9rem;
 }
 
+.non-visibile {
+    display: none !important;
+}
+
 .corsi-intro-card {
     border: 2px solid #bae6fd;
     background: #f0f9ff;

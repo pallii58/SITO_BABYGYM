@@ -135,7 +135,7 @@ get_header();
         <?php endif; ?>
 
         <?php foreach ($schedule_sections as $index => $section) : ?>
-            <section class="corsi-section" data-corsi-location-section="<?php echo esc_attr((string) $index); ?>"<?php echo 0 === $index ? '' : ' hidden'; ?>>
+            <section class="corsi-section<?php echo 0 === $index ? '' : ' non-visibile'; ?>" data-corsi-location-section="<?php echo esc_attr((string) $index); ?>">
                 <h2 class="section-title text-center"><?php echo esc_html__('Orario Baby Gym di', 'babygym'); ?> <?php echo esc_html($section['location']); ?></h2>
                 <div class="text-center">
                     <button type="button" class="btn-secondary corsi-table-trigger" data-corsi-open-table="<?php echo esc_attr((string) $index); ?>">
@@ -270,7 +270,8 @@ get_header();
         if (locationSections.length > 0 && locationPills.length > 0) {
             const renderLocationSection = (activeKey) => {
                 locationSections.forEach((section) => {
-                    section.hidden = section.getAttribute('data-corsi-location-section') !== activeKey;
+                    const isActive = section.getAttribute('data-corsi-location-section') === activeKey;
+                    section.classList.toggle('non-visibile', !isActive);
                 });
                 locationPills.forEach((pill) => {
                     const isActive = pill.getAttribute('data-corsi-location-pill') === activeKey;
