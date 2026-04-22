@@ -113,8 +113,23 @@ get_header();
             </div>
         </section>
 
-        <?php foreach ($schedule_sections as $index => $section) : ?>
+        <?php if (count($schedule_sections) > 1) : ?>
             <section class="corsi-section">
+                <div class="card card--centered">
+                    <h2 class="section-title"><?php echo esc_html__('Scegli la sede', 'babygym'); ?></h2>
+                    <p>
+                        <select id="corsi-location-select" class="regular-text">
+                            <?php foreach ($schedule_sections as $index => $section) : ?>
+                                <option value="<?php echo esc_attr((string) $index); ?>"><?php echo esc_html($section['location']); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </p>
+                </div>
+            </section>
+        <?php endif; ?>
+
+        <?php foreach ($schedule_sections as $index => $section) : ?>
+            <section class="corsi-section" data-corsi-location-section="<?php echo esc_attr((string) $index); ?>"<?php echo 0 === $index ? '' : ' hidden'; ?>>
                 <h2 class="section-title text-center"><?php echo esc_html__('Orario Baby Gym di', 'babygym'); ?> <?php echo esc_html($section['location']); ?></h2>
                 <div class="text-center">
                     <button type="button" class="btn-secondary corsi-table-trigger" data-corsi-open-table="<?php echo esc_attr((string) $index); ?>">
@@ -219,6 +234,8 @@ get_header();
 
         const openButtons = document.querySelectorAll('[data-corsi-open-table]');
         const modals = document.querySelectorAll('[data-corsi-modal]');
+        const locationSelect = document.getElementById('corsi-location-select');
+        const locationSections = document.querySelectorAll('[data-corsi-location-section]');
         const closeModal = (modal) => {
             modal.hidden = true;
             if ([...modals].every((item) => item.hidden)) {
@@ -243,6 +260,19 @@ get_header();
                 el.addEventListener('click', () => closeModal(modal));
             });
         });
+
+        if (locationSelect && locationSections.length > 0) {
+            const renderLocationSection = (activeKey) => {
+                locationSections.forEach((section) => {
+                    section.hidden = section.getAttribute('data-corsi-location-section') !== activeKey;
+                });
+            };
+            renderLocationSection(locationSelect.value || '0');
+            locationSelect.addEventListener('change', () => {
+                renderLocationSection(locationSelect.value);
+            });
+        }
+
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape') {
                 modals.forEach((modal) => {
