@@ -62,7 +62,7 @@ get_header();
 
                 <div class="summer-camp-product__info">
                     <?php if ('' !== trim($descrizione)) : ?>
-                        <p class="summer-camp-product__lead"><?php echo esc_html($descrizione); ?></p>
+                        <div class="summer-camp-product__lead"><?php echo wp_kses_post(nl2br(esc_html($descrizione))); ?></div>
                     <?php endif; ?>
 
                     <div class="summer-camp-single__content">
