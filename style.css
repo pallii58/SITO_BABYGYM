@@ -928,8 +928,8 @@ h3,
 
 .summer-camp-single__gallery-slide img {
     width: 100%;
-    height: 270px;
-    object-fit: cover;
+    height: auto;
+    object-fit: contain;
     border-radius: 12px;
     border: 1px solid #dbeafe;
     display: block;
@@ -1441,10 +1441,6 @@ body.corsi-modal-open {
 
     .feste-carousel__track {
         grid-auto-columns: 85%;
-    }
-
-    .summer-camp-single__gallery-slide img {
-        height: 220px;
     }
 
     .summer-camp-carousel__track {
