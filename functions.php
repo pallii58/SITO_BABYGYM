@@ -701,7 +701,7 @@ function babygym_parse_multiline_text(string $text): array
 }
 
 /**
- * @return array<int, array{location:string,course:string,day:string,times:string}>
+ * @return array<int, array{location:string,course:string,day:string,times:string,status:string}>
  */
 function babygym_parse_corsi_schedule_rows(string $raw): array
 {
@@ -720,6 +720,10 @@ function babygym_parse_corsi_schedule_rows(string $raw): array
         $course   = sanitize_text_field($parts[1]);
         $day      = sanitize_text_field($parts[2]);
         $times    = sanitize_text_field($parts[3]);
+        $status   = isset($parts[4]) ? sanitize_text_field($parts[4]) : 'active';
+        if (! in_array($status, ['active', 'inactive'], true)) {
+            $status = 'active';
+        }
         if ('' === $location || '' === $course || '' === $day || '' === $times) {
             continue;
         }
@@ -728,13 +732,14 @@ function babygym_parse_corsi_schedule_rows(string $raw): array
             'course' => $course,
             'day' => $day,
             'times' => $times,
+            'status' => $status,
         ];
     }
     return $rows;
 }
 
 /**
- * @param array<int, array{location:string,course:string,day:string,times:string}> $rows
+ * @param array<int, array{location:string,course:string,day:string,times:string,status?:string}> $rows
  */
 function babygym_serialize_corsi_schedule_rows(array $rows): string
 {
@@ -745,6 +750,7 @@ function babygym_serialize_corsi_schedule_rows(array $rows): string
             trim($row['course']),
             trim($row['day']),
             trim($row['times']),
+            trim((string) ($row['status'] ?? 'active')),
         ]);
     }
     return implode("\n", $lines);
@@ -762,6 +768,9 @@ function babygym_get_corsi_schedule_sections(string $raw_rows): array
 
     $sections = [];
     foreach ($rows as $row) {
+        if (($row['status'] ?? 'active') !== 'active') {
+            continue;
+        }
         $location = $row['location'];
         $course   = $row['course'];
         $day      = $row['day'];

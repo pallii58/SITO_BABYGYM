@@ -32,8 +32,10 @@
         <input type="hidden" name="babygym_corsi_options[schedule_rows]" id="babygym-corsi-schedule-rows" value="<?php echo esc_attr($options['schedule_rows']); ?>">
 
         <div style="display:grid;gap:14px;max-width:1100px;margin:0 0 1rem;">
-            <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr;">
-                <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+            <div style="display:flex;gap:8px;align-items:center;font-weight:700;">
+                <span id="corsi-step-indicator">Fase 1 di 3</span>
+            </div>
+            <div id="corsi-step-1" style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
                     <strong>1) Seleziona sede</strong>
                     <p style="margin:.5rem 0;">
                         <select id="babygym-corsi-location-select" class="regular-text"></select>
@@ -42,8 +44,11 @@
                         <input type="text" id="babygym-corsi-new-location" class="regular-text" placeholder="Nuova sede">
                         <button type="button" class="button" id="babygym-corsi-add-location">Aggiungi sede</button>
                     </div>
-                </div>
-                <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+                    <p style="margin:.9rem 0 0;">
+                        <button type="button" class="button button-primary" id="corsi-next-to-step-2">Continua al corso</button>
+                    </p>
+            </div>
+            <div id="corsi-step-2" style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;" hidden>
                     <strong>2) Seleziona corso</strong>
                     <p style="margin:.5rem 0;">
                         <select id="babygym-corsi-course-select" class="regular-text"></select>
@@ -52,10 +57,16 @@
                         <input type="text" id="babygym-corsi-new-course" class="regular-text" placeholder="Nuovo corso">
                         <button type="button" class="button" id="babygym-corsi-add-course">Aggiungi corso</button>
                     </div>
-                </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.7rem;">
+                        <button type="button" class="button" id="babygym-corsi-toggle-course-status">Disattiva corso</button>
+                        <button type="button" class="button button-link-delete" id="babygym-corsi-delete-course">Elimina corso</button>
+                    </div>
+                    <p style="display:flex;gap:8px;margin:.9rem 0 0;">
+                        <button type="button" class="button" id="corsi-back-to-step-1">Indietro</button>
+                        <button type="button" class="button button-primary" id="corsi-next-to-step-3">Continua agli orari</button>
+                    </p>
             </div>
-
-            <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+            <div id="corsi-step-3" style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;" hidden>
                 <strong>3) Orari del corso selezionato</strong>
                 <table class="widefat striped" style="margin:.7rem 0;">
                     <thead>
@@ -68,6 +79,9 @@
                     <tbody id="babygym-corsi-schedule-body"></tbody>
                 </table>
                 <button type="button" class="button button-secondary" id="babygym-corsi-add-schedule-row">Aggiungi orario</button>
+                <p style="margin:.9rem 0 0;">
+                    <button type="button" class="button" id="corsi-back-to-step-2">Indietro</button>
+                </p>
             </div>
         </div>
 
@@ -89,6 +103,16 @@
         const newCourseInput = document.getElementById('babygym-corsi-new-course');
         const addLocationBtn = document.getElementById('babygym-corsi-add-location');
         const addCourseBtn = document.getElementById('babygym-corsi-add-course');
+        const toggleCourseStatusBtn = document.getElementById('babygym-corsi-toggle-course-status');
+        const deleteCourseBtn = document.getElementById('babygym-corsi-delete-course');
+        const stepIndicator = document.getElementById('corsi-step-indicator');
+        const step1 = document.getElementById('corsi-step-1');
+        const step2 = document.getElementById('corsi-step-2');
+        const step3 = document.getElementById('corsi-step-3');
+        const nextToStep2Btn = document.getElementById('corsi-next-to-step-2');
+        const nextToStep3Btn = document.getElementById('corsi-next-to-step-3');
+        const backToStep1Btn = document.getElementById('corsi-back-to-step-1');
+        const backToStep2Btn = document.getElementById('corsi-back-to-step-2');
         if (!carouselInput || !carouselGrid || !addCarouselBtn || !scheduleHidden || !scheduleBody) {
             return;
         }
@@ -171,6 +195,7 @@
                         course: (parts[1] || '').trim(),
                         day: (parts[2] || '').trim(),
                         times: (parts[3] || '').trim(),
+                        status: ((parts[4] || 'active').trim() === 'inactive') ? 'inactive' : 'active',
                     };
                 });
         let scheduleRows = parseScheduleRows();
@@ -181,8 +206,8 @@
 
         const serializeRows = () => {
             scheduleHidden.value = scheduleRows
-                .filter((row) => row.location && row.course && row.day && row.times)
-                .map((row) => [row.location, row.course, row.day, row.times].join('|'))
+                .filter((row) => row.location && row.course && row.day && row.times && row.status)
+                .map((row) => [row.location, row.course, row.day, row.times, row.status].join('|'))
                 .join('\n');
         };
 
@@ -272,8 +297,31 @@
             fillSelect(courseSelect, courses, 'Nessun corso');
             if (courseSelect) courseSelect.value = selectedCourse;
 
+            const courseRows = scheduleRows.filter((row) => row.location === selectedLocation && row.course === selectedCourse);
+            const isInactiveCourse = courseRows.length > 0 && courseRows.every((row) => row.status === 'inactive');
+            if (toggleCourseStatusBtn) {
+                toggleCourseStatusBtn.textContent = isInactiveCourse ? 'Riattiva corso' : 'Disattiva corso';
+                toggleCourseStatusBtn.disabled = !selectedLocation || !selectedCourse;
+            }
+            if (deleteCourseBtn) {
+                deleteCourseBtn.disabled = !selectedLocation || !selectedCourse;
+            }
+
             renderScheduleTable();
             serializeRows();
+        };
+
+        let currentStep = 1;
+        let deleteConfirmKey = '';
+        let deleteConfirmTimeout = null;
+        const setStep = (step) => {
+            currentStep = step;
+            if (stepIndicator) {
+                stepIndicator.textContent = `Fase ${step} di 3`;
+            }
+            if (step1) step1.hidden = step !== 1;
+            if (step2) step2.hidden = step !== 2;
+            if (step3) step3.hidden = step !== 3;
         };
 
         if (locationSelect) {
@@ -317,6 +365,61 @@
             });
         }
 
+        if (toggleCourseStatusBtn) {
+            toggleCourseStatusBtn.addEventListener('click', () => {
+                if (!selectedLocation || !selectedCourse) return;
+                scheduleRows = scheduleRows.map((row) => {
+                    if (row.location === selectedLocation && row.course === selectedCourse) {
+                        return { ...row, status: row.status === 'inactive' ? 'active' : 'inactive' };
+                    }
+                    return row;
+                });
+                updateWizard();
+            });
+        }
+
+        if (deleteCourseBtn) {
+            deleteCourseBtn.addEventListener('click', () => {
+                if (!selectedLocation || !selectedCourse) return;
+                const key = `${selectedLocation}::${selectedCourse}`;
+                if (deleteConfirmKey !== key) {
+                    deleteConfirmKey = key;
+                    deleteCourseBtn.textContent = 'Conferma eliminazione';
+                    if (deleteConfirmTimeout) clearTimeout(deleteConfirmTimeout);
+                    deleteConfirmTimeout = setTimeout(() => {
+                        deleteConfirmKey = '';
+                        deleteCourseBtn.textContent = 'Elimina corso';
+                    }, 5000);
+                    return;
+                }
+                scheduleRows = scheduleRows.filter((row) => !(row.location === selectedLocation && row.course === selectedCourse));
+                deleteConfirmKey = '';
+                deleteCourseBtn.textContent = 'Elimina corso';
+                if (deleteConfirmTimeout) clearTimeout(deleteConfirmTimeout);
+                selectedCourse = '';
+                updateWizard();
+            });
+        }
+
+        if (nextToStep2Btn) {
+            nextToStep2Btn.addEventListener('click', () => {
+                if (!selectedLocation) return;
+                setStep(2);
+            });
+        }
+        if (nextToStep3Btn) {
+            nextToStep3Btn.addEventListener('click', () => {
+                if (!selectedCourse) return;
+                setStep(3);
+            });
+        }
+        if (backToStep1Btn) {
+            backToStep1Btn.addEventListener('click', () => setStep(1));
+        }
+        if (backToStep2Btn) {
+            backToStep2Btn.addEventListener('click', () => setStep(2));
+        }
+
         if (addScheduleBtn) {
             addScheduleBtn.addEventListener('click', () => {
                 if (!selectedLocation || !selectedCourse) {
@@ -327,11 +430,13 @@
                     course: selectedCourse,
                     day: '',
                     times: '',
+                    status: 'active',
                 });
                 updateWizard();
             });
         }
 
         updateWizard();
+        setStep(1);
     });
 </script>
