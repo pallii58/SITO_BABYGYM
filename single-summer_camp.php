@@ -48,13 +48,6 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <?php if ('' !== $locandina_url) : ?>
-                        <div class="summer-camp-single__locandina">
-                            <a href="<?php echo esc_url($locandina_url); ?>" class="btn-secondary" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html__('Apri locandina', 'babygym'); ?>
-                            </a>
-                        </div>
-                    <?php endif; ?>
                 </div>
 
                 <div class="summer-camp-product__info">
