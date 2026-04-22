@@ -64,7 +64,10 @@
                     <?php babygym_render_number_row('Quota festa iscritti (EUR)', 'members_party_price', $options, 0); ?>
                     <?php babygym_render_number_row('Quota iscrizione/assicurazione (EUR)', 'insurance_fee', $options, 0); ?>
                     <?php babygym_render_setting_row('Nota iscritti', 'members_note', $options); ?>
-                    <?php babygym_render_number_row('Supplemento dal 16° bimbo (EUR)', 'extra_child_fee', $options, 0); ?>
+                    <?php
+                    $extra_child_from = max(2, ((int) ($options['included_children'] ?? '15')) + 1);
+                    babygym_render_number_row(sprintf('Supplemento dal %d° bimbo (EUR)', $extra_child_from), 'extra_child_fee', $options, 0);
+                    ?>
                     <?php babygym_render_number_row('Fuori Torino - trasporto (EUR)', 'offsite_transport_fee', $options, 0); ?>
                     <?php babygym_render_number_row('Formula senza attrezzature (EUR)', 'no_equipment_fixed_fee', $options, 0); ?>
                 </table>
