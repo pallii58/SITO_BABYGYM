@@ -43,6 +43,7 @@
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <input type="text" id="babygym-corsi-new-location" class="regular-text" placeholder="Nuova sede">
                         <button type="button" class="button" id="babygym-corsi-add-location">Aggiungi sede</button>
+                        <button type="button" class="button" id="babygym-corsi-rename-location">Rinomina sede</button>
                         <button type="button" class="button button-link-delete" id="babygym-corsi-delete-location">Elimina sede</button>
                     </div>
                     <p style="margin:.9rem 0 0;">
@@ -57,6 +58,7 @@
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <input type="text" id="babygym-corsi-new-course" class="regular-text" placeholder="Nuovo corso">
                         <button type="button" class="button" id="babygym-corsi-add-course">Aggiungi corso</button>
+                        <button type="button" class="button" id="babygym-corsi-rename-course">Rinomina corso</button>
                     </div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.7rem;">
                         <button type="button" class="button" id="babygym-corsi-toggle-course-status">Disattiva corso</button>
@@ -103,8 +105,10 @@
         const newLocationInput = document.getElementById('babygym-corsi-new-location');
         const newCourseInput = document.getElementById('babygym-corsi-new-course');
         const addLocationBtn = document.getElementById('babygym-corsi-add-location');
+        const renameLocationBtn = document.getElementById('babygym-corsi-rename-location');
         const deleteLocationBtn = document.getElementById('babygym-corsi-delete-location');
         const addCourseBtn = document.getElementById('babygym-corsi-add-course');
+        const renameCourseBtn = document.getElementById('babygym-corsi-rename-course');
         const toggleCourseStatusBtn = document.getElementById('babygym-corsi-toggle-course-status');
         const deleteCourseBtn = document.getElementById('babygym-corsi-delete-course');
         const stepIndicator = document.getElementById('corsi-step-indicator');
@@ -294,6 +298,9 @@
             if (deleteLocationBtn) {
                 deleteLocationBtn.disabled = !selectedLocation;
             }
+            if (renameLocationBtn) {
+                renameLocationBtn.disabled = !selectedLocation;
+            }
 
             const courses = selectedLocation ? getCoursesByLocation(selectedLocation) : [];
             if (!courses.includes(selectedCourse)) {
@@ -310,6 +317,9 @@
             }
             if (deleteCourseBtn) {
                 deleteCourseBtn.disabled = !selectedLocation || !selectedCourse;
+            }
+            if (renameCourseBtn) {
+                renameCourseBtn.disabled = !selectedLocation || !selectedCourse;
             }
 
             renderScheduleTable();
@@ -375,6 +385,32 @@
             });
         }
 
+        if (renameLocationBtn) {
+            renameLocationBtn.addEventListener('click', () => {
+                if (!selectedLocation) return;
+                const newNameRaw = window.prompt('Nuovo nome sede:', selectedLocation);
+                if (null === newNameRaw) return;
+                const newName = newNameRaw.trim();
+                if (!newName || newName === selectedLocation) return;
+                scheduleRows = scheduleRows.map((row) => {
+                    if (row.location === selectedLocation) {
+                        return { ...row, location: newName };
+                    }
+                    return row;
+                });
+                if (manualLocations.has(selectedLocation)) {
+                    manualLocations.delete(selectedLocation);
+                }
+                manualLocations.add(newName);
+                if (manualCoursesByLocation[selectedLocation]) {
+                    manualCoursesByLocation[newName] = manualCoursesByLocation[selectedLocation];
+                    delete manualCoursesByLocation[selectedLocation];
+                }
+                selectedLocation = newName;
+                updateWizard();
+            });
+        }
+
         if (addCourseBtn && newCourseInput) {
             addCourseBtn.addEventListener('click', () => {
                 const value = newCourseInput.value.trim();
@@ -386,6 +422,30 @@
                 manualCoursesByLocation[selectedLocation].add(value);
                 selectedCourse = value;
                 newCourseInput.value = '';
+                updateWizard();
+            });
+        }
+
+        if (renameCourseBtn) {
+            renameCourseBtn.addEventListener('click', () => {
+                if (!selectedLocation || !selectedCourse) return;
+                const newNameRaw = window.prompt('Nuovo nome corso:', selectedCourse);
+                if (null === newNameRaw) return;
+                const newName = newNameRaw.trim();
+                if (!newName || newName === selectedCourse) return;
+                scheduleRows = scheduleRows.map((row) => {
+                    if (row.location === selectedLocation && row.course === selectedCourse) {
+                        return { ...row, course: newName };
+                    }
+                    return row;
+                });
+                if (manualCoursesByLocation[selectedLocation]) {
+                    if (manualCoursesByLocation[selectedLocation].has(selectedCourse)) {
+                        manualCoursesByLocation[selectedLocation].delete(selectedCourse);
+                    }
+                    manualCoursesByLocation[selectedLocation].add(newName);
+                }
+                selectedCourse = newName;
                 updateWizard();
             });
         }
