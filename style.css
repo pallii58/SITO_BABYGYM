@@ -888,9 +888,9 @@ h3,
 }
 
 .summer-camp-card__meta--address {
-    align-items: flex-start;
-    justify-content: flex-start;
-    text-align: left;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     border: 0;
     background: transparent;
     border-radius: 0;
