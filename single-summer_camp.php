@@ -101,7 +101,7 @@ get_header();
 
             <?php if ('' !== trim($indirizzo)) : ?>
                 <section class="card">
-                    <h2><?php echo esc_html__('Dove si svolge e altro', 'babygym'); ?></h2>
+                    <h2 class="text-center"><?php echo esc_html__('Dove si svolge', 'babygym'); ?></h2>
                     <div class="contatti-map summer-camp-single__map">
                         <iframe
                             src="<?php echo esc_url('https://www.google.com/maps?q=' . rawurlencode($indirizzo) . '&output=embed'); ?>"
