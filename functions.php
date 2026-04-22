@@ -206,7 +206,7 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     ?>
     <table class="form-table" role="presentation">
         <tr>
-            <th scope="row"><label for="babygym-summer-camp-locandina-url"><?php esc_html_e('Locandina (immagine o PDF)', 'babygym'); ?></label></th>
+            <th scope="row"><label for="babygym-summer-camp-locandina-url"><?php esc_html_e('Locandina', 'babygym'); ?></label></th>
             <td>
                 <input type="hidden" id="babygym-summer-camp-locandina-url" name="babygym_summer_camp_locandina_url" value="<?php echo esc_attr($locandina_url); ?>">
                 <p>
@@ -222,7 +222,6 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-                <p class="description"><?php esc_html_e('Seleziona un file dalla Media Library (immagine o PDF).', 'babygym'); ?></p>
             </td>
         </tr>
         <tr>
