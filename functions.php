@@ -515,24 +515,30 @@ function babygym_render_feste_admin_page(): void
                 <button type="button" class="button button-secondary" id="babygym-add-schedule-row">Aggiungi fascia oraria</button>
             </p>
             <hr>
-            <h3>Slot in settimana</h3>
-            <table class="form-table" role="presentation">
-                <?php babygym_render_time_range_row('Slot in settimana', 'weekday_slot_start', 'weekday_slot_end', $options); ?>
-                <?php babygym_render_setting_row('Giorni in settimana (testo)', 'weekday_days', $options); ?>
-            </table>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:24px;align-items:start;">
+                <section>
+                    <h3>Slot in settimana</h3>
+                    <table class="form-table" role="presentation">
+                        <?php babygym_render_time_range_row('Slot in settimana', 'weekday_slot_start', 'weekday_slot_end', $options); ?>
+                        <?php babygym_render_setting_row('Giorni in settimana (testo)', 'weekday_days', $options); ?>
+                    </table>
+                </section>
 
-            <h2>Prezzi</h2>
-            <p>Inserisci solo importi numerici: i testi prezzo vengono composti in automatico.</p>
-            <table class="form-table" role="presentation">
-                <?php babygym_render_number_row('Bimbi inclusi', 'included_children', $options, 1); ?>
-                <?php babygym_render_number_row('Quota festa non iscritti (EUR)', 'non_members_party_price', $options, 0); ?>
-                <?php babygym_render_number_row('Quota festa iscritti (EUR)', 'members_party_price', $options, 0); ?>
-                <?php babygym_render_number_row('Quota iscrizione/assicurazione (EUR)', 'insurance_fee', $options, 0); ?>
-                <?php babygym_render_setting_row('Nota iscritti', 'members_note', $options); ?>
-                <?php babygym_render_number_row('Supplemento dal 16° bimbo (EUR)', 'extra_child_fee', $options, 0); ?>
-                <?php babygym_render_number_row('Fuori Torino - trasporto (EUR)', 'offsite_transport_fee', $options, 0); ?>
-                <?php babygym_render_number_row('Formula senza attrezzature (EUR)', 'no_equipment_fixed_fee', $options, 0); ?>
-            </table>
+                <section>
+                    <h2>Prezzi</h2>
+                    <p>Inserisci solo importi numerici: i testi prezzo vengono composti in automatico.</p>
+                    <table class="form-table" role="presentation">
+                        <?php babygym_render_number_row('Bimbi inclusi', 'included_children', $options, 1); ?>
+                        <?php babygym_render_number_row('Quota festa non iscritti (EUR)', 'non_members_party_price', $options, 0); ?>
+                        <?php babygym_render_number_row('Quota festa iscritti (EUR)', 'members_party_price', $options, 0); ?>
+                        <?php babygym_render_number_row('Quota iscrizione/assicurazione (EUR)', 'insurance_fee', $options, 0); ?>
+                        <?php babygym_render_setting_row('Nota iscritti', 'members_note', $options); ?>
+                        <?php babygym_render_number_row('Supplemento dal 16° bimbo (EUR)', 'extra_child_fee', $options, 0); ?>
+                        <?php babygym_render_number_row('Fuori Torino - trasporto (EUR)', 'offsite_transport_fee', $options, 0); ?>
+                        <?php babygym_render_number_row('Formula senza attrezzature (EUR)', 'no_equipment_fixed_fee', $options, 0); ?>
+                    </table>
+                </section>
+            </div>
 
             <?php submit_button('Salva impostazioni Feste'); ?>
         </form>
