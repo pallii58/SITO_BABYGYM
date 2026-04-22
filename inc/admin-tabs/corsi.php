@@ -57,8 +57,6 @@
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <button type="button" class="button" id="babygym-corsi-add-course">Nuovo corso</button>
                         <button type="button" class="button" id="babygym-corsi-rename-course">Rinomina corso</button>
-                    </div>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:.7rem;">
                         <button type="button" class="button" id="babygym-corsi-toggle-course-status">Disattiva corso</button>
                         <button type="button" class="button button-link-delete" id="babygym-corsi-delete-course">Elimina corso</button>
                     </div>
