@@ -496,14 +496,13 @@ function babygym_render_feste_admin_page(): void
                 <?php endforeach; ?>
             </div>
 
-            <h2>Orari (smart e dinamici)</h2>
+            <h2>Orari</h2>
             <p>Aggiungi liberamente nuovi giorni e nuove fasce orarie: la pagina pubblica si aggiorna in automatico.</p>
             <input type="hidden" name="babygym_feste_options[schedule_rows]" id="babygym-schedule-rows" value="<?php echo esc_attr($options['schedule_rows'] ?? ''); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
                     <tr>
                         <th>Giorno</th>
-                        <th>Fascia</th>
                         <th>Da</th>
                         <th>A</th>
                         <th>Nota opzionale</th>
@@ -516,13 +515,13 @@ function babygym_render_feste_admin_page(): void
                 <button type="button" class="button button-secondary" id="babygym-add-schedule-row">Aggiungi fascia oraria</button>
             </p>
             <hr>
-            <h3>Slot in settimana (nota aggiuntiva)</h3>
+            <h3>Slot in settimana</h3>
             <table class="form-table" role="presentation">
                 <?php babygym_render_time_range_row('Slot in settimana', 'weekday_slot_start', 'weekday_slot_end', $options); ?>
                 <?php babygym_render_setting_row('Giorni in settimana (testo)', 'weekday_days', $options); ?>
             </table>
 
-            <h2>Prezzi (smart)</h2>
+            <h2>Prezzi</h2>
             <p>Inserisci solo importi numerici: i testi prezzo vengono composti in automatico.</p>
             <table class="form-table" role="presentation">
                 <?php babygym_render_number_row('Bimbi inclusi', 'included_children', $options, 1); ?>
@@ -671,7 +670,7 @@ function babygym_render_feste_admin_page(): void
                             return input ? input.value.trim() : '';
                         };
                         const day = getValue('day');
-                        const label = getValue('label');
+                        const label = 'Fascia';
                         const start = getValue('start');
                         const end = getValue('end');
                         const note = getValue('note');
@@ -687,7 +686,6 @@ function babygym_render_feste_admin_page(): void
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td><input type="text" class="regular-text" data-field="day" value="${rowData.day.replace(/"/g, '&quot;')}" placeholder="Es. Sabato"></td>
-                    <td><input type="text" class="regular-text" data-field="label" value="${rowData.label.replace(/"/g, '&quot;')}" placeholder="Es. Mattina"></td>
                     <td><input type="time" data-field="start" value="${rowData.start.replace(/"/g, '&quot;')}"></td>
                     <td><input type="time" data-field="end" value="${rowData.end.replace(/"/g, '&quot;')}"></td>
                     <td><input type="text" class="regular-text" data-field="note" value="${rowData.note.replace(/"/g, '&quot;')}" placeholder="Opzionale"></td>
