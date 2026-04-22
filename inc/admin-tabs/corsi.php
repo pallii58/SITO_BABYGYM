@@ -87,6 +87,21 @@
         <?php submit_button('Salva impostazioni Corsi'); ?>
     </form>
 </div>
+<div id="babygym-corsi-dialog" style="position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:100000;display:none;align-items:center;justify-content:center;padding:16px;">
+    <div style="width:min(520px,100%);background:#fff;border:1px solid #dcdcde;border-radius:12px;box-shadow:0 22px 44px rgba(2,6,23,.24);">
+        <div style="padding:14px 16px;border-bottom:1px solid #eef2f7;">
+            <h3 id="babygym-corsi-dialog-title" style="margin:0;font-size:18px;">Conferma</h3>
+        </div>
+        <div style="padding:14px 16px;">
+            <p id="babygym-corsi-dialog-message" style="margin:0 0 12px;line-height:1.5;"></p>
+            <input id="babygym-corsi-dialog-input" type="text" class="regular-text" style="width:100%;display:none;">
+        </div>
+        <div style="padding:12px 16px;border-top:1px solid #eef2f7;display:flex;gap:8px;justify-content:flex-end;">
+            <button type="button" class="button" id="babygym-corsi-dialog-cancel">Annulla</button>
+            <button type="button" class="button button-primary" id="babygym-corsi-dialog-confirm">Conferma</button>
+        </div>
+    </div>
+</div>
 <script>
     window.addEventListener('load', function () {
         const carouselInput = document.getElementById('babygym-corsi-carousel-images');
@@ -113,9 +128,88 @@
         const nextToStep3Btn = document.getElementById('corsi-next-to-step-3');
         const backToStep1Btn = document.getElementById('corsi-back-to-step-1');
         const backToStep2Btn = document.getElementById('corsi-back-to-step-2');
+        const customDialog = document.getElementById('babygym-corsi-dialog');
+        const customDialogTitle = document.getElementById('babygym-corsi-dialog-title');
+        const customDialogMessage = document.getElementById('babygym-corsi-dialog-message');
+        const customDialogInput = document.getElementById('babygym-corsi-dialog-input');
+        const customDialogCancel = document.getElementById('babygym-corsi-dialog-cancel');
+        const customDialogConfirm = document.getElementById('babygym-corsi-dialog-confirm');
         if (!carouselInput || !carouselGrid || !addCarouselBtn || !scheduleHidden || !scheduleBody) {
             return;
         }
+
+        const closeCustomDialog = (resolver, payload) => {
+            if (!customDialog) return;
+            customDialog.style.display = 'none';
+            if (customDialogInput) {
+                customDialogInput.style.display = 'none';
+                customDialogInput.value = '';
+            }
+            if (resolver) {
+                resolver(payload);
+            }
+        };
+
+        const openCustomDialog = ({ title, message, confirmLabel, requiresInput, defaultValue, danger }) =>
+            new Promise((resolve) => {
+                if (!customDialog || !customDialogTitle || !customDialogMessage || !customDialogCancel || !customDialogConfirm) {
+                    resolve({ confirmed: false, value: '' });
+                    return;
+                }
+
+                customDialogTitle.textContent = title || 'Conferma';
+                customDialogMessage.textContent = message || '';
+                customDialogConfirm.textContent = confirmLabel || 'Conferma';
+                if (danger) {
+                    customDialogConfirm.classList.remove('button-primary');
+                    customDialogConfirm.classList.add('button-link-delete');
+                } else {
+                    customDialogConfirm.classList.remove('button-link-delete');
+                    customDialogConfirm.classList.add('button-primary');
+                }
+
+                if (requiresInput && customDialogInput) {
+                    customDialogInput.style.display = 'block';
+                    customDialogInput.value = defaultValue || '';
+                    setTimeout(() => customDialogInput.focus(), 0);
+                }
+
+                const handleCancel = () => {
+                    cleanup();
+                    closeCustomDialog(resolve, { confirmed: false, value: '' });
+                };
+
+                const handleConfirm = () => {
+                    const value = customDialogInput ? customDialogInput.value.trim() : '';
+                    cleanup();
+                    closeCustomDialog(resolve, { confirmed: true, value });
+                };
+
+                const handleOverlay = (event) => {
+                    if (event.target === customDialog) {
+                        handleCancel();
+                    }
+                };
+
+                const handleEscape = (event) => {
+                    if (event.key === 'Escape') {
+                        handleCancel();
+                    }
+                };
+
+                const cleanup = () => {
+                    customDialogCancel.removeEventListener('click', handleCancel);
+                    customDialogConfirm.removeEventListener('click', handleConfirm);
+                    customDialog.removeEventListener('click', handleOverlay);
+                    document.removeEventListener('keydown', handleEscape);
+                };
+
+                customDialogCancel.addEventListener('click', handleCancel);
+                customDialogConfirm.addEventListener('click', handleConfirm);
+                customDialog.addEventListener('click', handleOverlay);
+                document.addEventListener('keydown', handleEscape);
+                customDialog.style.display = 'flex';
+            });
 
         const parseUrls = () =>
             carouselInput.value
@@ -347,10 +441,16 @@
         }
 
         if (addLocationBtn) {
-            addLocationBtn.addEventListener('click', () => {
-                const valueRaw = window.prompt('Nome nuova sede:');
-                if (null === valueRaw) return;
-                const value = valueRaw.trim();
+            addLocationBtn.addEventListener('click', async () => {
+                const response = await openCustomDialog({
+                    title: 'Nuova sede',
+                    message: 'Inserisci il nome della nuova sede.',
+                    confirmLabel: 'Aggiungi',
+                    requiresInput: true,
+                    defaultValue: '',
+                });
+                if (!response.confirmed) return;
+                const value = response.value.trim();
                 if (!value) return;
                 manualLocations.add(value);
                 selectedLocation = value;
@@ -359,14 +459,24 @@
         }
 
         if (deleteLocationBtn) {
-            deleteLocationBtn.addEventListener('click', () => {
+            deleteLocationBtn.addEventListener('click', async () => {
                 if (!selectedLocation) return;
-                const firstConfirm = window.confirm(`Vuoi davvero eliminare la sede "${selectedLocation}" con tutti i suoi corsi?`);
-                if (!firstConfirm) {
+                const firstConfirm = await openCustomDialog({
+                    title: 'Elimina sede',
+                    message: `Vuoi davvero eliminare la sede "${selectedLocation}" con tutti i suoi corsi?`,
+                    confirmLabel: 'Continua',
+                    danger: true,
+                });
+                if (!firstConfirm.confirmed) {
                     return;
                 }
-                const secondConfirm = window.confirm('Conferma definitiva: verranno eliminati tutti i corsi e orari della sede selezionata. Procedere?');
-                if (!secondConfirm) {
+                const secondConfirm = await openCustomDialog({
+                    title: 'Conferma definitiva',
+                    message: 'Verranno eliminati tutti i corsi e orari della sede selezionata. Procedere?',
+                    confirmLabel: 'Elimina definitivamente',
+                    danger: true,
+                });
+                if (!secondConfirm.confirmed) {
                     return;
                 }
                 scheduleRows = scheduleRows.filter((row) => row.location !== selectedLocation);
@@ -381,11 +491,17 @@
         }
 
         if (renameLocationBtn) {
-            renameLocationBtn.addEventListener('click', () => {
+            renameLocationBtn.addEventListener('click', async () => {
                 if (!selectedLocation) return;
-                const newNameRaw = window.prompt('Nuovo nome sede:', selectedLocation);
-                if (null === newNameRaw) return;
-                const newName = newNameRaw.trim();
+                const response = await openCustomDialog({
+                    title: 'Rinomina sede',
+                    message: 'Inserisci il nuovo nome della sede.',
+                    confirmLabel: 'Salva',
+                    requiresInput: true,
+                    defaultValue: selectedLocation,
+                });
+                if (!response.confirmed) return;
+                const newName = response.value.trim();
                 if (!newName || newName === selectedLocation) return;
                 scheduleRows = scheduleRows.map((row) => {
                     if (row.location === selectedLocation) {
@@ -407,10 +523,16 @@
         }
 
         if (addCourseBtn) {
-            addCourseBtn.addEventListener('click', () => {
-                const valueRaw = window.prompt('Nome nuovo corso:');
-                if (null === valueRaw) return;
-                const value = valueRaw.trim();
+            addCourseBtn.addEventListener('click', async () => {
+                const response = await openCustomDialog({
+                    title: 'Nuovo corso',
+                    message: 'Inserisci il nome del nuovo corso.',
+                    confirmLabel: 'Aggiungi',
+                    requiresInput: true,
+                    defaultValue: '',
+                });
+                if (!response.confirmed) return;
+                const value = response.value.trim();
                 if (!selectedLocation || !value) return;
                 manualLocations.add(selectedLocation);
                 if (!manualCoursesByLocation[selectedLocation]) {
@@ -423,11 +545,17 @@
         }
 
         if (renameCourseBtn) {
-            renameCourseBtn.addEventListener('click', () => {
+            renameCourseBtn.addEventListener('click', async () => {
                 if (!selectedLocation || !selectedCourse) return;
-                const newNameRaw = window.prompt('Nuovo nome corso:', selectedCourse);
-                if (null === newNameRaw) return;
-                const newName = newNameRaw.trim();
+                const response = await openCustomDialog({
+                    title: 'Rinomina corso',
+                    message: 'Inserisci il nuovo nome del corso.',
+                    confirmLabel: 'Salva',
+                    requiresInput: true,
+                    defaultValue: selectedCourse,
+                });
+                if (!response.confirmed) return;
+                const newName = response.value.trim();
                 if (!newName || newName === selectedCourse) return;
                 scheduleRows = scheduleRows.map((row) => {
                     if (row.location === selectedLocation && row.course === selectedCourse) {
@@ -460,14 +588,24 @@
         }
 
         if (deleteCourseBtn) {
-            deleteCourseBtn.addEventListener('click', () => {
+            deleteCourseBtn.addEventListener('click', async () => {
                 if (!selectedLocation || !selectedCourse) return;
-                const firstConfirm = window.confirm(`Vuoi davvero eliminare il corso "${selectedCourse}" dalla sede "${selectedLocation}"?`);
-                if (!firstConfirm) {
+                const firstConfirm = await openCustomDialog({
+                    title: 'Elimina corso',
+                    message: `Vuoi davvero eliminare il corso "${selectedCourse}" dalla sede "${selectedLocation}"?`,
+                    confirmLabel: 'Continua',
+                    danger: true,
+                });
+                if (!firstConfirm.confirmed) {
                     return;
                 }
-                const secondConfirm = window.confirm('Conferma definitiva: questa azione è irreversibile. Procedere con l\'eliminazione?');
-                if (!secondConfirm) {
+                const secondConfirm = await openCustomDialog({
+                    title: 'Conferma definitiva',
+                    message: 'Questa azione è irreversibile. Procedere con l\'eliminazione?',
+                    confirmLabel: 'Elimina definitivamente',
+                    danger: true,
+                });
+                if (!secondConfirm.confirmed) {
                     return;
                 }
                 scheduleRows = scheduleRows.filter((row) => !(row.location === selectedLocation && row.course === selectedCourse));
