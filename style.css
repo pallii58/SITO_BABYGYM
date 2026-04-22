@@ -854,6 +854,32 @@ h3,
 
 .summer-camp-card__body p {
     margin: 0;
+    width: 100%;
+}
+
+.summer-camp-card__meta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .35rem;
+    min-height: 30px;
+    padding: .2rem .62rem;
+    border-radius: 999px;
+    border: 1px solid #bfdbfe;
+    background: #f0f9ff;
+    color: #0f172a;
+    font-size: .9rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.summer-camp-card__meta + .summer-camp-card__meta {
+    margin-top: .25rem;
+}
+
+.summer-camp-card__meta strong {
+    color: #0284c7;
+    font-weight: 800;
 }
 
 .summer-camp-card__body .btn-primary {
