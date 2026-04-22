@@ -43,6 +43,7 @@
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <input type="text" id="babygym-corsi-new-location" class="regular-text" placeholder="Nuova sede">
                         <button type="button" class="button" id="babygym-corsi-add-location">Aggiungi sede</button>
+                        <button type="button" class="button button-link-delete" id="babygym-corsi-delete-location">Elimina sede</button>
                     </div>
                     <p style="margin:.9rem 0 0;">
                         <button type="button" class="button button-primary" id="corsi-next-to-step-2">Continua al corso</button>
@@ -102,6 +103,7 @@
         const newLocationInput = document.getElementById('babygym-corsi-new-location');
         const newCourseInput = document.getElementById('babygym-corsi-new-course');
         const addLocationBtn = document.getElementById('babygym-corsi-add-location');
+        const deleteLocationBtn = document.getElementById('babygym-corsi-delete-location');
         const addCourseBtn = document.getElementById('babygym-corsi-add-course');
         const toggleCourseStatusBtn = document.getElementById('babygym-corsi-toggle-course-status');
         const deleteCourseBtn = document.getElementById('babygym-corsi-delete-course');
@@ -289,6 +291,9 @@
             }
             fillSelect(locationSelect, locations, 'Nessuna sede');
             if (locationSelect) locationSelect.value = selectedLocation;
+            if (deleteLocationBtn) {
+                deleteLocationBtn.disabled = !selectedLocation;
+            }
 
             const courses = selectedLocation ? getCoursesByLocation(selectedLocation) : [];
             if (!courses.includes(selectedCourse)) {
@@ -344,6 +349,28 @@
                 manualLocations.add(value);
                 selectedLocation = value;
                 newLocationInput.value = '';
+                updateWizard();
+            });
+        }
+
+        if (deleteLocationBtn) {
+            deleteLocationBtn.addEventListener('click', () => {
+                if (!selectedLocation) return;
+                const firstConfirm = window.confirm(`Vuoi davvero eliminare la sede "${selectedLocation}" con tutti i suoi corsi?`);
+                if (!firstConfirm) {
+                    return;
+                }
+                const secondConfirm = window.confirm('Conferma definitiva: verranno eliminati tutti i corsi e orari della sede selezionata. Procedere?');
+                if (!secondConfirm) {
+                    return;
+                }
+                scheduleRows = scheduleRows.filter((row) => row.location !== selectedLocation);
+                manualLocations.delete(selectedLocation);
+                if (manualCoursesByLocation[selectedLocation]) {
+                    delete manualCoursesByLocation[selectedLocation];
+                }
+                selectedLocation = '';
+                selectedCourse = '';
                 updateWizard();
             });
         }
