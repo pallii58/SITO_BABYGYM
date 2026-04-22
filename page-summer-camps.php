@@ -60,9 +60,14 @@ $summer_camp_query = new WP_Query([
                             $summer_camp_query->the_post();
                             $post_id = get_the_ID();
                             $locandina_url = (string) get_post_meta($post_id, '_babygym_summer_camp_locandina_url', true);
-                            $cover_image = get_the_post_thumbnail_url($post_id, 'large');
-                            if ('' === $cover_image && '' !== $locandina_url && preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $locandina_url)) {
+                            $gallery_raw = (string) get_post_meta($post_id, '_babygym_summer_camp_gallery', true);
+                            $gallery_urls = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
+                            $cover_image = (string) get_the_post_thumbnail_url($post_id, 'large');
+                            if ('' === $cover_image && '' !== $locandina_url && preg_match('/\.(jpg|jpeg|png|webp|gif)($|\?)/i', $locandina_url)) {
                                 $cover_image = $locandina_url;
+                            }
+                            if ('' === $cover_image && [] !== $gallery_urls) {
+                                $cover_image = (string) $gallery_urls[0];
                             }
                             ?>
                             <article class="summer-camp-card">
