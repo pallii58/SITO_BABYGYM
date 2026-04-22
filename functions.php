@@ -163,6 +163,18 @@ add_action('init', function (): void {
 });
 
 /**
+ * Flush rewrite rules una sola volta dopo aver registrato il CPT Summer Camp.
+ */
+add_action('init', function (): void {
+    $flag_key = 'babygym_summer_camp_rewrite_flushed_v1';
+    if ('1' === get_option($flag_key, '0')) {
+        return;
+    }
+    flush_rewrite_rules(false);
+    update_option($flag_key, '1');
+}, 99);
+
+/**
  * Meta box dettagli Summer Camp.
  */
 add_action('add_meta_boxes', function (): void {
