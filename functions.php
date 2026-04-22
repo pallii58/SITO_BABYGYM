@@ -192,17 +192,29 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
         <tr>
             <th scope="row"><label for="babygym-summer-camp-locandina-url"><?php esc_html_e('Locandina (immagine o PDF)', 'babygym'); ?></label></th>
             <td>
-                <input type="url" class="regular-text" id="babygym-summer-camp-locandina-url" name="babygym_summer_camp_locandina_url" value="<?php echo esc_attr($locandina_url); ?>">
-                <button type="button" class="button" id="babygym-summer-camp-pick-locandina"><?php esc_html_e('Scegli da Media Library', 'babygym'); ?></button>
-                <p class="description"><?php esc_html_e('Puoi usare una immagine oppure un PDF.', 'babygym'); ?></p>
+                <input type="hidden" id="babygym-summer-camp-locandina-url" name="babygym_summer_camp_locandina_url" value="<?php echo esc_attr($locandina_url); ?>">
+                <p>
+                    <button type="button" class="button button-primary" id="babygym-summer-camp-pick-locandina"><?php esc_html_e('Seleziona locandina', 'babygym'); ?></button>
+                    <button type="button" class="button" id="babygym-summer-camp-clear-locandina"><?php esc_html_e('Rimuovi locandina', 'babygym'); ?></button>
+                </p>
+                <div id="babygym-summer-camp-locandina-preview" style="max-width:420px;">
+                    <?php if ('' !== $locandina_url) : ?>
+                        <?php if (preg_match('/\.pdf($|\?)/i', $locandina_url)) : ?>
+                            <a href="<?php echo esc_url($locandina_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Anteprima PDF locandina', 'babygym'); ?></a>
+                        <?php else : ?>
+                            <img src="<?php echo esc_url($locandina_url); ?>" alt="" style="display:block;width:100%;height:auto;max-height:220px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <p class="description"><?php esc_html_e('Seleziona un file dalla Media Library (immagine o PDF).', 'babygym'); ?></p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="babygym-summer-camp-gallery"><?php esc_html_e('Galleria', 'babygym'); ?></label></th>
             <td>
-                <textarea class="large-text" rows="4" id="babygym-summer-camp-gallery" name="babygym_summer_camp_gallery"><?php echo esc_textarea($gallery_raw); ?></textarea>
+                <textarea class="large-text" rows="4" id="babygym-summer-camp-gallery" name="babygym_summer_camp_gallery" hidden><?php echo esc_textarea($gallery_raw); ?></textarea>
                 <p>
-                    <button type="button" class="button" id="babygym-summer-camp-pick-gallery"><?php esc_html_e('Aggiungi immagini', 'babygym'); ?></button>
+                    <button type="button" class="button button-primary" id="babygym-summer-camp-pick-gallery"><?php esc_html_e('Seleziona immagini', 'babygym'); ?></button>
                     <button type="button" class="button" id="babygym-summer-camp-clear-gallery"><?php esc_html_e('Svuota galleria', 'babygym'); ?></button>
                 </p>
                 <div id="babygym-summer-camp-gallery-preview" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;max-width:760px;">
@@ -231,11 +243,27 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
         window.addEventListener('load', function () {
             if (!window.wp || !window.wp.media) return;
             const locandinaInput = document.getElementById('babygym-summer-camp-locandina-url');
+            const locandinaPreview = document.getElementById('babygym-summer-camp-locandina-preview');
+            const clearLocandinaBtn = document.getElementById('babygym-summer-camp-clear-locandina');
             const galleryInput = document.getElementById('babygym-summer-camp-gallery');
             const galleryPreview = document.getElementById('babygym-summer-camp-gallery-preview');
             const pickLocandinaBtn = document.getElementById('babygym-summer-camp-pick-locandina');
             const pickGalleryBtn = document.getElementById('babygym-summer-camp-pick-gallery');
             const clearGalleryBtn = document.getElementById('babygym-summer-camp-clear-gallery');
+
+            const renderLocandinaPreview = () => {
+                if (!locandinaPreview || !locandinaInput) return;
+                const url = (locandinaInput.value || '').trim();
+                if (!url) {
+                    locandinaPreview.innerHTML = '';
+                    return;
+                }
+                if (/\.pdf($|\?)/i.test(url)) {
+                    locandinaPreview.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">Anteprima PDF locandina</a>`;
+                    return;
+                }
+                locandinaPreview.innerHTML = `<img src="${url}" alt="" style="display:block;width:100%;height:auto;max-height:220px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">`;
+            };
 
             const parseGalleryUrls = () => (galleryInput?.value || '')
                 .split(/\r?\n/)
@@ -264,9 +292,19 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                     });
                     frame.on('select', () => {
                         const file = frame.state().get('selection').first().toJSON();
-                        if (file?.url) locandinaInput.value = file.url;
+                        if (file?.url) {
+                            locandinaInput.value = file.url;
+                            renderLocandinaPreview();
+                        }
                     });
                     frame.open();
+                });
+            }
+
+            if (clearLocandinaBtn && locandinaInput) {
+                clearLocandinaBtn.addEventListener('click', () => {
+                    locandinaInput.value = '';
+                    renderLocandinaPreview();
                 });
             }
 
@@ -300,9 +338,8 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                 });
             }
 
-            if (galleryInput) {
-                galleryInput.addEventListener('input', renderGalleryPreview);
-            }
+            if (galleryInput) galleryInput.addEventListener('input', renderGalleryPreview);
+            renderLocandinaPreview();
             renderGalleryPreview();
         });
     </script>
