@@ -71,13 +71,15 @@ $summer_camp_query = new WP_Query([
                             }
                             ?>
                             <article class="summer-camp-card">
-                                <?php if ('' !== $cover_image) : ?>
-                                    <img src="<?php echo esc_url($cover_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="summer-camp-card__image">
-                                <?php endif; ?>
-                                <div class="summer-camp-card__body">
-                                    <h3><?php the_title(); ?></h3>
-                                    <a class="btn-primary" href="<?php the_permalink(); ?>"><?php echo esc_html__('Scopri il camp', 'babygym'); ?></a>
-                                </div>
+                                <a class="summer-camp-card__link" href="<?php the_permalink(); ?>">
+                                    <?php if ('' !== $cover_image) : ?>
+                                        <img src="<?php echo esc_url($cover_image); ?>" alt="<?php echo esc_attr(get_the_title()); ?>" class="summer-camp-card__image">
+                                    <?php endif; ?>
+                                    <div class="summer-camp-card__body">
+                                        <h3><?php the_title(); ?></h3>
+                                        <span class="btn-primary"><?php echo esc_html__('Scopri il camp', 'babygym'); ?></span>
+                                    </div>
+                                </a>
                             </article>
                         <?php endwhile; ?>
                     </div>
