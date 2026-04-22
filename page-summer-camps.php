@@ -60,6 +60,8 @@ $summer_camp_query = new WP_Query([
                             $summer_camp_query->the_post();
                             $post_id = get_the_ID();
                             $locandina_url = (string) get_post_meta($post_id, '_babygym_summer_camp_locandina_url', true);
+                            $eta = (string) get_post_meta($post_id, '_babygym_summer_camp_eta', true);
+                            $indirizzo = (string) get_post_meta($post_id, '_babygym_summer_camp_indirizzo', true);
                             $gallery_raw = (string) get_post_meta($post_id, '_babygym_summer_camp_gallery', true);
                             $gallery_urls = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
                             $cover_image = (string) get_the_post_thumbnail_url($post_id, 'large');
@@ -77,6 +79,12 @@ $summer_camp_query = new WP_Query([
                                     <?php endif; ?>
                                     <div class="summer-camp-card__body">
                                         <h3><?php the_title(); ?></h3>
+                                        <?php if ('' !== trim($eta)) : ?>
+                                            <p><strong><?php echo esc_html__('ETÀ', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></p>
+                                        <?php endif; ?>
+                                        <?php if ('' !== trim($indirizzo)) : ?>
+                                            <p><strong><?php echo esc_html__('INDIRIZZO', 'babygym'); ?>:</strong> <?php echo esc_html($indirizzo); ?></p>
+                                        <?php endif; ?>
                                         <span class="btn-primary"><?php echo esc_html__('Scopri il camp', 'babygym'); ?></span>
                                     </div>
                                 </a>
