@@ -28,23 +28,48 @@
         </div>
 
         <h2>Orari per sede e corso</h2>
-        <p>Puoi aggiungere nuove sedi, nuovi corsi e nuovi orari liberamente.</p>
+        <p>Gestione guidata: scegli (o crea) prima la sede, poi il corso, poi modifica gli orari del corso selezionato.</p>
         <input type="hidden" name="babygym_corsi_options[schedule_rows]" id="babygym-corsi-schedule-rows" value="<?php echo esc_attr($options['schedule_rows']); ?>">
-        <table class="widefat striped" style="max-width:1100px;margin:0 0 1rem;">
-            <thead>
-                <tr>
-                    <th>Sede</th>
-                    <th>Corso</th>
-                    <th>Giorno</th>
-                    <th>Orari</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody id="babygym-corsi-schedule-body"></tbody>
-        </table>
-        <p>
-            <button type="button" class="button button-secondary" id="babygym-corsi-add-schedule-row">Aggiungi riga orario</button>
-        </p>
+
+        <div style="display:grid;gap:14px;max-width:1100px;margin:0 0 1rem;">
+            <div style="display:grid;gap:10px;grid-template-columns:1fr 1fr;">
+                <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+                    <strong>1) Seleziona sede</strong>
+                    <p style="margin:.5rem 0;">
+                        <select id="babygym-corsi-location-select" class="regular-text"></select>
+                    </p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <input type="text" id="babygym-corsi-new-location" class="regular-text" placeholder="Nuova sede">
+                        <button type="button" class="button" id="babygym-corsi-add-location">Aggiungi sede</button>
+                    </div>
+                </div>
+                <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+                    <strong>2) Seleziona corso</strong>
+                    <p style="margin:.5rem 0;">
+                        <select id="babygym-corsi-course-select" class="regular-text"></select>
+                    </p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <input type="text" id="babygym-corsi-new-course" class="regular-text" placeholder="Nuovo corso">
+                        <button type="button" class="button" id="babygym-corsi-add-course">Aggiungi corso</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding:12px;border:1px solid #dcdcde;border-radius:8px;background:#fff;">
+                <strong>3) Orari del corso selezionato</strong>
+                <table class="widefat striped" style="margin:.7rem 0;">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">Giorno</th>
+                            <th>Orari</th>
+                            <th style="width:90px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="babygym-corsi-schedule-body"></tbody>
+                </table>
+                <button type="button" class="button button-secondary" id="babygym-corsi-add-schedule-row">Aggiungi orario</button>
+            </div>
+        </div>
 
         <?php submit_button('Salva impostazioni Corsi'); ?>
     </form>
@@ -58,6 +83,12 @@
         const scheduleHidden = document.getElementById('babygym-corsi-schedule-rows');
         const scheduleBody = document.getElementById('babygym-corsi-schedule-body');
         const addScheduleBtn = document.getElementById('babygym-corsi-add-schedule-row');
+        const locationSelect = document.getElementById('babygym-corsi-location-select');
+        const courseSelect = document.getElementById('babygym-corsi-course-select');
+        const newLocationInput = document.getElementById('babygym-corsi-new-location');
+        const newCourseInput = document.getElementById('babygym-corsi-new-course');
+        const addLocationBtn = document.getElementById('babygym-corsi-add-location');
+        const addCourseBtn = document.getElementById('babygym-corsi-add-course');
         if (!carouselInput || !carouselGrid || !addCarouselBtn || !scheduleHidden || !scheduleBody) {
             return;
         }
@@ -128,8 +159,8 @@
         }
         renderCarouselGrid();
 
-        const parseScheduleRows = () => {
-            return scheduleHidden.value
+        const parseScheduleRows = () =>
+            scheduleHidden.value
                 .split(/\r?\n/)
                 .map((line) => line.trim())
                 .filter(Boolean)
@@ -142,54 +173,165 @@
                         times: (parts[3] || '').trim(),
                     };
                 });
+        let scheduleRows = parseScheduleRows();
+        const manualLocations = new Set();
+        const manualCoursesByLocation = {};
+        let selectedLocation = '';
+        let selectedCourse = '';
+
+        const serializeRows = () => {
+            scheduleHidden.value = scheduleRows
+                .filter((row) => row.location && row.course && row.day && row.times)
+                .map((row) => [row.location, row.course, row.day, row.times].join('|'))
+                .join('\n');
         };
 
-        const syncScheduleHidden = () => {
-            const rows = Array.from(scheduleBody.querySelectorAll('tr'));
-            const serialized = rows.map((row) => {
-                const getValue = (name) => {
-                    const input = row.querySelector(`[data-field="${name}"]`);
-                    return input ? input.value.trim() : '';
-                };
-                const location = getValue('location');
-                const course = getValue('course');
-                const day = getValue('day');
-                const times = getValue('times');
-                if (!location || !course || !day || !times) return '';
-                return [location, course, day, times].join('|');
-            }).filter(Boolean);
-            scheduleHidden.value = serialized.join('\n');
+        const getLocations = () => {
+            const values = new Set(scheduleRows.map((row) => row.location).filter(Boolean));
+            manualLocations.forEach((location) => values.add(location));
+            return [...values];
         };
 
-        const addScheduleRow = (rowData = { location: '', course: '', day: '', times: '' }) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><input type="text" class="regular-text" data-field="location" value="${rowData.location.replace(/"/g, '&quot;')}" placeholder="Es. Via Vespucci 36, Torino"></td>
-                <td><input type="text" class="regular-text" data-field="course" value="${rowData.course.replace(/"/g, '&quot;')}" placeholder="Es. BUGS (4-10 mesi)"></td>
-                <td><input type="text" class="regular-text" data-field="day" value="${rowData.day.replace(/"/g, '&quot;')}" placeholder="Es. Mercoledì"></td>
-                <td><input type="text" class="regular-text" data-field="times" value="${rowData.times.replace(/"/g, '&quot;')}" placeholder="Es. 10.00 - 11.00, 15.30 - 16.30"></td>
-                <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
-            `;
-            tr.addEventListener('input', syncScheduleHidden);
-            const removeBtn = tr.querySelector('[data-action="remove"]');
-            if (removeBtn) {
-                removeBtn.addEventListener('click', () => {
-                    tr.remove();
-                    syncScheduleHidden();
-                });
+        const getCoursesByLocation = (location) => {
+            const values = new Set(scheduleRows.filter((row) => row.location === location).map((row) => row.course).filter(Boolean));
+            (manualCoursesByLocation[location] || []).forEach((course) => values.add(course));
+            return [...values];
+        };
+
+        const fillSelect = (select, values, emptyLabel) => {
+            if (!select) return;
+            select.innerHTML = '';
+            if (values.length === 0) {
+                const empty = document.createElement('option');
+                empty.value = '';
+                empty.textContent = emptyLabel;
+                select.appendChild(empty);
+                return;
             }
-            scheduleBody.appendChild(tr);
-            syncScheduleHidden();
+            values.forEach((value) => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+            });
         };
 
-        const initialRows = parseScheduleRows();
-        if (initialRows.length === 0) {
-            addScheduleRow();
-        } else {
-            initialRows.forEach(addScheduleRow);
+        const renderScheduleTable = () => {
+            scheduleBody.innerHTML = '';
+            if (!selectedLocation || !selectedCourse) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="3">Seleziona una sede e un corso.</td>`;
+                scheduleBody.appendChild(row);
+                return;
+            }
+
+            const scoped = scheduleRows.filter((row) => row.location === selectedLocation && row.course === selectedCourse);
+            if (scoped.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="3">Nessun orario presente per questo corso.</td>`;
+                scheduleBody.appendChild(row);
+                return;
+            }
+
+            scoped.forEach((rowData) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" class="regular-text" value="${rowData.day.replace(/"/g, '&quot;')}" data-field="day"></td>
+                    <td><input type="text" class="regular-text" value="${rowData.times.replace(/"/g, '&quot;')}" data-field="times"></td>
+                    <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
+                `;
+                row.querySelector('[data-field="day"]').addEventListener('input', (event) => {
+                    rowData.day = event.target.value.trim();
+                    serializeRows();
+                });
+                row.querySelector('[data-field="times"]').addEventListener('input', (event) => {
+                    rowData.times = event.target.value.trim();
+                    serializeRows();
+                });
+                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                    scheduleRows = scheduleRows.filter((item) => item !== rowData);
+                    serializeRows();
+                    updateWizard();
+                });
+                scheduleBody.appendChild(row);
+            });
+        };
+
+        const updateWizard = () => {
+            const locations = getLocations();
+            if (!locations.includes(selectedLocation)) {
+                selectedLocation = locations[0] || '';
+            }
+            fillSelect(locationSelect, locations, 'Nessuna sede');
+            if (locationSelect) locationSelect.value = selectedLocation;
+
+            const courses = selectedLocation ? getCoursesByLocation(selectedLocation) : [];
+            if (!courses.includes(selectedCourse)) {
+                selectedCourse = courses[0] || '';
+            }
+            fillSelect(courseSelect, courses, 'Nessun corso');
+            if (courseSelect) courseSelect.value = selectedCourse;
+
+            renderScheduleTable();
+            serializeRows();
+        };
+
+        if (locationSelect) {
+            locationSelect.addEventListener('change', () => {
+                selectedLocation = locationSelect.value;
+                selectedCourse = '';
+                updateWizard();
+            });
         }
+
+        if (courseSelect) {
+            courseSelect.addEventListener('change', () => {
+                selectedCourse = courseSelect.value;
+                updateWizard();
+            });
+        }
+
+        if (addLocationBtn && newLocationInput) {
+            addLocationBtn.addEventListener('click', () => {
+                const value = newLocationInput.value.trim();
+                if (!value) return;
+                manualLocations.add(value);
+                selectedLocation = value;
+                newLocationInput.value = '';
+                updateWizard();
+            });
+        }
+
+        if (addCourseBtn && newCourseInput) {
+            addCourseBtn.addEventListener('click', () => {
+                const value = newCourseInput.value.trim();
+                if (!selectedLocation || !value) return;
+                manualLocations.add(selectedLocation);
+                if (!manualCoursesByLocation[selectedLocation]) {
+                    manualCoursesByLocation[selectedLocation] = new Set();
+                }
+                manualCoursesByLocation[selectedLocation].add(value);
+                selectedCourse = value;
+                newCourseInput.value = '';
+                updateWizard();
+            });
+        }
+
         if (addScheduleBtn) {
-            addScheduleBtn.addEventListener('click', () => addScheduleRow());
+            addScheduleBtn.addEventListener('click', () => {
+                if (!selectedLocation || !selectedCourse) {
+                    return;
+                }
+                scheduleRows.push({
+                    location: selectedLocation,
+                    course: selectedCourse,
+                    day: '',
+                    times: '',
+                });
+                updateWizard();
+            });
         }
+
+        updateWizard();
     });
 </script>
