@@ -135,6 +135,7 @@ add_action('wp_head', function () {
  * Registra CPT Summer Camp (gestione tipo prodotti).
  */
 add_action('init', function (): void {
+    $summer_camp_menu_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#1d2327" d="M10.4 2.2c1.6 1.2 2.6 2.7 3 4.6 1.2-.6 2.5-.8 4-.5-.7 2.1-2.1 3.6-4.1 4.5.8.5 1.4 1.2 1.9 2.1-1.8.4-3.4.1-4.8-1-.2.8-.6 1.7-1.2 2.5V18h1.7c.3 0 .5.2.5.5s-.2.5-.5.5H6.8c-.3 0-.5-.2-.5-.5s.2-.5.5-.5h1.7v-3.2c-.7-.9-1.1-1.7-1.3-2.6-1.3 1.1-2.9 1.4-4.8 1 .5-.9 1.1-1.6 1.9-2.1-2-.9-3.4-2.4-4.1-4.5 1.5-.3 2.8-.1 4 .5.4-1.9 1.4-3.4 3-4.6.7.6 1.2 1.2 1.6 2 .4-.8.9-1.4 1.6-2z"/></svg>');
     register_post_type('summer_camp', [
         'labels' => [
             'name' => __('Summer Camp', 'babygym'),
@@ -153,7 +154,7 @@ add_action('init', function (): void {
         'public' => true,
         'show_in_menu' => true,
         'menu_position' => 32,
-        'menu_icon' => 'dashicons-sun',
+        'menu_icon' => $summer_camp_menu_icon,
         'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
         'has_archive' => false,
         'rewrite' => ['slug' => 'summer-camp'],

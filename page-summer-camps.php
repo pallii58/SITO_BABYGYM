@@ -64,7 +64,6 @@ $summer_camp_query = new WP_Query([
                             if ('' === $cover_image && '' !== $locandina_url && preg_match('/\.(jpg|jpeg|png|webp|gif)$/i', $locandina_url)) {
                                 $cover_image = $locandina_url;
                             }
-                            $excerpt = get_the_excerpt();
                             ?>
                             <article class="summer-camp-card">
                                 <?php if ('' !== $cover_image) : ?>
@@ -72,9 +71,6 @@ $summer_camp_query = new WP_Query([
                                 <?php endif; ?>
                                 <div class="summer-camp-card__body">
                                     <h3><?php the_title(); ?></h3>
-                                    <?php if ('' !== $excerpt) : ?>
-                                        <p><?php echo esc_html($excerpt); ?></p>
-                                    <?php endif; ?>
                                     <a class="btn-primary" href="<?php the_permalink(); ?>"><?php echo esc_html__('Scopri il camp', 'babygym'); ?></a>
                                 </div>
                             </article>

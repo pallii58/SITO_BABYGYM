@@ -835,10 +835,14 @@ h3,
     padding: .9rem;
     display: grid;
     gap: .55rem;
+    justify-items: center;
+    text-align: center;
 }
 
 .summer-camp-card__body h3 {
     margin: 0;
+    text-align: center;
+    width: 100%;
 }
 
 .summer-camp-card__body p {
@@ -847,6 +851,7 @@ h3,
 
 .summer-camp-card__body .btn-primary {
     width: fit-content;
+    margin: 0 auto;
 }
 
 .summer-camp-single {
