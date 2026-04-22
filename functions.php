@@ -185,6 +185,10 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     $locandina_url = (string) get_post_meta($post->ID, '_babygym_summer_camp_locandina_url', true);
     $gallery_raw   = (string) get_post_meta($post->ID, '_babygym_summer_camp_gallery', true);
     $descrizione   = (string) get_post_meta($post->ID, '_babygym_summer_camp_descrizione', true);
+    $eta           = (string) get_post_meta($post->ID, '_babygym_summer_camp_eta', true);
+    $settimane     = (string) get_post_meta($post->ID, '_babygym_summer_camp_settimane', true);
+    $orario        = (string) get_post_meta($post->ID, '_babygym_summer_camp_orario', true);
+    $post_orario   = (string) get_post_meta($post->ID, '_babygym_summer_camp_post_orario', true);
     $costi         = (string) get_post_meta($post->ID, '_babygym_summer_camp_costi', true);
     $orari         = (string) get_post_meta($post->ID, '_babygym_summer_camp_orari', true);
     $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
@@ -223,6 +227,30 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
                         <img src="<?php echo esc_url($gallery_url); ?>" alt="" style="width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">
                     <?php endforeach; ?>
                 </div>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-eta"><?php esc_html_e('ETA\'', 'babygym'); ?></label></th>
+            <td>
+                <input type="text" class="regular-text" id="babygym-summer-camp-eta" name="babygym_summer_camp_eta" value="<?php echo esc_attr($eta); ?>" placeholder="3 - 7 anni">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-settimane"><?php esc_html_e('SETTIMANE', 'babygym'); ?></label></th>
+            <td>
+                <input type="text" class="regular-text" id="babygym-summer-camp-settimane" name="babygym_summer_camp_settimane" value="<?php echo esc_attr($settimane); ?>" placeholder="dal 1 al 31 LUGLIO">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-orario"><?php esc_html_e('ORARIO', 'babygym'); ?></label></th>
+            <td>
+                <input type="text" class="regular-text" id="babygym-summer-camp-orario" name="babygym_summer_camp_orario" value="<?php echo esc_attr($orario); ?>" placeholder="8,00 - 17.00 da LUNEDI a VENERDI">
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="babygym-summer-camp-post-orario"><?php esc_html_e('POST', 'babygym'); ?></label></th>
+            <td>
+                <input type="text" class="regular-text" id="babygym-summer-camp-post-orario" name="babygym_summer_camp_post_orario" value="<?php echo esc_attr($post_orario); ?>" placeholder="17.00 - 18.30 su Richiesta con supplemento">
             </td>
         </tr>
         <tr>
@@ -374,6 +402,10 @@ add_action('save_post_summer_camp', function (int $post_id): void {
 
     $locandina_url = isset($_POST['babygym_summer_camp_locandina_url']) ? esc_url_raw(wp_unslash($_POST['babygym_summer_camp_locandina_url'])) : '';
     $gallery_raw   = isset($_POST['babygym_summer_camp_gallery']) ? wp_unslash($_POST['babygym_summer_camp_gallery']) : '';
+    $eta_raw         = isset($_POST['babygym_summer_camp_eta']) ? wp_unslash($_POST['babygym_summer_camp_eta']) : '';
+    $settimane_raw   = isset($_POST['babygym_summer_camp_settimane']) ? wp_unslash($_POST['babygym_summer_camp_settimane']) : '';
+    $orario_raw      = isset($_POST['babygym_summer_camp_orario']) ? wp_unslash($_POST['babygym_summer_camp_orario']) : '';
+    $post_orario_raw = isset($_POST['babygym_summer_camp_post_orario']) ? wp_unslash($_POST['babygym_summer_camp_post_orario']) : '';
     $descrizione_raw = isset($_POST['babygym_summer_camp_descrizione']) ? wp_unslash($_POST['babygym_summer_camp_descrizione']) : '';
     $costi_raw       = isset($_POST['babygym_summer_camp_costi']) ? wp_unslash($_POST['babygym_summer_camp_costi']) : '';
     $orari_raw       = isset($_POST['babygym_summer_camp_orari']) ? wp_unslash($_POST['babygym_summer_camp_orari']) : '';
@@ -393,6 +425,10 @@ add_action('save_post_summer_camp', function (int $post_id): void {
 
     update_post_meta($post_id, '_babygym_summer_camp_locandina_url', $locandina_url);
     update_post_meta($post_id, '_babygym_summer_camp_gallery', implode("\n", array_values(array_unique($gallery_urls))));
+    update_post_meta($post_id, '_babygym_summer_camp_eta', sanitize_text_field((string) $eta_raw));
+    update_post_meta($post_id, '_babygym_summer_camp_settimane', sanitize_text_field((string) $settimane_raw));
+    update_post_meta($post_id, '_babygym_summer_camp_orario', sanitize_text_field((string) $orario_raw));
+    update_post_meta($post_id, '_babygym_summer_camp_post_orario', sanitize_text_field((string) $post_orario_raw));
     update_post_meta($post_id, '_babygym_summer_camp_descrizione', sanitize_textarea_field((string) $descrizione_raw));
     update_post_meta($post_id, '_babygym_summer_camp_costi', sanitize_textarea_field((string) $costi_raw));
     update_post_meta($post_id, '_babygym_summer_camp_orari', sanitize_textarea_field((string) $orari_raw));

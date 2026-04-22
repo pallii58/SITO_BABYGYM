@@ -19,6 +19,10 @@ get_header();
             $post_id       = get_the_ID();
             $locandina_url = (string) get_post_meta($post_id, '_babygym_summer_camp_locandina_url', true);
             $gallery_raw   = (string) get_post_meta($post_id, '_babygym_summer_camp_gallery', true);
+            $eta           = (string) get_post_meta($post_id, '_babygym_summer_camp_eta', true);
+            $settimane     = (string) get_post_meta($post_id, '_babygym_summer_camp_settimane', true);
+            $orario        = (string) get_post_meta($post_id, '_babygym_summer_camp_orario', true);
+            $post_orario   = (string) get_post_meta($post_id, '_babygym_summer_camp_post_orario', true);
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $costi_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_costi', true);
             $orari_raw     = (string) get_post_meta($post_id, '_babygym_summer_camp_orari', true);
@@ -66,6 +70,25 @@ get_header();
             <?php endif; ?>
 
             <section class="card summer-camp-single__details">
+                <?php if ('' !== trim($eta) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario)) : ?>
+                    <div>
+                        <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
+                        <ul class="corsi-list">
+                            <?php if ('' !== trim($eta)) : ?>
+                                <li><strong><?php echo esc_html__('ETA\'', 'babygym'); ?>:</strong> <?php echo esc_html($eta); ?></li>
+                            <?php endif; ?>
+                            <?php if ('' !== trim($settimane)) : ?>
+                                <li><strong><?php echo esc_html__('SETTIMANE', 'babygym'); ?>:</strong> <?php echo esc_html($settimane); ?></li>
+                            <?php endif; ?>
+                            <?php if ('' !== trim($orario)) : ?>
+                                <li><strong><?php echo esc_html__('ORARIO', 'babygym'); ?>:</strong> <?php echo esc_html($orario); ?></li>
+                            <?php endif; ?>
+                            <?php if ('' !== trim($post_orario)) : ?>
+                                <li><strong><?php echo esc_html__('POST', 'babygym'); ?>:</strong> <?php echo esc_html($post_orario); ?></li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
                 <?php if ([] !== $costi_rows) : ?>
                     <div>
                         <h2><?php echo esc_html__('Costi', 'babygym'); ?></h2>
