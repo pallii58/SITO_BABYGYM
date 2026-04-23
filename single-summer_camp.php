@@ -25,6 +25,8 @@ get_header();
             $orario        = (string) get_post_meta($post_id, '_babygym_summer_camp_orario', true);
             $post_orario   = (string) get_post_meta($post_id, '_babygym_summer_camp_post_orario', true);
             $iscrizioni_entro = (string) get_post_meta($post_id, '_babygym_summer_camp_iscrizioni_entro', true);
+            $note = (string) get_post_meta($post_id, '_babygym_summer_camp_note', true);
+            $quota_assicurazione = (string) get_post_meta($post_id, '_babygym_summer_camp_quota_assicurazione_iscrizione', true);
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
             ?>
@@ -70,7 +72,7 @@ get_header();
                         <?php the_content(); ?>
                     </div>
 
-                    <?php if ('' !== trim($eta) || '' !== trim($indirizzo) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro)) : ?>
+                    <?php if ('' !== trim($eta) || '' !== trim($indirizzo) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro) || '' !== trim($quota_assicurazione) || '' !== trim($note)) : ?>
                         <div class="summer-camp-single__details">
                             <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
                             <ul class="corsi-list">
@@ -91,6 +93,12 @@ get_header();
                                 <?php endif; ?>
                                 <?php if ('' !== trim($iscrizioni_entro)) : ?>
                                     <li><strong><?php echo esc_html__('ISCRIZIONI ENTRO', 'babygym'); ?>:</strong> <?php echo esc_html($iscrizioni_entro); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($quota_assicurazione)) : ?>
+                                    <li><strong><?php echo esc_html__('QUOTA ASSICURAZIONE/ISCRIZIONE', 'babygym'); ?>:</strong> <?php echo esc_html($quota_assicurazione); ?></li>
+                                <?php endif; ?>
+                                <?php if ('' !== trim($note)) : ?>
+                                    <li><strong><?php echo esc_html__('NOTE', 'babygym'); ?>:</strong> <?php echo wp_kses_post(nl2br(esc_html($note))); ?></li>
                                 <?php endif; ?>
                             </ul>
                         </div>

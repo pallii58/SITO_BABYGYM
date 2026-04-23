@@ -13,6 +13,8 @@
  * - string $post_rows_raw
  * - string $cost_rows_raw
  * - string $iscrizioni_entro
+ * - string $note
+ * - string $quota_assicurazione
  * - array<int,string> $gallery_urls
  */
 ?>
@@ -138,6 +140,18 @@
         <th scope="row"><label for="babygym-summer-camp-iscrizioni-entro"><?php esc_html_e('ISCRIZIONI ENTRO', 'babygym'); ?></label></th>
         <td>
             <input type="text" class="regular-text" id="babygym-summer-camp-iscrizioni-entro" name="babygym_summer_camp_iscrizioni_entro" value="<?php echo esc_attr($iscrizioni_entro); ?>" placeholder="fine maggio">
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="babygym-summer-camp-quota-assicurazione"><?php esc_html_e('QUOTA ASSICURAZIONE/ISCRIZIONE', 'babygym'); ?></label></th>
+        <td>
+            <input type="text" class="regular-text" id="babygym-summer-camp-quota-assicurazione" name="babygym_summer_camp_quota_assicurazione_iscrizione" value="<?php echo esc_attr($quota_assicurazione); ?>" placeholder="€ 20">
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="babygym-summer-camp-note"><?php esc_html_e('NOTE', 'babygym'); ?></label></th>
+        <td>
+            <textarea class="large-text" rows="5" id="babygym-summer-camp-note" name="babygym_summer_camp_note" placeholder="N.B. ..."><?php echo esc_textarea($note); ?></textarea>
         </td>
     </tr>
     <tr>
