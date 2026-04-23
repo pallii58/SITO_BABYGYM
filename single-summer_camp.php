@@ -104,7 +104,6 @@ get_header();
                 </div>
                 <?php if ('' !== trim($note)) : ?>
                     <div class="summer-camp-single__details summer-camp-single__notes">
-                        <h2><?php echo esc_html__('TITOLO NOTE', 'babygym'); ?></h2>
                         <p><?php echo wp_kses_post(nl2br(esc_html($note))); ?></p>
                     </div>
                 <?php endif; ?>
