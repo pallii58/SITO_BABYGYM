@@ -8,10 +8,10 @@
  * - string $descrizione
  * - string $eta
  * - string $indirizzo
- * - string $settimane
+ * - string $schedule_rows_raw
+ * - string $week_rows_raw
  * - string $iscrizioni_entro
  * - array<int,string> $gallery_urls
- * - string $schedule_rows_raw
  */
 ?>
 <table class="form-table" role="presentation">
@@ -62,15 +62,10 @@
         </td>
     </tr>
     <tr>
-        <th scope="row"><label for="babygym-summer-camp-settimane"><?php esc_html_e('SETTIMANE', 'babygym'); ?></label></th>
-        <td>
-            <input type="text" class="regular-text" id="babygym-summer-camp-settimane" name="babygym_summer_camp_settimane" value="<?php echo esc_attr($settimane); ?>" placeholder="dal 1 al 31 LUGLIO">
-        </td>
-    </tr>
-    <tr>
         <th scope="row"></th>
         <td>
-            <h2 style="margin:0 0 .8rem;"><?php esc_html_e('Orari', 'babygym'); ?></h2>
+            <h2 style="margin:0 0 .5rem;"><?php esc_html_e('Orari', 'babygym'); ?></h2>
+            <p style="margin-top:0;"><?php esc_html_e('Aggiungi liberamente nuovi giorni e nuove fasce orarie: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
             <input type="hidden" id="babygym-summer-camp-schedule-rows" name="babygym_summer_camp_schedule_rows" value="<?php echo esc_attr($schedule_rows_raw); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
@@ -84,7 +79,26 @@
                 </thead>
                 <tbody id="babygym-schedule-body"></tbody>
             </table>
-            <p><button type="button" class="button button-secondary" id="babygym-add-schedule-row"><?php esc_html_e('Aggiungi orario', 'babygym'); ?></button></p>
+            <p><button type="button" class="button button-secondary" id="babygym-add-schedule-row"><?php esc_html_e('Aggiungi fascia oraria', 'babygym'); ?></button></p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"></th>
+        <td>
+            <h2 style="margin:0 0 .5rem;"><?php esc_html_e('Settimane', 'babygym'); ?></h2>
+            <p style="margin-top:0;"><?php esc_html_e('Aggiungi le settimane del Summer Camp: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
+            <input type="hidden" id="babygym-summer-camp-week-rows" name="babygym_summer_camp_week_rows" value="<?php echo esc_attr($week_rows_raw); ?>">
+            <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
+                <thead>
+                    <tr>
+                        <th><?php esc_html_e('Settimana', 'babygym'); ?></th>
+                        <th><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="babygym-week-body"></tbody>
+            </table>
+            <p><button type="button" class="button button-secondary" id="babygym-add-week-row"><?php esc_html_e('Aggiungi settimana', 'babygym'); ?></button></p>
         </td>
     </tr>
     <tr>
@@ -114,6 +128,9 @@
         const scheduleHidden = document.getElementById('babygym-summer-camp-schedule-rows');
         const scheduleBody = document.getElementById('babygym-schedule-body');
         const addScheduleRowBtn = document.getElementById('babygym-add-schedule-row');
+        const weekHidden = document.getElementById('babygym-summer-camp-week-rows');
+        const weekBody = document.getElementById('babygym-week-body');
+        const addWeekRowBtn = document.getElementById('babygym-add-week-row');
 
         const renderLocandinaPreview = () => {
             if (!locandinaPreview || !locandinaInput) return;
@@ -156,9 +173,9 @@
                     const parts = line.split('|');
                     return {
                         day: (parts[0] || '').trim(),
-                        start: (parts[1] || '').trim(),
-                        end: (parts[2] || '').trim(),
-                        note: (parts[3] || '').trim(),
+                        start: (parts[2] || parts[1] || '').trim(),
+                        end: (parts[3] || parts[2] || '').trim(),
+                        note: (parts[4] || parts[3] || '').trim(),
                     };
                 })
                 .filter((row) => row.day && row.start && row.end);
@@ -168,8 +185,8 @@
         const serializeScheduleRows = () => {
             if (!scheduleHidden) return;
             scheduleHidden.value = scheduleRows
-                    .filter((row) => row.day && row.start && row.end)
-                    .map((row) => [row.day, row.start, row.end, row.note || ''].join('|'))
+                .filter((row) => row.day && row.start && row.end)
+                .map((row) => [row.day, 'Fascia', row.start, row.end, row.note || ''].join('|'))
                 .join('\n');
         };
 
@@ -209,6 +226,59 @@
                 scheduleBody.appendChild(row);
             });
         };
+
+        const parseWeekRows = () => {
+            if (!weekHidden) return [];
+            return weekHidden.value
+                .split(/\r?\n/)
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .map((line) => {
+                    const parts = line.split('|');
+                    return {
+                        week: (parts[0] || '').trim(),
+                        note: (parts[1] || '').trim(),
+                    };
+                })
+                .filter((row) => row.week);
+        };
+        let weekRows = parseWeekRows();
+
+        const serializeWeekRows = () => {
+            if (!weekHidden) return;
+            weekHidden.value = weekRows
+                .filter((row) => row.week)
+                .map((row) => [row.week, row.note || ''].join('|'))
+                .join('\n');
+        };
+
+        const renderWeekTable = () => {
+            if (!weekBody) return;
+            weekBody.innerHTML = '';
+            weekRows.forEach((rowData) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" class="regular-text" data-field="week" value="${rowData.week.replace(/"/g, '&quot;')}" placeholder="Es. dal 10 al 14 giugno"></td>
+                    <td><input type="text" class="regular-text" data-field="note" value="${rowData.note.replace(/"/g, '&quot;')}" placeholder="Opzionale"></td>
+                    <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
+                `;
+                row.querySelector('[data-field="week"]').addEventListener('input', (event) => {
+                    rowData.week = event.target.value.trim();
+                    serializeWeekRows();
+                });
+                row.querySelector('[data-field="note"]').addEventListener('input', (event) => {
+                    rowData.note = event.target.value.trim();
+                    serializeWeekRows();
+                });
+                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                    weekRows = weekRows.filter((item) => item !== rowData);
+                    serializeWeekRows();
+                    renderWeekTable();
+                });
+                weekBody.appendChild(row);
+            });
+        };
+
 
         if (pickLocandinaBtn && locandinaInput) {
             pickLocandinaBtn.addEventListener('click', () => {
@@ -274,10 +344,20 @@
             });
         }
 
+        if (addWeekRowBtn) {
+            addWeekRowBtn.addEventListener('click', () => {
+                weekRows.push({ week: '', note: '' });
+                serializeWeekRows();
+                renderWeekTable();
+            });
+        }
+
         if (galleryInput) galleryInput.addEventListener('input', renderGalleryPreview);
         renderLocandinaPreview();
         renderGalleryPreview();
         renderScheduleTable();
+        renderWeekTable();
         serializeScheduleRows();
+        serializeWeekRows();
     });
 </script>
