@@ -1031,6 +1031,15 @@ h3,
     text-align: center;
 }
 
+.summer-camp-single__notes {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+
+.summer-camp-single__notes p {
+    margin: 0;
+}
+
 .summer-camp-single__map iframe {
     min-height: 320px;
 }

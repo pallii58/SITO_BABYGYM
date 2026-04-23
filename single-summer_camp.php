@@ -72,7 +72,7 @@ get_header();
                         <?php the_content(); ?>
                     </div>
 
-                    <?php if ('' !== trim($eta) || '' !== trim($indirizzo) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro) || '' !== trim($quota_assicurazione) || '' !== trim($note)) : ?>
+                    <?php if ('' !== trim($eta) || '' !== trim($indirizzo) || '' !== trim($settimane) || '' !== trim($orario) || '' !== trim($post_orario) || '' !== trim($iscrizioni_entro) || '' !== trim($quota_assicurazione)) : ?>
                         <div class="summer-camp-single__details">
                             <h2><?php echo esc_html__('Informazioni camp', 'babygym'); ?></h2>
                             <ul class="corsi-list">
@@ -97,14 +97,17 @@ get_header();
                                 <?php if ('' !== trim($quota_assicurazione)) : ?>
                                     <li><strong><?php echo esc_html__('QUOTA ASSICURAZIONE/ISCRIZIONE', 'babygym'); ?>:</strong> <?php echo esc_html($quota_assicurazione); ?></li>
                                 <?php endif; ?>
-                                <?php if ('' !== trim($note)) : ?>
-                                    <li><strong><?php echo esc_html__('NOTE', 'babygym'); ?>:</strong> <?php echo wp_kses_post(nl2br(esc_html($note))); ?></li>
-                                <?php endif; ?>
                             </ul>
                         </div>
                     <?php endif; ?>
 
                 </div>
+                <?php if ('' !== trim($note)) : ?>
+                    <div class="summer-camp-single__details summer-camp-single__notes">
+                        <h2><?php echo esc_html__('TITOLO NOTE', 'babygym'); ?></h2>
+                        <p><?php echo wp_kses_post(nl2br(esc_html($note))); ?></p>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <?php if ('' !== trim($indirizzo)) : ?>
