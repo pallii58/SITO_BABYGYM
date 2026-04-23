@@ -64,7 +64,6 @@
     <tr>
         <th scope="row"><label for="babygym-summer-camp-schedule-rows"><?php esc_html_e('ORARI', 'babygym'); ?></label></th>
         <td>
-            <p style="margin-top:0;"><?php esc_html_e('Aggiungi liberamente nuovi giorni e nuove fasce orarie: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
             <input type="hidden" id="babygym-summer-camp-schedule-rows" name="babygym_summer_camp_schedule_rows" value="<?php echo esc_attr($schedule_rows_raw); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
@@ -85,7 +84,6 @@
         <th scope="row"></th>
         <td>
             <h2 style="margin:0 0 .5rem;"><?php esc_html_e('Settimane', 'babygym'); ?></h2>
-            <p style="margin-top:0;"><?php esc_html_e('Aggiungi le settimane del Summer Camp: la pagina pubblica si aggiorna in automatico.', 'babygym'); ?></p>
             <input type="hidden" id="babygym-summer-camp-week-rows" name="babygym_summer_camp_week_rows" value="<?php echo esc_attr($week_rows_raw); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
