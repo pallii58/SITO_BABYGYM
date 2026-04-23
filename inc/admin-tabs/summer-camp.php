@@ -68,10 +68,10 @@
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
                 <thead>
                     <tr>
-                        <th><?php esc_html_e('Giorno', 'babygym'); ?></th>
-                        <th><?php esc_html_e('Da', 'babygym'); ?></th>
-                        <th><?php esc_html_e('A', 'babygym'); ?></th>
-                        <th><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Giorno', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Da', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('A', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -88,7 +88,7 @@
                 <thead>
                     <tr>
                         <th style="padding:20px;"><?php esc_html_e('Settimana', 'babygym'); ?></th>
-                        <th><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
                         <th></th>
                     </tr>
                 </thead>
