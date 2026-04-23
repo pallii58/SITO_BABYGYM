@@ -914,8 +914,16 @@ h3,
 }
 
 .summer-camp-card__meta--age {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
     border: 0;
     background: transparent;
+}
+
+.summer-camp-card__meta--age strong {
+    display: block;
 }
 
 .summer-camp-card__meta--address {
