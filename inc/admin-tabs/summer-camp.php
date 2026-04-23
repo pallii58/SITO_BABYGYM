@@ -10,6 +10,8 @@
  * - string $indirizzo
  * - string $schedule_rows_raw
  * - string $week_rows_raw
+ * - string $post_rows_raw
+ * - string $cost_rows_raw
  * - string $iscrizioni_entro
  * - array<int,string> $gallery_urls
  */
@@ -81,6 +83,24 @@
         </td>
     </tr>
     <tr>
+        <th scope="row"><label for="babygym-summer-camp-post-rows"><?php esc_html_e('POST', 'babygym'); ?></label></th>
+        <td>
+            <input type="hidden" id="babygym-summer-camp-post-rows" name="babygym_summer_camp_post_rows" value="<?php echo esc_attr($post_rows_raw); ?>">
+            <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
+                <thead>
+                    <tr>
+                        <th style="padding:20px;"><?php esc_html_e('Da', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('A', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Nota opzionale', 'babygym'); ?></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="babygym-post-body"></tbody>
+            </table>
+            <p><button type="button" class="button button-secondary" id="babygym-add-post-row"><?php esc_html_e('Aggiungi riga POST', 'babygym'); ?></button></p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row"><label for="babygym-summer-camp-week-rows"><?php esc_html_e('SETTIMANE', 'babygym'); ?></label></th>
         <td>
             <input type="hidden" id="babygym-summer-camp-week-rows" name="babygym_summer_camp_week_rows" value="<?php echo esc_attr($week_rows_raw); ?>">
@@ -95,6 +115,23 @@
                 <tbody id="babygym-week-body"></tbody>
             </table>
             <p><button type="button" class="button button-secondary" id="babygym-add-week-row"><?php esc_html_e('Aggiungi settimana', 'babygym'); ?></button></p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><label for="babygym-summer-camp-cost-rows"><?php esc_html_e('COSTI', 'babygym'); ?></label></th>
+        <td>
+            <input type="hidden" id="babygym-summer-camp-cost-rows" name="babygym_summer_camp_cost_rows" value="<?php echo esc_attr($cost_rows_raw); ?>">
+            <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
+                <thead>
+                    <tr>
+                        <th style="padding:20px;"><?php esc_html_e('Voce', 'babygym'); ?></th>
+                        <th style="padding:20px;"><?php esc_html_e('Valore', 'babygym'); ?></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="babygym-cost-body"></tbody>
+            </table>
+            <p><button type="button" class="button button-secondary" id="babygym-add-cost-row"><?php esc_html_e('Aggiungi costo', 'babygym'); ?></button></p>
         </td>
     </tr>
     <tr>
@@ -127,6 +164,12 @@
         const weekHidden = document.getElementById('babygym-summer-camp-week-rows');
         const weekBody = document.getElementById('babygym-week-body');
         const addWeekRowBtn = document.getElementById('babygym-add-week-row');
+        const postHidden = document.getElementById('babygym-summer-camp-post-rows');
+        const postBody = document.getElementById('babygym-post-body');
+        const addPostRowBtn = document.getElementById('babygym-add-post-row');
+        const costHidden = document.getElementById('babygym-summer-camp-cost-rows');
+        const costBody = document.getElementById('babygym-cost-body');
+        const addCostRowBtn = document.getElementById('babygym-add-cost-row');
 
         const renderLocandinaPreview = () => {
             if (!locandinaPreview || !locandinaInput) return;
@@ -275,6 +318,116 @@
             });
         };
 
+        const parsePostRows = () => {
+            if (!postHidden) return [];
+            return postHidden.value
+                .split(/\r?\n/)
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .map((line) => {
+                    const parts = line.split('|');
+                    return {
+                        start: (parts[0] || '').trim(),
+                        end: (parts[1] || '').trim(),
+                        note: (parts[2] || '').trim(),
+                    };
+                })
+                .filter((row) => row.start && row.end);
+        };
+        let postRows = parsePostRows();
+
+        const serializePostRows = () => {
+            if (!postHidden) return;
+            postHidden.value = postRows
+                .filter((row) => row.start && row.end)
+                .map((row) => [row.start, row.end, row.note || ''].join('|'))
+                .join('\n');
+        };
+
+        const renderPostTable = () => {
+            if (!postBody) return;
+            postBody.innerHTML = '';
+            postRows.forEach((rowData) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="time" data-field="start" value="${rowData.start.replace(/"/g, '&quot;')}"></td>
+                    <td><input type="time" data-field="end" value="${rowData.end.replace(/"/g, '&quot;')}"></td>
+                    <td><input type="text" class="regular-text" data-field="note" value="${rowData.note.replace(/"/g, '&quot;')}" placeholder="Es. su richiesta con supplemento"></td>
+                    <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
+                `;
+                row.querySelector('[data-field="start"]').addEventListener('input', (event) => {
+                    rowData.start = event.target.value.trim();
+                    serializePostRows();
+                });
+                row.querySelector('[data-field="end"]').addEventListener('input', (event) => {
+                    rowData.end = event.target.value.trim();
+                    serializePostRows();
+                });
+                row.querySelector('[data-field="note"]').addEventListener('input', (event) => {
+                    rowData.note = event.target.value.trim();
+                    serializePostRows();
+                });
+                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                    postRows = postRows.filter((item) => item !== rowData);
+                    serializePostRows();
+                    renderPostTable();
+                });
+                postBody.appendChild(row);
+            });
+        };
+
+        const parseCostRows = () => {
+            if (!costHidden) return [];
+            return costHidden.value
+                .split(/\r?\n/)
+                .map((line) => line.trim())
+                .filter(Boolean)
+                .map((line) => {
+                    const parts = line.split('|');
+                    return {
+                        label: (parts[0] || '').trim(),
+                        value: (parts[1] || '').trim(),
+                    };
+                })
+                .filter((row) => row.label || row.value);
+        };
+        let costRows = parseCostRows();
+
+        const serializeCostRows = () => {
+            if (!costHidden) return;
+            costHidden.value = costRows
+                .filter((row) => row.label || row.value)
+                .map((row) => [row.label || '', row.value || ''].join('|'))
+                .join('\n');
+        };
+
+        const renderCostTable = () => {
+            if (!costBody) return;
+            costBody.innerHTML = '';
+            costRows.forEach((rowData) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" class="regular-text" data-field="label" value="${rowData.label.replace(/"/g, '&quot;')}" placeholder="Es. Quota settimanale"></td>
+                    <td><input type="text" class="regular-text" data-field="value" value="${rowData.value.replace(/"/g, '&quot;')}" placeholder="Es. EUR 150"></td>
+                    <td><button type="button" class="button-link-delete" data-action="remove">Rimuovi</button></td>
+                `;
+                row.querySelector('[data-field="label"]').addEventListener('input', (event) => {
+                    rowData.label = event.target.value.trim();
+                    serializeCostRows();
+                });
+                row.querySelector('[data-field="value"]').addEventListener('input', (event) => {
+                    rowData.value = event.target.value.trim();
+                    serializeCostRows();
+                });
+                row.querySelector('[data-action="remove"]').addEventListener('click', () => {
+                    costRows = costRows.filter((item) => item !== rowData);
+                    serializeCostRows();
+                    renderCostTable();
+                });
+                costBody.appendChild(row);
+            });
+        };
+
 
         if (pickLocandinaBtn && locandinaInput) {
             pickLocandinaBtn.addEventListener('click', () => {
@@ -348,12 +501,32 @@
             });
         }
 
+        if (addPostRowBtn) {
+            addPostRowBtn.addEventListener('click', () => {
+                postRows.push({ start: '', end: '', note: '' });
+                serializePostRows();
+                renderPostTable();
+            });
+        }
+
+        if (addCostRowBtn) {
+            addCostRowBtn.addEventListener('click', () => {
+                costRows.push({ label: '', value: '' });
+                serializeCostRows();
+                renderCostTable();
+            });
+        }
+
         if (galleryInput) galleryInput.addEventListener('input', renderGalleryPreview);
         renderLocandinaPreview();
         renderGalleryPreview();
         renderScheduleTable();
         renderWeekTable();
+        renderPostTable();
+        renderCostTable();
         serializeScheduleRows();
         serializeWeekRows();
+        serializePostRows();
+        serializeCostRows();
     });
 </script>
