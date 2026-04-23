@@ -62,7 +62,7 @@
         </td>
     </tr>
     <tr>
-        <th scope="row" style="padding:20px;"><label for="babygym-summer-camp-schedule-rows"><?php esc_html_e('ORARI', 'babygym'); ?></label></th>
+        <th scope="row" style="padding:20px 20px 20px 0;"><label for="babygym-summer-camp-schedule-rows"><?php esc_html_e('ORARI', 'babygym'); ?></label></th>
         <td>
             <input type="hidden" id="babygym-summer-camp-schedule-rows" name="babygym_summer_camp_schedule_rows" value="<?php echo esc_attr($schedule_rows_raw); ?>">
             <table class="widefat striped" style="max-width:980px;margin:0 0 1rem;">
