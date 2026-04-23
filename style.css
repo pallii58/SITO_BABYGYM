@@ -933,7 +933,7 @@ h3,
 .summer-camp-card__meta-address-value {
     display: block;
     width: 100%;
-    text-align: left;
+    text-align: center;
 }
 
 .summer-camp-card__body .btn-primary {
