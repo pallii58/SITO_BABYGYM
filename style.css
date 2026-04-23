@@ -954,7 +954,7 @@ h3,
     display: grid;
     grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
     gap: 1.1rem;
-    align-items: start;
+    align-items: center;
 }
 
 .summer-camp-product__media {
