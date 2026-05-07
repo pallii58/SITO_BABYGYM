@@ -30,6 +30,9 @@ get_header();
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
             $promo_videos  = babygym_summer_camp_get_promo_videos($post_id);
+
+            $babygym_portal_registration = 'https://bgmsweb.azurewebsites.net/webregistration';
+            $babygym_portal_login        = 'https://bgmsweb.azurewebsites.net/login';
             ?>
             <section class="filosofia-hero card card--centered">
                 <p class="feste-eyebrow"><?php echo esc_html__('Summer Camp', 'babygym'); ?></p>
@@ -99,6 +102,27 @@ get_header();
                                     <li><strong><?php echo esc_html__('QUOTA ASSICURAZIONE/ISCRIZIONE', 'babygym'); ?>:</strong> <?php echo esc_html($quota_assicurazione); ?></li>
                                 <?php endif; ?>
                             </ul>
+
+                            <div class="summer-camp-single__enroll">
+                                <button
+                                    type="button"
+                                    class="btn-primary summer-camp-single__enroll-btn"
+                                    data-enroll-modal-open
+                                    aria-haspopup="dialog"
+                                    aria-controls="babygym-summer-enroll-dialog"
+                                ><?php echo esc_html__('Iscriviti', 'babygym'); ?></button>
+                            </div>
+                        </div>
+                    <?php else : ?>
+
+                        <div class="summer-camp-single__enroll summer-camp-single__enroll--standalone">
+                            <button
+                                type="button"
+                                class="btn-primary summer-camp-single__enroll-btn"
+                                data-enroll-modal-open
+                                aria-haspopup="dialog"
+                                aria-controls="babygym-summer-enroll-dialog"
+                            ><?php echo esc_html__('Iscriviti', 'babygym'); ?></button>
                         </div>
                     <?php endif; ?>
 
@@ -155,6 +179,20 @@ get_header();
                 <p><?php echo esc_html__('e-mail: babygymonlinetorino@gmail.com', 'babygym'); ?></p>
                 <p><strong><?php echo esc_html__('ISCRIZIONI APERTE ANCHE AGLI ESTERNI', 'babygym'); ?></strong></p>
             </section>
+
+            <dialog id="babygym-summer-enroll-dialog" class="babygym-enroll-dialog" aria-labelledby="babygym-enroll-modal-title">
+                <button type="button" class="babygym-enroll-dialog__close" data-enroll-modal-close aria-label="<?php echo esc_attr__('Chiudi', 'babygym'); ?>">&times;</button>
+                <h2 id="babygym-enroll-modal-title" class="babygym-enroll-dialog__title"><?php echo esc_html__('Iscrizione', 'babygym'); ?></h2>
+                <p class="babygym-enroll-dialog__lead"><?php echo esc_html__('Hai già un account sul portale oppure è la tua prima registrazione?', 'babygym'); ?></p>
+                <ul class="babygym-enroll-dialog__hints" role="list">
+                    <li><?php echo esc_html__('Se hai già un account, accedi per completare l’iscrizione.', 'babygym'); ?></li>
+                    <li><?php echo esc_html__('Se sei nuovo, registrati per creare il tuo profilo.', 'babygym'); ?></li>
+                </ul>
+                <div class="site-header__auth babygym-enroll-dialog__auth" role="group" aria-label="<?php echo esc_attr__('Accesso portale iscrizioni', 'babygym'); ?>">
+                    <a class="site-header__auth-btn site-header__auth-btn--register" href="<?php echo esc_url($babygym_portal_registration); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Registrati', 'babygym'); ?></a>
+                    <a class="site-header__auth-btn site-header__auth-btn--login" href="<?php echo esc_url($babygym_portal_login); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Accedi', 'babygym'); ?></a>
+                </div>
+            </dialog>
         <?php endwhile; ?>
     </article>
 </main>
@@ -175,6 +213,29 @@ get_header();
             });
         });
     });
+
+    (function () {
+        const dialog = document.getElementById('babygym-summer-enroll-dialog');
+        if (!dialog || typeof dialog.showModal !== 'function') {
+            return;
+        }
+        document.querySelectorAll('[data-enroll-modal-open]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                dialog.showModal();
+            });
+        });
+        const closeBtn = dialog.querySelector('[data-enroll-modal-close]');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function () {
+                dialog.close();
+            });
+        }
+        dialog.addEventListener('click', function (event) {
+            if (event.target === dialog) {
+                dialog.close();
+            }
+        });
+    })();
 </script>
 <?php
 get_footer();

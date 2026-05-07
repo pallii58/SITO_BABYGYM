@@ -1023,6 +1023,106 @@ h3,
     display: block;
 }
 
+.summer-camp-single__enroll {
+    margin-top: 1rem;
+    padding-top: .85rem;
+    border-top: 1px solid #dbeafe;
+}
+
+.summer-camp-single__enroll--standalone {
+    border-top: none;
+    padding-top: 0;
+    margin-top: .25rem;
+}
+
+.summer-camp-single__details .summer-camp-single__enroll {
+    margin-top: 1rem;
+}
+
+.babygym-enroll-dialog {
+    position: relative;
+    padding: 0;
+    margin: auto;
+    max-width: min(460px, calc(100vw - 2rem));
+    width: 100%;
+    border: none;
+    border-radius: 18px;
+    background: #fff;
+    color: #0f172a;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, .25);
+}
+
+.babygym-enroll-dialog::backdrop {
+    background: rgba(15, 23, 42, .45);
+    backdrop-filter: blur(2px);
+}
+
+.babygym-enroll-dialog__close {
+    position: absolute;
+    top: .6rem;
+    right: .65rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    border-radius: 999px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background .15s ease, color .15s ease;
+}
+
+.babygym-enroll-dialog__close:hover,
+.babygym-enroll-dialog__close:focus-visible {
+    background: #e2e8f0;
+    color: #0f172a;
+    outline: none;
+}
+
+.babygym-enroll-dialog__title {
+    margin: 0;
+    padding: 1.25rem 3rem .35rem 1.25rem;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.35rem;
+    color: #0f172a;
+}
+
+.babygym-enroll-dialog__lead {
+    margin: 0;
+    padding: 0 1.25rem .6rem;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.babygym-enroll-dialog__hints {
+    margin: 0 0 .9rem;
+    padding: .6rem 1.25rem 0;
+    padding-left: 1.85rem;
+    font-size: .92rem;
+    line-height: 1.48;
+    color: #475569;
+}
+
+.babygym-enroll-dialog__hints li + li {
+    margin-top: .35rem;
+}
+
+.babygym-enroll-dialog__auth.site-header__auth {
+    flex-direction: column;
+    gap: .55rem;
+    padding: .25rem 1.25rem 1.35rem;
+    align-items: stretch;
+}
+
+.babygym-enroll-dialog .site-header__auth-btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+}
+
 .summer-camp-product > .summer-camp-single__videos {
     grid-column: 1 / -1;
     max-width: 720px;
