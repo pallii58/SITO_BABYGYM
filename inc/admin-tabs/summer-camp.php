@@ -16,6 +16,10 @@
  * - string $note
  * - string $quota_assicurazione
  * - array<int,string> $gallery_urls
+ * - string $video_url
+ * - int $video_attachment_id
+ * - array|null $video_promo_preview Anteprima admin (iframe o upload)
+ * - string $video_upload_preview_url
  */
 ?>
 <table class="form-table" role="presentation">
@@ -50,6 +54,48 @@
                 <?php foreach ($gallery_urls as $gallery_url) : ?>
                     <img src="<?php echo esc_url($gallery_url); ?>" alt="" style="width:100%;height:90px;object-fit:cover;border:1px solid #dcdcde;border-radius:8px;">
                 <?php endforeach; ?>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row">
+            <label for="babygym-summer-camp-video-url"><?php esc_html_e('Video promozionale', 'babygym'); ?></label>
+        </th>
+        <td>
+            <p class="description"><?php esc_html_e('Incolla un link YouTube / Vimeo oppure scegli un file video dalla libreria. Se sono entrambi valorizzati, viene usato il link esterno.', 'babygym'); ?></p>
+            <p>
+                <input type="text" class="large-text" id="babygym-summer-camp-video-url" name="babygym_summer_camp_video_url" value="<?php echo esc_attr($video_url); ?>" placeholder="https://www.youtube.com/watch?v=…">
+            </p>
+            <input type="hidden" id="babygym-summer-camp-video-attachment-id" name="babygym_summer_camp_video_attachment_id" value="<?php echo esc_attr((string) $video_attachment_id); ?>">
+            <p>
+                <button type="button" class="button button-primary" id="babygym-summer-camp-pick-video"><?php esc_html_e('Seleziona video da Media Library', 'babygym'); ?></button>
+                <button type="button" class="button" id="babygym-summer-camp-clear-video-upload"><?php esc_html_e('Rimuovi video upload', 'babygym'); ?></button>
+                <button type="button" class="button" id="babygym-summer-camp-clear-video-url"><?php esc_html_e('Pulisci link', 'babygym'); ?></button>
+                <button type="button" class="button button-link-delete" id="babygym-summer-camp-clear-video-all"><?php esc_html_e('Rimuovi tutto', 'babygym'); ?></button>
+            </p>
+            <div
+                id="babygym-summer-camp-video-preview"
+                class="babygym-summer-camp-video-preview-wrap"
+                data-upload-url="<?php echo esc_attr($video_upload_preview_url); ?>"
+                data-camp-title="<?php echo esc_attr(get_the_title($post)); ?>"
+                style="max-width:520px;margin-top:12px;"
+            >
+                <?php if (null !== $video_promo_preview) : ?>
+                    <?php if ('iframe' === $video_promo_preview['type']) : ?>
+                        <div style="aspect-ratio:16/9;background:#0f172a;border:1px solid #dcdcde;border-radius:8px;overflow:hidden;">
+                            <iframe
+                                src="<?php echo esc_url($video_promo_preview['src']); ?>"
+                                title="<?php echo esc_attr($video_promo_preview['iframe_title'] ?? ''); ?>"
+                                style="border:0;width:100%;height:100%;"
+                                loading="lazy"
+                                allowfullscreen
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            ></iframe>
+                        </div>
+                    <?php elseif ('upload' === $video_promo_preview['type']) : ?>
+                        <video controls playsinline preload="metadata" src="<?php echo esc_url($video_promo_preview['url']); ?>" style="display:block;width:100%;max-height:292px;background:#000;border-radius:8px;"></video>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </td>
     </tr>
@@ -184,6 +230,82 @@
         const costHidden = document.getElementById('babygym-summer-camp-cost-rows');
         const costBody = document.getElementById('babygym-cost-body');
         const addCostRowBtn = document.getElementById('babygym-add-cost-row');
+
+        const videoUrlInput = document.getElementById('babygym-summer-camp-video-url');
+        const videoAttachmentInput = document.getElementById('babygym-summer-camp-video-attachment-id');
+        const videoPreviewWrap = document.getElementById('babygym-summer-camp-video-preview');
+        const pickVideoBtn = document.getElementById('babygym-summer-camp-pick-video');
+        const clearVideoUploadBtn = document.getElementById('babygym-summer-camp-clear-video-upload');
+        const clearVideoUrlBtn = document.getElementById('babygym-summer-camp-clear-video-url');
+        const clearVideoAllBtn = document.getElementById('babygym-summer-camp-clear-video-all');
+
+        const parseSummerCampEmbedSrc = (raw) => {
+            const s = String(raw || '').trim();
+            if (!s) {
+                return '';
+            }
+            let m = s.match(/(?:www\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+            if (m) {
+                return 'https://www.youtube.com/embed/' + m[1];
+            }
+            m = s.match(/[?&#]v=([a-zA-Z0-9_-]{11})/);
+            if (m) {
+                return 'https://www.youtube.com/embed/' + m[1];
+            }
+            m = s.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+            if (m) {
+                return 'https://www.youtube.com/embed/' + m[1];
+            }
+            m = s.match(/player\.vimeo\.com\/video\/(\d+)/);
+            if (m) {
+                return 'https://player.vimeo.com/video/' + m[1];
+            }
+            m = s.match(/(?:www\.)?vimeo\.com\/(?:video\/)?(\d+)/);
+            if (m) {
+                return 'https://player.vimeo.com/video/' + m[1];
+            }
+            return '';
+        };
+
+        const renderSummerCampVideoPreview = () => {
+            if (!videoPreviewWrap) {
+                return;
+            }
+            const urlField = (videoUrlInput?.value || '').trim();
+            const embed = parseSummerCampEmbedSrc(urlField);
+            const uploadSrc = videoPreviewWrap.dataset.uploadUrl || '';
+            const titleBase = videoPreviewWrap.dataset.campTitle || 'Summer Camp';
+
+            videoPreviewWrap.innerHTML = '';
+            if (embed) {
+                let src = embed;
+                if (embed.includes('youtube.com/embed')) {
+                    const sep = embed.includes('?') ? '&' : '?';
+                    src = embed + sep + 'rel=0';
+                }
+                const box = document.createElement('div');
+                box.style.cssText = 'aspect-ratio:16/9;background:#0f172a;border:1px solid #dcdcde;border-radius:8px;overflow:hidden;';
+                const iframe = document.createElement('iframe');
+                iframe.src = src;
+                iframe.title = titleBase + ' — Video';
+                iframe.style.cssText = 'border:0;width:100%;height:100%;';
+                iframe.loading = 'lazy';
+                iframe.setAttribute('allowfullscreen', '');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                box.appendChild(iframe);
+                videoPreviewWrap.appendChild(box);
+                return;
+            }
+            if (uploadSrc) {
+                const v = document.createElement('video');
+                v.controls = true;
+                v.playsInline = true;
+                v.preload = 'metadata';
+                v.src = uploadSrc;
+                v.style.cssText = 'display:block;width:100%;max-height:292px;background:#000;border-radius:8px;';
+                videoPreviewWrap.appendChild(v);
+            }
+        };
 
         const renderLocandinaPreview = () => {
             if (!locandinaPreview || !locandinaInput) return;
@@ -531,9 +653,56 @@
             });
         }
 
+        if (pickVideoBtn && videoAttachmentInput && videoPreviewWrap && window.wp.media) {
+            pickVideoBtn.addEventListener('click', () => {
+                const frame = window.wp.media({
+                    title: 'Seleziona video',
+                    button: { text: 'Usa questo file' },
+                    library: { type: 'video' },
+                    multiple: false,
+                });
+                frame.on('select', () => {
+                    const file = frame.state().get('selection').first().toJSON();
+                    if (file?.id && file?.url) {
+                        videoAttachmentInput.value = String(file.id);
+                        videoPreviewWrap.dataset.uploadUrl = file.url;
+                        renderSummerCampVideoPreview();
+                    }
+                });
+                frame.open();
+            });
+        }
+
+        if (clearVideoUploadBtn && videoAttachmentInput && videoPreviewWrap) {
+            clearVideoUploadBtn.addEventListener('click', () => {
+                videoAttachmentInput.value = '';
+                delete videoPreviewWrap.dataset.uploadUrl;
+                renderSummerCampVideoPreview();
+            });
+        }
+
+        if (clearVideoUrlBtn && videoUrlInput) {
+            clearVideoUrlBtn.addEventListener('click', () => {
+                videoUrlInput.value = '';
+                renderSummerCampVideoPreview();
+            });
+        }
+
+        if (clearVideoAllBtn && videoUrlInput && videoAttachmentInput && videoPreviewWrap) {
+            clearVideoAllBtn.addEventListener('click', () => {
+                videoUrlInput.value = '';
+                videoAttachmentInput.value = '';
+                delete videoPreviewWrap.dataset.uploadUrl;
+                renderSummerCampVideoPreview();
+            });
+        }
+
+        videoUrlInput?.addEventListener('input', renderSummerCampVideoPreview);
+
         if (galleryInput) galleryInput.addEventListener('input', renderGalleryPreview);
         renderLocandinaPreview();
         renderGalleryPreview();
+        renderSummerCampVideoPreview();
         renderScheduleTable();
         renderWeekTable();
         renderPostTable();

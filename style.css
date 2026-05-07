@@ -1023,6 +1023,10 @@ h3,
     display: block;
 }
 
+.summer-camp-single__video {
+    width: 100%;
+}
+
 .summer-camp-single__details {
     border: 1px solid #dbeafe;
     border-radius: 14px;
@@ -1186,6 +1190,16 @@ h3,
     width: 100%;
     height: 100%;
     border: 0;
+}
+
+.video-embed__native {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: contain;
+    background: #000;
 }
 
 .video-grid {

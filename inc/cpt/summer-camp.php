@@ -228,6 +228,54 @@ function babygym_serialize_summer_camp_cost_rows(array $rows): string
     return implode("\n", $lines);
 }
 
+/**
+ * URL file video da allegato Libreria media (solo mime video).
+ */
+function babygym_summer_camp_get_video_attachment_url(int $attachment_id): string
+{
+    if ($attachment_id <= 0) {
+        return '';
+    }
+    if (! wp_attachment_is('video', $attachment_id)) {
+        return '';
+    }
+    $url = wp_get_attachment_url($attachment_id);
+
+    return is_string($url) ? $url : '';
+}
+
+/**
+ * Video promozionale: link YouTube/Vimeo (priorità) oppure file dalla Media Library.
+ *
+ * @return array{type: 'iframe', src: string}|array{type: 'upload', url: string}|null
+ */
+function babygym_summer_camp_resolve_promo_video(int $post_id): ?array
+{
+    $url_raw = trim((string) get_post_meta($post_id, '_babygym_summer_camp_video_url', true));
+    $attachment_id = (int) get_post_meta($post_id, '_babygym_summer_camp_video_attachment_id', true);
+
+    if ('' !== $url_raw && function_exists('babygym_parse_video_embed_src')) {
+        $embed_src = babygym_parse_video_embed_src($url_raw);
+        if (null !== $embed_src && '' !== $embed_src) {
+            if (false !== strpos($embed_src, 'youtube.com/embed')) {
+                $sep = strpos($embed_src, '?') !== false ? '&' : '?';
+                $embed_src .= $sep . 'rel=0';
+            }
+            /* translators: Summer Camp singolo (titolo iframe) */
+            $title = sprintf('%s — %s', get_the_title($post_id), __('Video Summer Camp', 'babygym'));
+
+            return ['type' => 'iframe', 'src' => $embed_src, 'iframe_title' => $title];
+        }
+    }
+
+    $file_url = babygym_summer_camp_get_video_attachment_url($attachment_id);
+    if ('' !== $file_url) {
+        return ['type' => 'upload', 'url' => $file_url];
+    }
+
+    return null;
+}
+
 function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
 {
     wp_nonce_field('babygym_summer_camp_meta_save', 'babygym_summer_camp_meta_nonce');
@@ -246,6 +294,8 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     $week_rows_raw = (string) get_post_meta($post->ID, '_babygym_summer_camp_week_rows', true);
     $post_rows_raw = (string) get_post_meta($post->ID, '_babygym_summer_camp_post_rows', true);
     $cost_rows_raw = (string) get_post_meta($post->ID, '_babygym_summer_camp_cost_rows', true);
+    $video_url     = (string) get_post_meta($post->ID, '_babygym_summer_camp_video_url', true);
+    $video_attachment_id = (int) get_post_meta($post->ID, '_babygym_summer_camp_video_attachment_id', true);
     $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
     $schedule_rows = babygym_parse_summer_camp_schedule_rows($schedule_rows_raw);
     if ([] === $schedule_rows) {
@@ -300,6 +350,8 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     $post_rows_raw = babygym_serialize_summer_camp_post_rows($post_rows);
     $cost_rows = babygym_parse_summer_camp_cost_rows($cost_rows_raw);
     $cost_rows_raw = babygym_serialize_summer_camp_cost_rows($cost_rows);
+    $video_promo_preview      = babygym_summer_camp_resolve_promo_video((int) $post->ID);
+    $video_upload_preview_url = babygym_summer_camp_get_video_attachment_url($video_attachment_id);
     require get_theme_file_path('inc/admin-tabs/summer-camp.php');
 }
 
@@ -333,6 +385,8 @@ add_action('save_post_summer_camp', function (int $post_id): void {
     $note_raw = isset($_POST['babygym_summer_camp_note']) ? wp_unslash($_POST['babygym_summer_camp_note']) : '';
     $quota_assicurazione_raw = isset($_POST['babygym_summer_camp_quota_assicurazione_iscrizione']) ? wp_unslash($_POST['babygym_summer_camp_quota_assicurazione_iscrizione']) : '';
     $descrizione_raw = isset($_POST['babygym_summer_camp_descrizione']) ? wp_unslash($_POST['babygym_summer_camp_descrizione']) : '';
+    $video_url_raw = isset($_POST['babygym_summer_camp_video_url']) ? sanitize_text_field(wp_unslash($_POST['babygym_summer_camp_video_url'])) : '';
+    $video_attachment_id = isset($_POST['babygym_summer_camp_video_attachment_id']) ? absint($_POST['babygym_summer_camp_video_attachment_id']) : 0;
 
     $gallery_lines = preg_split('/\r\n|\r|\n/', (string) $gallery_raw) ?: [];
     $gallery_urls  = [];
@@ -411,5 +465,17 @@ add_action('save_post_summer_camp', function (int $post_id): void {
     update_post_meta($post_id, '_babygym_summer_camp_note', sanitize_textarea_field((string) $note_raw));
     update_post_meta($post_id, '_babygym_summer_camp_quota_assicurazione_iscrizione', sanitize_text_field((string) $quota_assicurazione_raw));
     update_post_meta($post_id, '_babygym_summer_camp_descrizione', sanitize_textarea_field((string) $descrizione_raw));
+
+    if ('' !== $video_url_raw) {
+        update_post_meta($post_id, '_babygym_summer_camp_video_url', $video_url_raw);
+    } else {
+        delete_post_meta($post_id, '_babygym_summer_camp_video_url');
+    }
+
+    if ($video_attachment_id > 0 && wp_attachment_is('video', $video_attachment_id)) {
+        update_post_meta($post_id, '_babygym_summer_camp_video_attachment_id', $video_attachment_id);
+    } else {
+        delete_post_meta($post_id, '_babygym_summer_camp_video_attachment_id');
+    }
 });
 
