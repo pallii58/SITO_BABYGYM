@@ -75,19 +75,19 @@ function babygym_parse_video_embed_src(string $raw): ?string
         return null;
     }
 
-    if (preg_match('#(?:www\.)?youtube\.com/embed/([a-zA-Z0-9_-]{11})#', $raw, $m)) {
+    if (preg_match('~(?:www\.)?youtube\.com/embed/([a-zA-Z0-9_-]{11})~', $raw, $m)) {
         return 'https://www.youtube.com/embed/' . $m[1];
     }
-    if (preg_match('#[\?&#]v=([a-zA-Z0-9_-]{11})#', $raw, $m)) {
+    if (preg_match('~[\?&#]v=([a-zA-Z0-9_-]{11})~', $raw, $m)) {
         return 'https://www.youtube.com/embed/' . $m[1];
     }
-    if (preg_match('#youtu\.be/([a-zA-Z0-9_-]{11})#', $raw, $m)) {
+    if (preg_match('~youtu\.be/([a-zA-Z0-9_-]{11})~', $raw, $m)) {
         return 'https://www.youtube.com/embed/' . $m[1];
     }
-    if (preg_match('#player\.vimeo\.com/video/(\d+)#', $raw, $m)) {
+    if (preg_match('~player\.vimeo\.com/video/(\d+)~', $raw, $m)) {
         return 'https://player.vimeo.com/video/' . $m[1];
     }
-    if (preg_match('#(?:www\.)?vimeo\.com/(?:video/)?(\d+)#', $raw, $m)) {
+    if (preg_match('~(?:www\.)?vimeo\.com/(?:video/)?(\d+)~', $raw, $m)) {
         return 'https://player.vimeo.com/video/' . $m[1];
     }
 
