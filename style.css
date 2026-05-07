@@ -234,6 +234,7 @@ h3,
     text-decoration: none;
     border: 2px solid transparent;
     transition: all .15s ease;
+    cursor: pointer;
 }
 
 .site-header__auth-btn--register {
@@ -347,6 +348,7 @@ h3,
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -1041,15 +1043,19 @@ h3,
 
 .babygym-enroll-dialog {
     position: relative;
-    padding: 0;
+    box-sizing: border-box;
     margin: auto;
     max-width: min(460px, calc(100vw - 2rem));
     width: 100%;
+    max-height: min(90vh, calc(100dvh - 2rem));
     border: none;
     border-radius: 18px;
     background: #fff;
     color: #0f172a;
     box-shadow: 0 20px 50px rgba(15, 23, 42, .25);
+    padding: 1.35rem 1.85rem 2.25rem;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .babygym-enroll-dialog::backdrop {
@@ -1059,8 +1065,9 @@ h3,
 
 .babygym-enroll-dialog__close {
     position: absolute;
-    top: .6rem;
-    right: .65rem;
+    top: .75rem;
+    right: .75rem;
+    z-index: 1;
     width: 2.25rem;
     height: 2.25rem;
     border: none;
@@ -1084,7 +1091,7 @@ h3,
 
 .babygym-enroll-dialog__title {
     margin: 0;
-    padding: 1.25rem 3rem .35rem 1.25rem;
+    padding: 0 3rem .45rem 0;
     font-family: 'Fredoka', sans-serif;
     font-size: 1.35rem;
     color: #0f172a;
@@ -1092,28 +1099,28 @@ h3,
 
 .babygym-enroll-dialog__lead {
     margin: 0;
-    padding: 0 1.25rem .6rem;
+    padding: 0 0 .65rem;
     font-size: 1rem;
     line-height: 1.55;
 }
 
 .babygym-enroll-dialog__hints {
-    margin: 0 0 .9rem;
-    padding: .6rem 1.25rem 0;
-    padding-left: 1.85rem;
+    margin: 0 0 1.15rem;
+    padding: .25rem 0 0 .6rem;
     font-size: .92rem;
     line-height: 1.48;
     color: #475569;
 }
 
 .babygym-enroll-dialog__hints li + li {
-    margin-top: .35rem;
+    margin-top: .4rem;
 }
 
 .babygym-enroll-dialog__auth.site-header__auth {
     flex-direction: column;
-    gap: .55rem;
-    padding: .25rem 1.25rem 1.35rem;
+    gap: .65rem;
+    padding: 0;
+    margin: 0;
     align-items: stretch;
 }
 
@@ -1121,6 +1128,7 @@ h3,
     width: 100%;
     justify-content: center;
     text-align: center;
+    cursor: pointer;
 }
 
 .summer-camp-product > .summer-camp-single__videos {
