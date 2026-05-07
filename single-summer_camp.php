@@ -62,27 +62,6 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <?php if ([] !== $promo_videos) : ?>
-                        <div class="summer-camp-single__videos" role="region" aria-label="<?php echo esc_attr__('Video Summer Camp', 'babygym'); ?>">
-                            <?php foreach ($promo_videos as $i => $promo_video) : ?>
-                                <div class="summer-camp-single__video video-embed video-embed--card">
-                                    <?php if ('iframe' === $promo_video['type']) : ?>
-                                        <iframe
-                                            class="video-embed__iframe"
-                                            src="<?php echo esc_url($promo_video['src']); ?>"
-                                            title="<?php echo esc_attr($promo_video['iframe_title'] ?? get_the_title()); ?>"
-                                            loading="<?php echo 0 === $i ? 'eager' : 'lazy'; ?>"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                            allowfullscreen
-                                        ></iframe>
-                                    <?php else : ?>
-                                        <video class="video-embed__native" controls playsinline preload="metadata" src="<?php echo esc_url($promo_video['url']); ?>"></video>
-                                    <?php endif; ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endif; ?>
-
                 </div>
 
                 <div class="summer-camp-product__info">
@@ -124,6 +103,28 @@ get_header();
                     <?php endif; ?>
 
                 </div>
+
+                <?php if ([] !== $promo_videos) : ?>
+                    <div class="summer-camp-single__videos" role="region" aria-label="<?php echo esc_attr__('Video Summer Camp', 'babygym'); ?>">
+                        <?php foreach ($promo_videos as $i => $promo_video) : ?>
+                            <div class="summer-camp-single__video video-embed video-embed--card">
+                                <?php if ('iframe' === $promo_video['type']) : ?>
+                                    <iframe
+                                        class="video-embed__iframe"
+                                        src="<?php echo esc_url($promo_video['src']); ?>"
+                                        title="<?php echo esc_attr($promo_video['iframe_title'] ?? get_the_title()); ?>"
+                                        loading="<?php echo 0 === $i ? 'eager' : 'lazy'; ?>"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen
+                                    ></iframe>
+                                <?php else : ?>
+                                    <video class="video-embed__native" controls playsinline preload="metadata" src="<?php echo esc_url($promo_video['url']); ?>"></video>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
                 <?php if ('' !== trim($note)) : ?>
                     <div class="summer-camp-single__details summer-camp-single__notes">
                         <h2><?php echo esc_html__('NOTE', 'babygym'); ?></h2>
