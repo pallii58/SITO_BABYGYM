@@ -1,6 +1,6 @@
 <?php
 /**
- * Customizer: URL video per pagina /video (una per riga, YouTube o Vimeo).
+ * Customizer: canale YouTube per la galleria /video + utility parse URL vide esterni.
  *
  * @package BABYGYM
  */
@@ -11,25 +11,45 @@ if (! defined('ABSPATH')) {
 
 add_action('customize_register', function (\WP_Customize_Manager $wp_customize): void {
     $wp_customize->add_section('babygym_video_section', [
-        'title'       => __('Pagina Video', 'babygym'),
-        'description' => __('Incolla gli URL dei video (YouTube o Vimeo), uno per riga. La pagina deve avere permalink "video".', 'babygym'),
+        'title'       => __('Pagina Video (YouTube)', 'babygym'),
+        'description' => __('Legge gli upload pubblici del canale: con la chiave Data API hai l’elenco completo aggiornato; senza chiave si usa il feed RSS pubblico (a volte più corto). Crea anche una pagina con permalink «video».', 'babygym'),
         'priority'    => 85,
     ]);
 
-    $wp_customize->add_setting('babygym_video_urls', [
+    $wp_customize->add_setting('babygym_youtube_channel_handle', [
         'type'              => 'theme_mod',
-        'sanitize_callback' => 'babygym_sanitize_video_urls_textarea',
+        'sanitize_callback' => 'babygym_sanitize_youtube_channel_handle',
+        'default'           => 'babygym5384',
+    ]);
+
+    $wp_customize->add_control('babygym_youtube_channel_handle_control', [
+        'label'       => __('Handle del canale', 'babygym'),
+        /* translators: %s: placeholder example */
+        'description' => sprintf(__('Solo nome handle, senza @ (es.: %s).', 'babygym'), 'babygym5384'),
+        'section'     => 'babygym_video_section',
+        'settings'    => 'babygym_youtube_channel_handle',
+        'type'        => 'text',
+        'input_attrs' => [
+            'placeholder' => 'babygym5384',
+        ],
+    ]);
+
+    $wp_customize->add_setting('babygym_youtube_api_key', [
+        'type'              => 'theme_mod',
+        'sanitize_callback' => 'sanitize_text_field',
         'default'           => '',
     ]);
 
-    $wp_customize->add_control('babygym_video_urls_control', [
-        'label'       => __('URL video', 'babygym'),
+    $wp_customize->add_control('babygym_youtube_api_key_control', [
+        'label'       => __('Chiave YouTube Data API (opzionale)', 'babygym'),
+        'description' => __('Ottieni una chiave dalla Google Cloud Console (YouTube Data API v3 attiva). Lascia vuota per usare solo il feed pubblico dell’RSS.', 'babygym'),
         'section'     => 'babygym_video_section',
-        'settings'    => 'babygym_video_urls',
-        'type'        => 'textarea',
+        'settings'    => 'babygym_youtube_api_key',
+        'type'        => 'text',
         'input_attrs' => [
-            'rows'        => 6,
-            'placeholder' => 'https://www.youtube.com/watch?v=...',
+            'autocomplete' => 'off',
+            'placeholder' => 'AIzaSy…',
+            'class'       => 'code',
         ],
     ]);
 });
@@ -37,24 +57,12 @@ add_action('customize_register', function (\WP_Customize_Manager $wp_customize):
 /**
  * @param mixed $value
  */
-function babygym_sanitize_video_urls_textarea($value): string
+function babygym_sanitize_youtube_channel_handle($value): string
 {
-    if (! is_string($value)) {
-        return '';
-    }
-    $lines = preg_split('/\r\n|\r|\n/', $value) ?: [];
-    $out   = [];
-    foreach ($lines as $line) {
-        $line = trim($line);
-        if ('' === $line) {
-            continue;
-        }
-        $line = esc_url_raw($line);
-        if ('' !== $line && null !== babygym_parse_video_embed_src($line)) {
-            $out[] = $line;
-        }
-    }
-    return implode("\n", $out);
+    $v = strtolower(trim(ltrim((string) $value, '@')));
+    $v = preg_replace('/[^a-zA-Z0-9_.-]/', '', $v);
+
+    return '' !== $v ? $v : 'babygym5384';
 }
 
 /**
@@ -84,25 +92,4 @@ function babygym_parse_video_embed_src(string $raw): ?string
     }
 
     return null;
-}
-
-/**
- * @return list<string>
- */
-function babygym_get_video_embed_src_list(): array
-{
-    $raw = (string) get_theme_mod('babygym_video_urls', '');
-    $lines = preg_split('/\r\n|\r|\n/', $raw) ?: [];
-    $srcs  = [];
-    foreach ($lines as $line) {
-        $line = trim((string) $line);
-        if ('' === $line) {
-            continue;
-        }
-        $emb = babygym_parse_video_embed_src($line);
-        if (null !== $emb) {
-            $srcs[] = $emb;
-        }
-    }
-    return array_values(array_unique($srcs));
 }

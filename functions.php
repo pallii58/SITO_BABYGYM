@@ -14,6 +14,7 @@ require_once get_theme_file_path('inc/theme/contact-form.php');
 require_once get_theme_file_path('inc/theme/maintenance.php');
 require_once get_theme_file_path('inc/theme/assets.php');
 require_once get_theme_file_path('inc/theme/video-customizer.php');
+require_once get_theme_file_path('inc/theme/video-channel-gallery.php');
 
 require_once get_theme_file_path('inc/utils/time.php');
 
