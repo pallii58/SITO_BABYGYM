@@ -14,8 +14,10 @@ $summer_camp_query = new WP_Query([
     'post_type' => 'summer_camp',
     'post_status' => 'publish',
     'posts_per_page' => -1,
-    'orderby' => 'date',
-    'order' => 'DESC',
+    'orderby' => [
+        'menu_order' => 'ASC',
+        'date'       => 'DESC',
+    ],
 ]);
 ?>
 <main id="primary" class="site-main site-main--wide">

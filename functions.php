@@ -155,7 +155,7 @@ add_action('init', function (): void {
         'show_in_menu' => true,
         'menu_position' => 32,
         'menu_icon' => $summer_camp_menu_icon,
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions'],
+        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'page-attributes'],
         'has_archive' => false,
         'rewrite' => ['slug' => 'summer-camp'],
         'show_in_rest' => true,
@@ -1395,3 +1395,6 @@ function babygym_render_textarea_row(string $label, string $key, array $options,
     </tr>
     <?php
 }
+
+// Admin: ordinamento drag & drop Summer Camp.
+require_once get_theme_file_path('inc/admin/summer-camp-order.php');
