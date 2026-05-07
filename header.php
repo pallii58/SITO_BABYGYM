@@ -53,6 +53,7 @@ if (! defined('ABSPATH')) {
                             <ul class="site-header__submenu">
                                 <li><a href="<?php echo esc_url(home_url('/filosofia')); ?>"><?php echo esc_html__('Filosofia', 'babygym'); ?></a></li>
                                 <li><a href="<?php echo esc_url(home_url('/galleria')); ?>"><?php echo esc_html__('Galleria', 'babygym'); ?></a></li>
+                                <li><a href="<?php echo esc_url(home_url('/video')); ?>"><?php echo esc_html__('Video', 'babygym'); ?></a></li>
                             </ul>
                         </li>
                         <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
