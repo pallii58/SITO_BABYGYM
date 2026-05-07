@@ -29,7 +29,7 @@ get_header();
             $quota_assicurazione = (string) get_post_meta($post_id, '_babygym_summer_camp_quota_assicurazione_iscrizione', true);
             $descrizione   = (string) get_post_meta($post_id, '_babygym_summer_camp_descrizione', true);
             $gallery_urls  = array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $gallery_raw) ?: [])));
-            $promo_video   = babygym_summer_camp_resolve_promo_video($post_id);
+            $promo_videos  = babygym_summer_camp_get_promo_videos($post_id);
             ?>
             <section class="filosofia-hero card card--centered">
                 <p class="feste-eyebrow"><?php echo esc_html__('Summer Camp', 'babygym'); ?></p>
@@ -62,20 +62,24 @@ get_header();
                         </div>
                     <?php endif; ?>
 
-                    <?php if (null !== $promo_video) : ?>
-                        <div class="summer-camp-single__video video-embed video-embed--card" role="region" aria-label="<?php echo esc_attr__('Video Summer Camp', 'babygym'); ?>">
-                            <?php if ('iframe' === $promo_video['type']) : ?>
-                                <iframe
-                                    class="video-embed__iframe"
-                                    src="<?php echo esc_url($promo_video['src']); ?>"
-                                    title="<?php echo esc_attr($promo_video['iframe_title'] ?? get_the_title()); ?>"
-                                    loading="lazy"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    allowfullscreen
-                                ></iframe>
-                            <?php else : ?>
-                                <video class="video-embed__native" controls playsinline preload="metadata" src="<?php echo esc_url($promo_video['url']); ?>"></video>
-                            <?php endif; ?>
+                    <?php if ([] !== $promo_videos) : ?>
+                        <div class="summer-camp-single__videos" role="region" aria-label="<?php echo esc_attr__('Video Summer Camp', 'babygym'); ?>">
+                            <?php foreach ($promo_videos as $i => $promo_video) : ?>
+                                <div class="summer-camp-single__video video-embed video-embed--card">
+                                    <?php if ('iframe' === $promo_video['type']) : ?>
+                                        <iframe
+                                            class="video-embed__iframe"
+                                            src="<?php echo esc_url($promo_video['src']); ?>"
+                                            title="<?php echo esc_attr($promo_video['iframe_title'] ?? get_the_title()); ?>"
+                                            loading="<?php echo 0 === $i ? 'eager' : 'lazy'; ?>"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            allowfullscreen
+                                        ></iframe>
+                                    <?php else : ?>
+                                        <video class="video-embed__native" controls playsinline preload="metadata" src="<?php echo esc_url($promo_video['url']); ?>"></video>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
                     <?php endif; ?>
 

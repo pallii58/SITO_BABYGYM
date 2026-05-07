@@ -245,13 +245,14 @@ function babygym_summer_camp_get_video_attachment_url(int $attachment_id): strin
 }
 
 /**
- * Video promozionale: link YouTube/Vimeo (priorità) oppure file dalla Media Library.
+ * Video promozionali: tutti i sorgenti configurati (embed YouTube/Vimeo se il link è valido + eventuale upload).
  *
- * @return array{type: 'iframe', src: string}|array{type: 'upload', url: string}|null
+ * @return list<array{type: 'iframe', src: string, iframe_title: string}|array{type: 'upload', url: string}>
  */
-function babygym_summer_camp_resolve_promo_video(int $post_id): ?array
+function babygym_summer_camp_get_promo_videos(int $post_id): array
 {
-    $url_raw = trim((string) get_post_meta($post_id, '_babygym_summer_camp_video_url', true));
+    $videos        = [];
+    $url_raw       = trim((string) get_post_meta($post_id, '_babygym_summer_camp_video_url', true));
     $attachment_id = (int) get_post_meta($post_id, '_babygym_summer_camp_video_attachment_id', true);
 
     if ('' !== $url_raw && function_exists('babygym_parse_video_embed_src')) {
@@ -262,18 +263,17 @@ function babygym_summer_camp_resolve_promo_video(int $post_id): ?array
                 $embed_src .= $sep . 'rel=0';
             }
             /* translators: Summer Camp singolo (titolo iframe) */
-            $title = sprintf('%s — %s', get_the_title($post_id), __('Video Summer Camp', 'babygym'));
-
-            return ['type' => 'iframe', 'src' => $embed_src, 'iframe_title' => $title];
+            $title      = sprintf('%s — %s', get_the_title($post_id), __('Video Summer Camp', 'babygym'));
+            $videos[]   = ['type' => 'iframe', 'src' => $embed_src, 'iframe_title' => $title];
         }
     }
 
     $file_url = babygym_summer_camp_get_video_attachment_url($attachment_id);
     if ('' !== $file_url) {
-        return ['type' => 'upload', 'url' => $file_url];
+        $videos[] = ['type' => 'upload', 'url' => $file_url];
     }
 
-    return null;
+    return $videos;
 }
 
 function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
@@ -350,7 +350,7 @@ function babygym_render_summer_camp_details_metabox(\WP_Post $post): void
     $post_rows_raw = babygym_serialize_summer_camp_post_rows($post_rows);
     $cost_rows = babygym_parse_summer_camp_cost_rows($cost_rows_raw);
     $cost_rows_raw = babygym_serialize_summer_camp_cost_rows($cost_rows);
-    $video_promo_preview      = babygym_summer_camp_resolve_promo_video((int) $post->ID);
+    $video_promo_items        = babygym_summer_camp_get_promo_videos((int) $post->ID);
     $video_upload_preview_url = babygym_summer_camp_get_video_attachment_url($video_attachment_id);
     require get_theme_file_path('inc/admin-tabs/summer-camp.php');
 }

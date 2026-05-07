@@ -18,7 +18,7 @@
  * - array<int,string> $gallery_urls
  * - string $video_url
  * - int $video_attachment_id
- * - array|null $video_promo_preview Anteprima admin (iframe o upload)
+ * - list<array{type: string, ...}> $video_promo_items Anteprima admin (embed e/o upload)
  * - string $video_upload_preview_url
  */
 ?>
@@ -62,7 +62,6 @@
             <label for="babygym-summer-camp-video-url"><?php esc_html_e('Video promozionale', 'babygym'); ?></label>
         </th>
         <td>
-            <p class="description"><?php esc_html_e('Incolla un link YouTube / Vimeo oppure scegli un file video dalla libreria. Se sono entrambi valorizzati, viene usato il link esterno.', 'babygym'); ?></p>
             <p>
                 <input type="text" class="large-text" id="babygym-summer-camp-video-url" name="babygym_summer_camp_video_url" value="<?php echo esc_attr($video_url); ?>" placeholder="https://www.youtube.com/watch?v=…">
             </p>
@@ -78,24 +77,24 @@
                 class="babygym-summer-camp-video-preview-wrap"
                 data-upload-url="<?php echo esc_attr($video_upload_preview_url); ?>"
                 data-camp-title="<?php echo esc_attr(get_the_title($post)); ?>"
-                style="max-width:520px;margin-top:12px;"
+                style="max-width:520px;margin-top:12px;display:grid;gap:10px;"
             >
-                <?php if (null !== $video_promo_preview) : ?>
-                    <?php if ('iframe' === $video_promo_preview['type']) : ?>
+                <?php foreach ($video_promo_items as $item) : ?>
+                    <?php if ('iframe' === $item['type']) : ?>
                         <div style="aspect-ratio:16/9;background:#0f172a;border:1px solid #dcdcde;border-radius:8px;overflow:hidden;">
                             <iframe
-                                src="<?php echo esc_url($video_promo_preview['src']); ?>"
-                                title="<?php echo esc_attr($video_promo_preview['iframe_title'] ?? ''); ?>"
+                                src="<?php echo esc_url($item['src']); ?>"
+                                title="<?php echo esc_attr($item['iframe_title'] ?? ''); ?>"
                                 style="border:0;width:100%;height:100%;"
                                 loading="lazy"
                                 allowfullscreen
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             ></iframe>
                         </div>
-                    <?php elseif ('upload' === $video_promo_preview['type']) : ?>
-                        <video controls playsinline preload="metadata" src="<?php echo esc_url($video_promo_preview['url']); ?>" style="display:block;width:100%;max-height:292px;background:#000;border-radius:8px;"></video>
+                    <?php elseif ('upload' === $item['type']) : ?>
+                        <video controls playsinline preload="metadata" src="<?php echo esc_url($item['url']); ?>" style="display:block;width:100%;max-height:292px;background:#000;border-radius:8px;"></video>
                     <?php endif; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </div>
         </td>
     </tr>
@@ -294,7 +293,6 @@
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
                 box.appendChild(iframe);
                 videoPreviewWrap.appendChild(box);
-                return;
             }
             if (uploadSrc) {
                 const v = document.createElement('video');
