@@ -49,11 +49,12 @@ if (! defined('ABSPATH')) {
                         <li><a href="<?php echo esc_url(home_url('/summer-camps')); ?>"><?php echo esc_html__('Summer Camps', 'babygym'); ?></a></li>
                         <li><a href="<?php echo esc_url(home_url('/le-feste')); ?>"><?php echo esc_html__('Le Feste', 'babygym'); ?></a></li>
                         <li class="site-header__menu-item--has-submenu">
-                            <a href="#" aria-haspopup="true"><?php echo esc_html__('Chi siamo', 'babygym'); ?></a>
+                            <a href="#" aria-haspopup="true"><?php echo esc_html__('Chi siamo & Extra', 'babygym'); ?></a>
                             <ul class="site-header__submenu">
                                 <li><a href="<?php echo esc_url(home_url('/filosofia')); ?>"><?php echo esc_html__('Filosofia', 'babygym'); ?></a></li>
                                 <li><a href="<?php echo esc_url(home_url('/galleria')); ?>"><?php echo esc_html__('Galleria', 'babygym'); ?></a></li>
                                 <li><a href="<?php echo esc_url(home_url('/video')); ?>"><?php echo esc_html__('Video', 'babygym'); ?></a></li>
+                                <li><a href="<?php echo esc_url(home_url('/baby-strafalcioni')); ?>"><?php echo esc_html__('Baby Strafalcioni', 'babygym'); ?></a></li>
                             </ul>
                         </li>
                         <li><a href="<?php echo esc_url(home_url('/contatti')); ?>"><?php echo esc_html__('Contatti', 'babygym'); ?></a></li>
