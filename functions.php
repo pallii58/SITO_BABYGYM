@@ -1,6 +1,6 @@
 <?php
 /**
- * BABYGYM theme setup.
+ * BABYGYM theme bootstrap.
  *
  * @package BABYGYM
  */
@@ -9,184 +9,50 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-add_action('after_setup_theme', function (): void {
-    register_nav_menus([
-        'primary' => __('Menu principale', 'babygym'),
-    ]);
-});
+require_once get_theme_file_path('inc/theme/setup.php');
+require_once get_theme_file_path('inc/theme/contact-form.php');
+require_once get_theme_file_path('inc/theme/maintenance.php');
+require_once get_theme_file_path('inc/theme/assets.php');
 
-add_action('admin_post_nopriv_babygym_send_contact', 'babygym_handle_contact_form');
-add_action('admin_post_babygym_send_contact', 'babygym_handle_contact_form');
+require_once get_theme_file_path('inc/utils/time.php');
 
+require_once get_theme_file_path('inc/cpt/summer-camp.php');
+
+require_once get_theme_file_path('inc/admin/helpers/fields.php');
+require_once get_theme_file_path('inc/admin/enqueue-media.php');
+require_once get_theme_file_path('inc/admin/feste.php');
+require_once get_theme_file_path('inc/admin/corsi.php');
+require_once get_theme_file_path('inc/admin/galleria.php');
+
+require_once get_theme_file_path('inc/admin/summer-camp-order.php');
+
+if (false) {
 /**
- * Gestione invio form contatti.
+ * BABYGYM theme bootstrap.
+ *
+ * @package BABYGYM
  */
-function babygym_handle_contact_form(): void
-{
-    if (! isset($_POST['babygym_contact_nonce']) || ! wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['babygym_contact_nonce'])), 'babygym_contact_submit')) {
-        wp_safe_redirect(add_query_arg('contact_status', 'invalid', wp_get_referer() ?: home_url('/contatti')));
-        exit;
-    }
 
-    $email_raw   = isset($_POST['email']) ? wp_unslash($_POST['email']) : '';
-    $message_raw = isset($_POST['messaggio']) ? wp_unslash($_POST['messaggio']) : '';
-
-    $email   = sanitize_email($email_raw);
-    $message = sanitize_textarea_field($message_raw);
-
-    if ('' === $email || '' === $message || ! is_email($email)) {
-        wp_safe_redirect(add_query_arg('contact_status', 'invalid', wp_get_referer() ?: home_url('/contatti')));
-        exit;
-    }
-
-    $to      = 'babygym.to@gmail.com';
-    $subject = 'Nuovo messaggio dal modulo Contatti - Baby Gym';
-    $body    = "Email mittente: {$email}\n\nMessaggio:\n{$message}";
-    $headers = [
-        'Content-Type: text/plain; charset=UTF-8',
-        'Reply-To: ' . $email,
-        'Cc: gabrieletoma17@gmail.com',
-    ];
-
-    $sent = wp_mail($to, $subject, $body, $headers);
-
-    wp_safe_redirect(add_query_arg('contact_status', $sent ? 'ok' : 'error', wp_get_referer() ?: home_url('/contatti')));
+if (! defined('ABSPATH')) {
     exit;
 }
 
-/**
- * Chi non è in manutenzione (amministratori loggati, cron, bacheca, ecc.).
- */
-function babygym_bypass_maintenance(): bool
-{
-    if (wp_doing_cron()) {
-        return true;
-    }
+require_once get_theme_file_path('inc/theme/setup.php');
+require_once get_theme_file_path('inc/theme/contact-form.php');
+require_once get_theme_file_path('inc/theme/maintenance.php');
+require_once get_theme_file_path('inc/theme/assets.php');
 
-    if (is_admin() && ! wp_doing_ajax()) {
-        return true;
-    }
+require_once get_theme_file_path('inc/utils/time.php');
 
-    return is_user_logged_in() && current_user_can('manage_options');
-}
+require_once get_theme_file_path('inc/cpt/summer-camp.php');
 
-/**
- * Richiesta front-end che deve mostrare solo la schermata di manutenzione (HTML).
- */
-function babygym_is_public_maintenance(): bool
-{
-    return false;
+require_once get_theme_file_path('inc/admin/helpers/fields.php');
+require_once get_theme_file_path('inc/admin/enqueue-media.php');
+require_once get_theme_file_path('inc/admin/feste.php');
+require_once get_theme_file_path('inc/admin/corsi.php');
+require_once get_theme_file_path('inc/admin/galleria.php');
 
-    if (wp_doing_cron()) {
-        return false;
-    }
-
-    if (is_admin() && ! wp_doing_ajax()) {
-        return false;
-    }
-
-    if (is_feed() || is_embed() || is_trackback()) {
-        return false;
-    }
-
-    if (defined('REST_REQUEST') && REST_REQUEST) {
-        return false;
-    }
-
-    if (function_exists('wp_is_json_request') && wp_is_json_request()) {
-        return false;
-    }
-
-    return ! babygym_bypass_maintenance();
-}
-
-add_filter('template_include', function ($template) {
-    if (! babygym_is_public_maintenance()) {
-        return $template;
-    }
-
-    $maintenance = get_theme_file_path('templates/maintenance.php');
-
-    return is_readable($maintenance) ? $maintenance : $template;
-}, 99);
-
-add_action('wp_enqueue_scripts', function () {
-    if (babygym_is_public_maintenance()) {
-        return;
-    }
-
-    wp_enqueue_style(
-        'babygym-style',
-        get_stylesheet_uri(),
-        [],
-        wp_get_theme()->get('Version')
-    );
-});
-
-add_action('wp_head', function () {
-    $favicon_url = 'https://www.babygym-to.com/wp-content/uploads/2026/04/FAVICON.png';
-    $favicon_url = esc_url($favicon_url);
-    echo '<link rel="icon" href="' . $favicon_url . '" type="image/png">' . "\n";
-    echo '<link rel="shortcut icon" href="' . $favicon_url . '" type="image/png">' . "\n";
-    echo '<link rel="apple-touch-icon" href="' . $favicon_url . '">' . "\n";
-});
-
-/**
- * Registra CPT Summer Camp (gestione tipo prodotti).
- */
-add_action('init', function (): void {
-    $summer_camp_menu_icon = 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#1d2327" d="M10.4 2.2c1.6 1.2 2.6 2.7 3 4.6 1.2-.6 2.5-.8 4-.5-.7 2.1-2.1 3.6-4.1 4.5.8.5 1.4 1.2 1.9 2.1-1.8.4-3.4.1-4.8-1-.2.8-.6 1.7-1.2 2.5V18h1.7c.3 0 .5.2.5.5s-.2.5-.5.5H6.8c-.3 0-.5-.2-.5-.5s.2-.5.5-.5h1.7v-3.2c-.7-.9-1.1-1.7-1.3-2.6-1.3 1.1-2.9 1.4-4.8 1 .5-.9 1.1-1.6 1.9-2.1-2-.9-3.4-2.4-4.1-4.5 1.5-.3 2.8-.1 4 .5.4-1.9 1.4-3.4 3-4.6.7.6 1.2 1.2 1.6 2 .4-.8.9-1.4 1.6-2z"/></svg>');
-    register_post_type('summer_camp', [
-        'labels' => [
-            'name' => __('Summer Camp', 'babygym'),
-            'singular_name' => __('Summer Camp', 'babygym'),
-            'menu_name' => __('Summer Camp', 'babygym'),
-            'name_admin_bar' => __('Summer Camp', 'babygym'),
-            'add_new' => __('Nuovo Summer Camp', 'babygym'),
-            'add_new_item' => __('Aggiungi nuovo Summer Camp', 'babygym'),
-            'edit_item' => __('Modifica Summer Camp', 'babygym'),
-            'new_item' => __('Nuovo Summer Camp', 'babygym'),
-            'view_item' => __('Visualizza Summer Camp', 'babygym'),
-            'all_items' => __('Tutti i Summer Camp', 'babygym'),
-            'search_items' => __('Cerca Summer Camp', 'babygym'),
-            'not_found' => __('Nessun Summer Camp trovato', 'babygym'),
-        ],
-        'public' => true,
-        'show_in_menu' => true,
-        'menu_position' => 32,
-        'menu_icon' => $summer_camp_menu_icon,
-        'supports' => ['title', 'editor', 'thumbnail', 'excerpt', 'revisions', 'page-attributes'],
-        'has_archive' => false,
-        'rewrite' => ['slug' => 'summer-camp'],
-        'show_in_rest' => true,
-    ]);
-});
-
-/**
- * Flush rewrite rules una sola volta dopo aver registrato il CPT Summer Camp.
- */
-add_action('init', function (): void {
-    $flag_key = 'babygym_summer_camp_rewrite_flushed_v1';
-    if ('1' === get_option($flag_key, '0')) {
-        return;
-    }
-    flush_rewrite_rules(false);
-    update_option($flag_key, '1');
-}, 99);
-
-/**
- * Meta box dettagli Summer Camp.
- */
-add_action('add_meta_boxes', function (): void {
-    add_meta_box(
-        'babygym_summer_camp_details',
-        __('Dettagli Summer Camp', 'babygym'),
-        'babygym_render_summer_camp_details_metabox',
-        'summer_camp',
-        'normal',
-        'high'
-    );
-});
+require_once get_theme_file_path('inc/admin/summer-camp-order.php');
 
 /**
  * Render metabox dettagli Summer Camp.
@@ -1398,3 +1264,4 @@ function babygym_render_textarea_row(string $label, string $key, array $options,
 
 // Admin: ordinamento drag & drop Summer Camp.
 require_once get_theme_file_path('inc/admin/summer-camp-order.php');
+}
